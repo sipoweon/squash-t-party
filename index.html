@@ -1226,6 +1226,31 @@ const ALT={
    return {3:{start:{A:L0,B:Q1,C:Q2},steps}}})()
 };
 Object.entries(ALT).forEach(([id,v])=>{const d=D.find(x=>x.id===id);if(d)d.alt=v;});
+/* ---------- Ballphysik: Einfallswinkel = Ausfallswinkel ----------
+   Aus Start, Landepunkt und der Reihenfolge der getroffenen Wände werden die Wandpunkte
+   per Spiegelung berechnet. Ist eine Geometrie unmöglich, bleibt der gezeichnete Weg. */
+const PHYS={fixed:0,kept:[]};
+function wallOf(p){const e=.06;if(p[1]<=e)return{t:'y',c:0};if(p[1]>=LEN-e)return{t:'y',c:LEN};if(p[0]<=e)return{t:'x',c:0};if(p[0]>=W-e)return{t:'x',c:W};return null;}
+const refl=(p,w)=>w.t==='x'?[2*w.c-p[0],p[1]]:[p[0],2*w.c-p[1]];
+function hit(a,b,w){const i=w.t==='x'?0:1,j=1-i,den=b[i]-a[i];if(Math.abs(den)<1e-9)return null;const u=(w.c-a[i])/den;if(u<=0||u>=1)return null;const q=[];q[i]=w.c;q[j]=a[j]+u*(b[j]-a[j]);return q;}
+function physPath(b,tag){
+  if(!b||b.length<3) return b;
+  const ws=b.slice(1,-1).map(wallOf);
+  if(ws.some(w=>!w)) return b;
+  const A=b[0],B=b[b.length-1],out=[A];let cur=A;
+  for(let k=0;k<ws.length;k++){
+    let tgt=B;for(let m=ws.length-1;m>=k;m--) tgt=refl(tgt,ws[m]);
+    const q=hit(cur,tgt,ws[k]);
+    const lim=ws[k].t==='x'?[0,LEN]:[0,W],v=q&&q[ws[k].t==='x'?1:0];
+    if(!q||v<lim[0]-1e-6||v>lim[1]+1e-6){PHYS.kept.push(tag);return b;}
+    out.push([+q[0].toFixed(3),+q[1].toFixed(3)]);cur=q;
+  }
+  out.push(B);PHYS.fixed++;return out;
+}
+D.forEach(d=>{
+  const fix=(a,t)=>a&&a.steps.forEach((x,i)=>{if(x.b)x.b=physPath(x.b,t+'#'+i)});
+  fix(d.a,d.id); if(d.alt) Object.entries(d.alt).forEach(([n,a])=>fix(a,d.id+'@'+n));
+});
 /* Welche Spielerzahl zeigt die Animation? Gewählte Zahl, sonst die kleinste */
 function plFor(d){const want=state.detPl||state.pl;return want&&d.p.includes(want)?want:d.p[0];}
 function vv(d){
@@ -1571,7 +1596,7 @@ function applyLang(){
   $('#langbtn').title=en()?'English':'Deutsch';
   $('#lede').textContent=tr('Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein extra Equipment notwendig, nur Schläger und Ball.','Drills from coaches for solo, pairs or threes, plus warm-up, stretching and strength. No extra equipment needed, just racket and ball.');
   $('#mode-court').textContent=tr('Auf dem Court','On court');
-  $('#mode-body').textContent=tr('Für den Körper','Body');
+  $('#mode-body').textContent=tr('Für den Körper','For the body');
   $('#modes').setAttribute('aria-label',tr('Bereich','Section'));
   seg.setAttribute('aria-label',tr('Anzahl Spieler','Number of players'));
   chips.setAttribute('aria-label',tr('Spielbereich','Area'));
