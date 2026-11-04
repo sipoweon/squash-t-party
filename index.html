@@ -13,8 +13,8 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
 
 /* Layout: einspaltige Handy-App – Filter oben (sticky), Übungsliste mit Mini-Courts, Detail als Vollbild-Blatt mit animierter Court-Draufsicht */
 :root{
-  --bg:#EDF0F7; --surface:#FFFFFF; --surface-2:#F4F6FB; --fg:#111D45; --muted:#55607F; --rule:#D2D8E8;
-  --accent:#1E3D8F; --accent-ink:#FFFFFF; --gold:#E4C846; --band:#1E3D8F; --band-ink:#FFFFFF; --band-muted:#C3CEEC;
+  --bg:#F4F6FA; --surface:#FFFFFF; --surface-2:#F4F6FB; --fg:#141B33; --muted:#5A6277; --rule:#DDE2EC;
+  --accent:#1E3D8F; --accent-ink:#FFFFFF; --gold:#E4C846; --gold-soft:rgba(228,200,70,.5); --band:var(--bg); --band-ink:var(--fg); --band-muted:var(--muted);
   --floor:#E7D3AD; --floor-line:#C7362C; --wall:#8E9BA6; --outside:#DDE2EE;
   --pA:#2F6FD6; --pB:#D46A07; --pC:#1F8455; --ptext:#FFFFFF;
   --ball:#121212; --ballring:#E4C846; --path:#111D45; --zone:rgba(30,61,143,.14); --fig2:#A8B2C8;
@@ -22,32 +22,32 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
   --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0B1330; --surface:#131E45; --surface-2:#1A2752; --fg:#E7EBF7; --muted:#9DA8C8; --rule:#26346A;
-  --accent:#E4C846; --accent-ink:#0B1330; --gold:#E4C846; --band:#14296B; --band-ink:#FFFFFF; --band-muted:#AEBBE0;
-  --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#0F1838;
-  --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0B1330;
-  --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(228,200,70,.18); --fig2:#56628A;
+  --bg:#0F1320; --surface:#171C2E; --surface-2:#1D2338; --fg:#E8EBF3; --muted:#9AA2B8; --rule:#2A3149;
+  --accent:#8FACF5; --accent-ink:#0F1320; --gold:#E4C846; --gold-soft:rgba(228,200,70,.32); --band:var(--bg); --band-ink:var(--fg); --band-muted:var(--muted);
+  --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#141A2B;
+  --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0F1320;
+  --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(143,172,245,.18); --fig2:#58607A;
   color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0B1330; --surface:#131E45; --surface-2:#1A2752; --fg:#E7EBF7; --muted:#9DA8C8; --rule:#26346A;
-  --accent:#E4C846; --accent-ink:#0B1330; --gold:#E4C846; --band:#14296B; --band-ink:#FFFFFF; --band-muted:#AEBBE0;
-  --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#0F1838;
-  --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0B1330;
-  --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(228,200,70,.18); --fig2:#56628A;
+  --bg:#0F1320; --surface:#171C2E; --surface-2:#1D2338; --fg:#E8EBF3; --muted:#9AA2B8; --rule:#2A3149;
+  --accent:#8FACF5; --accent-ink:#0F1320; --gold:#E4C846; --gold-soft:rgba(228,200,70,.32); --band:var(--bg); --band-ink:var(--fg); --band-muted:var(--muted);
+  --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#141A2B;
+  --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0F1320;
+  --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(143,172,245,.18); --fig2:#58607A;
   color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--band)}
-.band{background:var(--band);border-bottom:5px solid var(--gold)}
+.band{background:var(--band)}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
-header.top{padding-block:22px 18px}
+header.top{padding-block:20px 6px}
 .brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 h1{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:1;letter-spacing:.01em;margin:0;text-transform:uppercase;color:var(--band-ink)}
-h1 span{color:var(--gold);white-space:nowrap}
+h1 span{color:var(--accent);white-space:nowrap;background:linear-gradient(transparent 68%,var(--gold-soft) 68%,var(--gold-soft) 92%,transparent 92%);padding:0 .06em}
 [hidden]{display:none!important}
 .count{font-family:var(--display);font-size:1rem;color:var(--band-muted);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;white-space:nowrap}
 .lede{margin:8px 0 0;color:var(--band-muted);font-size:.95rem;max-width:60ch}
