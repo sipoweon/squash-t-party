@@ -762,7 +762,7 @@ const BODY=[
  so:['Mit geschlossenen Füßen aufrecht stehen.','Einen großen Schritt nach vorne machen, etwa so lang wie deine Körpergröße.','Becken absenken, bis vorne Hüfte, Knie und Knöchel einen rechten Winkel bilden.','Über die Ferse des vorderen Beins zurückdrücken.'],
  fo:['Oberkörper bleibt aufrecht.','Vorderes Knie über dem Knöchel, nicht über die Zehen.','Beim Hochkommen die Schultern nicht nach hinten werfen.'],
  ze:'Laut Coach 2–3 Sätze à 8–10 pro Bein, 2–3× pro Woche. Erst dann mit Zusatzgewicht.',
- va:['Rückwärts (eigene Übung).','Mit Drehung (Walking Lunge with Twist).'],
+ va:['Rückwärts (eigene Übung).','Mit Drehung (Walking Lunge with Twist).','Ohne Schritt als Split Squat (eigene Übung).'],
  seg:1300,hold:400,f:[{...FS},{...LB}]},
 
 {id:'backward-lunge',n:'Backwards Lunge',c:['kraft'],p:[1,2,3],t:'5 min',lv:1,s:['ld5'],dose:'5–8 pro Bein oder 30–40 s',
@@ -772,12 +772,12 @@ const BODY=[
  va:['Arme über Kopf.','Als Walking Lunge rückwärts.'],
  seg:1300,hold:400,f:[{...shf(FS,75)},{...LB}]},
 
-{id:'x-over-lunge',n:'X-Over Lunge',c:['kraft'],p:[1,2,3],t:'5 min',lv:2,s:['ld5'],dose:'5–8 pro Bein oder 30–40 s',
- so:['Füße hüftbreit.','Mit einem Fuß im 45-Grad-Winkel über die Körpermitte in einen Ausfallschritt.','Der hintere Fuß dreht natürlich mit.','Über das vordere Bein zurück in den Stand drücken, Seite wechseln.'],
- fo:['Diagonaler Schritt wie zur Ecke im Spiel.','Kontrolliert abbremsen.'],
- ze:'Laut Coach 5–8 pro Bein oder 30–40 Sekunden im Zirkel.',
- va:['Mit Medizinball vor der Brust, beim Schritt nach vorne drücken.'],
- seg:1300,hold:400,f:[{...FF},{p:[162,128],n:[160,81],h:[160,63],k1:[184,140],a1:[192,166],k2:[150,150],e1:[150,104],w1:[146,126],e2:[170,104],w2:[176,126]}]},
+{id:'split-squat',n:'Split Squat',c:['kraft'],p:[1,2,3],t:'5 min',lv:1,s:['lds','ld3'],dose:'2–3 × 8–10 pro Bein',
+ so:['Aus dem Stand einen großen Schritt nach vorne, beide Füße bleiben die ganze Zeit am Boden.','Hintere Ferse ist angehoben.','Gerade nach unten absenken, bis das hintere Knie knapp über dem Boden ist.','Über die vordere Ferse wieder hochdrücken. Erst alle Wiederholungen auf einer Seite, dann wechseln.'],
+ fo:['Oberkörper bleibt aufrecht, Schultern über der Hüfte.','Vorderes Knie über dem Knöchel und in Richtung zweite, dritte Zehe.','Langsam und kontrolliert, wie ein Ausfallschritt ohne Schritt.'],
+ ze:'Wie beim Ausfallschritt empfiehlt der Coach 2–3 Sätze à 8–10 pro Bein, 2–3× pro Woche. Zusatzgewicht erst, wenn die Technik sauber sitzt.',
+ va:['Schwerer: hinterer Fuß erhöht auf einer Bank (Bulgarian Split Squat).','Mit Pause unten (2 Sekunden).'],
+ seg:1300,hold:400,f:[{h:[150,40],n:[150,58],p:[150,105],e1:[165,80],w1:[158,103],e2:[137,80],w2:[144,103],k1:[170,137],a1:[180,168],t1:[195,168],k2:[132,137],a2:[115,163],t2:[128,168]},{h:[150,70],n:[150,88],p:[150,135],e1:[165,110],w1:[158,133],e2:[137,110],w2:[144,133],k1:[182,135],k2:[146,166]}]},
 
 {id:'single-leg-squat',n:'Single Leg Squat',c:['kraft'],p:[1,2,3],t:'5 min',lv:3,s:['lds'],dose:'bis zu 5 pro Bein, langsam',
  so:['Auf einem Bein stehen, Fuß zeigt gerade nach vorne.','Das freie Bein nach vorne strecken.','Langsam absenken, Gewicht Richtung Ferse.','Schultern dürfen vor die Hüfte, Rücken bleibt flach.'],
