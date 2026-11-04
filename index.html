@@ -113,6 +113,8 @@ main{padding-block:14px 40px}
 .mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .mail{font-weight:700;color:var(--fg);user-select:all;word-break:break-all}
 .mailrow .btn{padding:7px 12px}
+.priv{font-size:.84rem;margin-top:6px}
+.priv a{color:var(--muted)}
 
 /* Detail */
 .sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -176,6 +178,7 @@ main{padding-block:14px 40px}
       <p>Zuletzt aktualisiert am <time datetime="2026-11-04">4. November 2026</time>.</p>
       <p>Wünsche, Änderungen oder neue Übungen? Schreib an</p>
       <div class="mailrow"><span class="mail" id="mail">pascal.haaf@gmx.de</span><button type="button" class="btn ghost" id="copymail">Kopieren</button></div>
+      <p class="priv">Besuche werden anonym mit <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener">GoatCounter</a> gezählt, ohne Cookies und ohne persönliche Profile. Favoriten und Hell/Dunkel-Wahl bleiben nur auf deinem Gerät.</p>
     </footer>
   </main>
 </div>
@@ -1110,5 +1113,11 @@ $('#copymail').addEventListener('click',e=>{const b=e.currentTarget,t=$('#mail')
 renderList(); route();
 </script>
 
+<script data-goatcounter="https://squash-t-party.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+/* Geöffnete Übungen zusätzlich als eigene Seite zählen */
+addEventListener('hashchange',function(){var h=location.hash.slice(1);
+  if(h.indexOf('d-')===0&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'/uebung/'+h.slice(2),title:h.slice(2)})}});
+</script>
 </body>
 </html>
