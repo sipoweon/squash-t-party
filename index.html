@@ -48,13 +48,14 @@ button{font:inherit;color:inherit}
 .wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
 header.top{padding-block:20px 6px}
-.brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-h1{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:1;letter-spacing:.01em;margin:0;text-transform:uppercase;color:var(--band-ink)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.75rem,8.3vw,2.3rem);line-height:1;letter-spacing:.01em;margin:0;text-transform:uppercase;color:var(--band-ink)}
 h1 span{color:var(--accent);white-space:nowrap;background:linear-gradient(transparent 68%,var(--gold-soft) 68%,var(--gold-soft) 92%,transparent 92%);padding:0 .06em}
 [hidden]{display:none!important}
-.brand-r{display:flex;align-items:center;gap:10px}
-.themebtn{border:1px solid var(--rule);background:var(--surface);border-radius:999px;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
-.themebtn svg{width:19px;height:19px}
+.brand-r{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.themebtn{border:1px solid var(--rule);background:var(--surface);border-radius:999px;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.themebtn svg{width:17px;height:17px}
+.langbtn{font-size:.86rem;letter-spacing:.03em}
 .handbtn{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.02em}
 .handbtn.is-left{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .themebtn .i-sun{display:none}
@@ -157,8 +158,8 @@ main{padding-block:14px 40px}
 
 <div class="band"><div class="wrap">
   <header class="top">
-    <div class="brand"><h1>Squash <span>T-Party</span></h1><div class="brand-r"><button type="button" class="themebtn handbtn" id="handbtn" aria-label="Auf Linkshänder umstellen" title="Rechtshänder"><span id="handlbl">R</span></button><button type="button" class="themebtn" id="themebtn" aria-label="Dunkelmodus einschalten"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div></div>
-    <p class="lede">Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein extra Equipment notwendig, nur Schläger und Ball.</p>
+    <div class="brand"><h1>Squash <span>T-Party</span></h1><div class="brand-r"><button type="button" class="themebtn handbtn langbtn" id="langbtn" aria-label="Switch to English"><span id="langlbl">DE</span></button><button type="button" class="themebtn handbtn" id="handbtn" aria-label="Auf Linkshänder umstellen" title="Rechtshänder"><span id="handlbl">R</span></button><button type="button" class="themebtn" id="themebtn" aria-label="Dunkelmodus einschalten"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div></div>
+    <p class="lede" id="lede">Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein extra Equipment notwendig, nur Schläger und Ball.</p>
   </header>
 </div></div>
 <div class="filters"><div class="wrap">
@@ -166,7 +167,7 @@ main{padding-block:14px 40px}
   <div class="seg" id="seg" role="group" aria-label="Anzahl Spieler"></div>
   <div class="chips" id="chips" role="group" aria-label="Spielbereich"></div>
   <div class="actions">
-    <button class="btn ghost" id="favf" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>Favoriten</button>
+    <button class="btn ghost" id="favf" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg><span id="favlbl">Favoriten</span></button>
     <div class="count" id="count"></div>
   </div>
 </div></div>
@@ -174,26 +175,26 @@ main{padding-block:14px 40px}
   <main>
     <div class="list" id="list"></div>
     <section class="sources">
-      <h2>Quellen</h2>
+      <h2 id="srch">Quellen</h2>
       <ul id="srclist"></ul>
-      <p class="note"><span id="handnote"></span> Übungen, die ursprünglich fürs Doppel gedacht sind, habe ich fürs Einzelcourt angepasst.</p>
+      <p class="note"><span id="handnote"></span> <span id="dblnote"></span></p>
     </section>
     <footer class="foot">
-      <p>Zuletzt aktualisiert am <time datetime="2026-11-04">4. November 2026</time>.</p>
-      <p>Wünsche, Änderungen oder neue Übungen? Schreib an</p>
+      <p id="upd"></p>
+      <p id="wish"></p>
       <div class="mailrow"><span class="mail" id="mail">pascal.haaf@gmx.de</span><button type="button" class="btn ghost" id="copymail">Kopieren</button></div>
-      <p class="priv">Besuche werden anonym mit <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener">GoatCounter</a> gezählt, ohne Cookies und ohne persönliche Profile. Favoriten und Hell/Dunkel-Wahl bleiben nur auf deinem Gerät.</p>
+      <p class="priv" id="priv">Besuche werden anonym mit <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener">GoatCounter</a> gezählt, ohne Cookies und ohne persönliche Profile. Favoriten, Sprache, Hell/Dunkel- und Rechts/Links-Wahl bleiben nur auf deinem Gerät.</p>
     </footer>
   </main>
 </div>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-head"><div class="wrap">
-    <button class="iconbtn" id="back" aria-label="Zurück zur Liste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Übersicht</button>
+    <button class="iconbtn" id="back" aria-label="Zurück zur Liste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span id="backlbl">Übersicht</span></button>
     <div class="grow"></div>
     <button class="iconbtn" id="dprev" aria-label="Vorherige Übung in der Liste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
     <span class="pos" id="dpos"></span>
-    <button class="iconbtn" id="dnext" aria-label="Nächste Übung in der Liste">Nächste<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button class="iconbtn" id="dnext" aria-label="Nächste Übung in der Liste"><span id="nextlbl">Nächste</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
   </div></div>
   <div class="wrap" id="detail"></div>
 </div>
@@ -832,6 +833,371 @@ BODY.forEach(b=>b.body=true);
 D.push(...BODY);
 
 
+/* ---------- English ---------- */
+const EN={d:{
+'gerade-laenge':{so:['Stand behind the service box and hit the ball straight down the side wall.','The ball should bounce behind the service box and come back to you.','After each shot take a small step towards the middle and back into position.'],
+ fo:['Prepare your racket early, before the ball comes back.','Move your feet around the ball instead of reaching with your arm.','Control the pace so you find a steady rhythm.'],
+ ze:'Coach recommendation: 150 shots per side. To start: 10 in a row with the first bounce behind the short line, note your best and beat it next time.',
+ va:['Same routine on the backhand.','Only count balls that land in the target area.','Alternate hard drives and high ones.']},
+'mittelfeld-tight':{so:['Stand on the short line close to the side wall.','Hit controlled, tight straight shots that come back to you.','Compact swing, keep the ball close to the wall.'],
+ fo:['Open racket face, short swing.','Body side-on to the wall, not facing it.'],
+ ze:'Coach recommendation: 100 shots per side.',
+ va:['Half-volley instead of after the bounce.','Every tenth shot a deep drive, then back to the middle.']},
+'gerade-volleys':{so:['Stand in front of the service box and volley the ball straight back.','Then move behind the service box and hit deep volleys.','Practise both sides.'],
+ fo:['Keep the racket head up and hit the ball in front of your body.','Small, quick steps instead of big lunges.'],
+ ze:'Coach recommendation: 50 deep and 50 mid-court volleys per side. To start: 10 forehand volleys in a row in front of the service box.',
+ va:['Vary the volley height: one high, one low.','Take a step back after every third volley.']},
+'volley-acht':{so:['Stand on the T. Volley the forehand high into the front left corner.','The ball comes off the side wall diagonally to your backhand.','Volley the backhand into the right corner, making a figure of eight.'],
+ fo:['Keep the racket in front of your body between shots.','Short swings, firm wrist.'],
+ ze:'Goal: 30 volleys without a mistake. Then stand one step further back.',
+ va:['Easier: let the ball bounce once.','Harder: hit lower and faster.']},
+'boast-cross-solo':{so:['Start just behind the service box on the forehand side.','Forehand boast, then run to the front left corner and hit a backhand cross-court to the back right.','This keeps you running the diagonal.'],
+ fo:['Coach tip: start moving just before you hit the ball, not after.','Keep your weight leaning towards the ball even as you move away.','Choose a pace that gets you into position in time.'],
+ ze:'According to the coach the most important solo drill of all: build up to 90-second sets, five per side. As a fitness block 5 × 1 minute on, 1 minute off.',
+ va:['Other side: backhand boast and forehand cross-court.','Advanced: Solo Boast, Drop, Cross-Court (separate drill).']},
+'boast-drop-cross':{so:['Forehand boast from the back right corner.','Play a short straight drop at the front left.','Reach your own drop and hit cross-court to the back right.'],
+ fo:['Soft drop, tight to the side wall.','Don\'t stop after the drop, go straight back to the start position.'],
+ ze:'First 10 cycles without a mistake, then against the clock (60–90 seconds).',
+ va:['Coach tip: also combine as boast–drive, then boast–drop–drive.']},
+'kolumbianer-drive':{so:['Boast from the back corner and follow it to the front.','Hit a straight drive to the back off your own boast.','Back towards the T, then chase your own drive at the back and boast again from there.'],
+ fo:['The drive must be deep enough to reach before its second bounce.','Full movement, no shortcuts.'],
+ ze:'Coach: 50 sets. Very demanding on the legs, good as a fitness block.',
+ va:['Stay on one side instead of switching sides.']},
+'aufschlag-return':{so:['Serve from the right service box.','Run to the other side and volley your own serve straight back.','Push off from the return like in a match, then chase your own return at the back.'],
+ fo:['Push off actively on the return, like in a game.','Serve high onto the side wall.'],
+ ze:'Coach: 35 sets.',
+ va:['Serve from the left box.','Return cross-court instead of straight.']},
+'rund-ums-court':{so:['Tap the ball gently against the side wall while walking along it.','Go all the way round the court: side wall, back wall, other side wall, front wall.','Keep the same rhythm of step and shot.'],
+ fo:['Soft hands, short contact.','Eyes on the ball, feet always moving.'],
+ ze:'Coach: ten laps without losing control, in both directions.',
+ va:['Harder: all on the volley.']},
+'drop-serie':{so:['Stand about 1.8 m from the front wall, close to the side wall.','Play short, straight, tight balls that come back to you.','Practise both sides.'],
+ fo:['Bend your knees, racket under the ball.','Keep the ball close to the side wall.'],
+ ze:'Coach: 100 shots per side. Another coach builds 60 backhand drops into his solo session.',
+ va:['Every fifth ball as a cross-court drop.']},
+'ghosting-6':{so:['From the T to the six points: front left and right, middle left and right, back left and right.','Shadow a shot at each one and return to the T.','Intervals, for example 30 seconds on, 30 seconds off.'],
+ fo:['Small split step on the T before you move.','Shadow the shot cleanly with the racket prepared.','Same routes as in a match, no shortcuts.'],
+ ze:'Coach recommendation: 30-second blocks between hitting series.',
+ va:['Front corners only or back corners only.','With a partner as Call-Out Ghosting (separate drill).']},
+'diagonalen':{so:['Run from one back corner to the opposite front corner with squash footwork.','Shadow a shot, go back, then do the other diagonal.'],
+ fo:['First steps explosive, last step controlled.','Upper body upright in the lunge.'],
+ ze:'Coach: 10 diagonals as a block between hitting series.',
+ va:['Sprint forwards only, jog back.']},
+'court-sprints':{so:['Sprint from the back wall to the front wall and back.','The coach uses 10 sprints as a short block between two drills.'],
+ fo:['Run with your racket in hand.','Turn with a low centre of gravity.'],
+ ze:'10 court lengths. With three players at the same time side by side, each in their own lane.',
+ va:['Run back backwards.']},
+'solo-zirkel':{so:['20 forehand drives into the target, then 30 seconds of ghosting.','20 backhand drives into the target, then 30 seconds of ghosting.','Continue with volleys, boasts and drops in the same pattern, finish with diagonals.'],
+ fo:['Hit with a target, not just back and forth.','Raise your heart rate in the ghosting, regain control in the hitting.'],
+ ze:'The coach\'s basic structure: hitting series and short ghosting in turns, adjust the volume to your level.',
+ va:['Do your weakest shot twice.']},
+'boast-drive':{so:['A plays straight drives at the front, B only boasts at the back.','B boasts from the back corner, A runs forward and drives straight down the other side.','B changes corners at the back, A returns to the T after every drive.'],
+ fo:['A: straight back to the T after the drive.','B: hit the boast low so it stays short at the front.'],
+ ze:'5 minutes, then swap roles. The coach adds 10 court sprints afterwards.',
+ va:['With three: two players share the front role and swap after every drive.','The driver may also hit cross-court.']},
+'boast-cross-paar':{so:['B stays at the back right and boasts.','A runs to the front left and hits a cross-court drive back to B.','After 5 minutes swap sides and roles.'],
+ fo:['Cross-court wide enough to hit the side wall behind the service box.','Both move towards the T between shots.'],
+ ze:'Partner version of Solo Boast & Cross-Court. Count how many cross-courts hit the side wall correctly.',
+ va:['Allow a volley cross-court if it comes high enough.']},
+'cross-volley':{so:['Both stand level with the short line, one on each side.','Play high cross-court volleys to each other that come off the side wall to your partner.','Warm up first, then make the cross-courts more and more precise.'],
+ fo:['Let the ball break high on the side wall.','Racket head up, contact point in front of your body.'],
+ ze:'Count the longest rally without a bounce.',
+ va:['One step further back.','One player hits straight, the other cross-court.']},
+'rails':{so:['Everyone plays only straight drives on one side.','After each shot you clear the way towards the T and the next player takes over.','With three: join the back of the queue after your shot, creating a rotation.','5 minutes per side.'],
+ fo:['Clearing is part of the drill: after your shot, leave the direct path to the ball free.','Keep the ball as close to the side wall as possible.'],
+ ze:'Coach: 5 minutes per side, then 10 court sprints.',
+ va:['Volleys only, where possible.','Whoever hits the ball into the service box loses the point.']},
+'laengen-spiel':{so:['Normal game with a serve, but every ball must bounce behind the short line.','Straight and cross-court allowed.','Play to 11 or for time (4 minutes).'],
+ fo:['Vary height and pace so your opponent can\'t attack on the volley.','Back to the T after every shot.'],
+ ze:'The coach progresses in three steps: bounce behind the line, then second bounce behind the line, then volleys allowed everywhere.',
+ va:['Only the second bounce counts: the ball must die deep.','With three: winner stays on, rotate every 4 minutes.']},
+'ueber-der-linie':{so:['Normal game, but every shot must hit the front wall above the service line.','The ball may bounce anywhere, short or long.'],
+ fo:['Only play short (boast, soft drop) when you are already moving into position.','Otherwise you get lobbed or driven long.'],
+ ze:'Coach: to 15 points, point-a-rally. As hard training to 21 or 30.',
+ va:['With a focus on lobs from the front corner.']},
+'kurzer-kanal':{so:['Play on one side only, in a channel as wide as the service box.','The ball must bounce in the channel and in front of the short line.','Serve above the service line into the channel, after that any shot in the channel is allowed.'],
+ fo:['Before you hit, plan where you will stand afterwards.','Choose shots that improve your position.'],
+ ze:'Coach: to 15 points, point-a-rally.',
+ va:['Channel on the backhand side.']},
+'halbes-court':{so:['Imaginary line lengthways down the middle. Play on one half only.','Normal serve, after that every ball must land in the chosen half.'],
+ fo:['Use straight kills, lobs and drops deliberately.','Clear after your shot, interference is common here.'],
+ ze:'One game per side. Coach tip: make sure you also play on your weaker side.',
+ va:['Drives and drops only, no boasts.']},
+'feed-shot':{so:['B feeds A an easy ball into the mid-court.','A attacks: nick, drop or reverse boast into the opposite front corner.','B retrieves the ball and feeds the next one. Swap after 10 attacks.'],
+ fo:['A: keep the same preparation for every attacking shot.','The goal is the corner or the nick, not pace.'],
+ ze:'Count hits into the nick or deep in the corner, out of 10 attempts.',
+ va:['Feed to the backhand too.','B may play out the attack, then a free point.']},
+'cross-spiel':{so:['Imaginary line lengthways down the middle.','Every shot must land in the other half from the one it was hit from.','Normal scoring.'],
+ fo:['Play wide cross-courts, otherwise they come back to the middle.','Use boasts and cross-court drops into the front corners.'],
+ ze:'To 11. One game with a deliberate focus on cross-court drops.',
+ va:['Only straight balls allowed (the opposite).']},
+'zuruf-ghosting':{so:['A ghosts, B stands at the back in the middle and points to or calls the next corner.','A shadows the shot and returns to the T, B immediately gives the next target.','30 seconds on, then swap.'],
+ fo:['A only reacts to the signal, no guessing.','Split step on the T as soon as B points.'],
+ ze:'With three: one ghosts, one points, one counts the points reached.',
+ va:['B fakes and changes direction.']},
+'boast-drop-drive':{so:['A boasts from the back right corner, B plays a straight drop at the front left.','A runs forward from the T and hits a straight drive to the back left.','Now B boasts from the back left, A drops, B drives. This way everyone plays all three shots.'],
+ fo:['Back to the T after every shot, coach tip: get almost all the way to the T.','Drop tight to the side wall, drive with the first bounce behind the service box.'],
+ ze:'5 minutes continuously, count mistakes. Coach variation: add drop–drop before the drive.',
+ va:['The drive may also go cross-court.','The drop is followed by a lob instead of a drive.']},
+'zuspiel-drive':{so:['A stands at the back and feeds a short straight ball.','B hits a straight length drive from the front of the court.','A takes the drive at the back and feeds the next ball.'],
+ fo:['Ball close to the side wall, first bounce behind the service box.','Second bounce near the back wall, don\'t aim too close to the front corner.'],
+ ze:'10 drives per round, count hits in the target area, then swap roles.',
+ va:['B alternates forehand and backhand.','A feeds a short cross-court or boast, B answers straight.']},
+'drive-drive-boast':{so:['Two straight drives down one side wall, then a boast.','From the boast, continue on the other side with two straight drives, again followed by a boast.','The player who boasts changes every time.'],
+ fo:['Back to the T after every shot so the boast stays reachable.','Boast from the back onto the near side wall so it dies in the opposite front corner.'],
+ ze:'5 minutes without a mistake. The coach then suggests free boasts or cross-courts at any time.',
+ va:['A cross-court to the other side instead of the boast.','The boast comes at random, not by count.']},
+'boast-lob':{so:['B boasts from the back right corner.','A runs to the front left and hits a high cross-court lob back to B.','After 5 minutes swap sides and roles.'],
+ fo:['Aim high on the front wall, the lob lands behind the service box and dies at the back wall.','The cross-court lob must pass high enough over the T that it can\'t be volleyed.'],
+ ze:'Count lobs that land behind the service box and could not be volleyed.',
+ va:['Straight lob instead of cross-court.','A may choose freely between straight and cross-court lob.']},
+'drop-test':{so:['A stands at the front and feeds straight balls into the front court.','B plays straight drops or drop volleys.','A retrieves the drop and feeds the next ball.'],
+ fo:['The ideal drop hits the front wall first, then the side wall just above the floor or the nick.','Straight drops die faster than cross-court drops.'],
+ ze:'Coach: 100 feeds, the goal is fewer than 10 mistakes. Then swap roles.',
+ va:['Cross-court drop or reverse boast as the reply.','Feed higher so B has to play drop volleys.']},
+'volley-zuspiel':{so:['A feeds high straight balls from the back.','B stands near the T and hits straight length volleys.','A takes the volley at the back and feeds the next high ball.'],
+ fo:['Volley tight to the side wall, it slides into the wall behind the service box.','First bounce around the back of the service box, second near the back wall.'],
+ ze:'Ten good volleys in a row, then swap roles.',
+ va:['A feeds high cross-court, B volleys straight.','B volleys cross-court into the back corner.']},
+'volley-spiel':{so:['Both stand around the short line and take every ball on the volley.','Straight and cross-court allowed.','Whoever lets the ball bounce in front of the short line loses the rally.'],
+ fo:['Racket always up and in front of your body.','Short steps, no backswing.'],
+ ze:'To 11. Good as a tough finisher or as a warm-up game.',
+ va:['Straight volleys only.','Easier: one bounce behind the short line is allowed.']},
+'gerade-spiel':{so:['Normal serve, after that only straight shots are allowed.','Play length until you get the chance for a drop or volley drop.','If you are in trouble at the front, play a straight lob.'],
+ fo:['Patience: force the short ball with length first.','After the drop go straight to the T, the lob comes back fast.'],
+ ze:'To 11. The coach also uses "straight only" as a handicap: only the stronger player gets the restriction.',
+ va:['Cross-court allowed, but only on the volley.']},
+'ausgleichs-spiele':{so:['For partners of different levels: the stronger player gets a restriction.','Double bounce: the weaker player may let the ball bounce twice, the stronger player may not volley.','No back wall: the weaker player scores if the ball hits the back wall after one bounce, the stronger player loses the point if their ball hits the back wall before the second bounce.','Straight only: the stronger player may not hit cross-court or boast.'],
+ fo:['The stronger player trains length and movement under the rule.','The weaker player gets more time to prepare and recover.'],
+ ze:'Change the rule each game. To 11, then make the rule stricter or looser.',
+ va:['Variation of "straight only": cross-court on the volley only.']},
+'volley-gewinnt':{so:['Length Game: every ball must bounce behind the short line.','Whoever takes a ball cleanly on the volley wins the rally.','Then a new serve.'],
+ fo:['Play your length deep and tight so your opponent can\'t volley.','Stand actively on the T to take every volley chance.'],
+ ze:'To 11. The coach uses the game to train length and positioning at the same time.',
+ va:['Only volleys behind the T count.']},
+'aufschlag-wettbewerb':{so:['Take turns serving, each serve scores points.','Landing in the back quarter: 1 point. Behind the service box: 2 points. Behind the service box after hitting the side wall: 3 points.','The partner takes the return position without hitting.'],
+ fo:['Serve high enough that it can\'t easily be volleyed.','After the serve go straight to the T, like in a game.'],
+ ze:'10 serves per side, who scores more? The coach then uses the serve to start the other pairs drills.',
+ va:['The partner returns and the point is played out.']},
+'boast-freie-antwort':{so:['B stands at the back and plays every ball as a boast.','A may play straight or cross-court to the back and tries to wrong-foot B.','Swap after 10 rallies or a winner.'],
+ fo:['B: after the boast don\'t run into a corner, wait centrally.','A: keep the same preparation for straight and cross-court.'],
+ ze:'Whoever lasts longest as the boaster wins.',
+ va:['A may also play a lob.']},
+'seitenwand-duell':{so:['Only straight drives on one side, the ball must land in the target behind the short line, as wide as the service box.','Back to the T after every shot.','Point for a winner, when the opponent is forced to boast, or when their ball misses the target.'],
+ fo:['Tight to the wall, don\'t aim too close to the front corner.','Vary pace and height to move your opponent.'],
+ ze:'Coach: to 15. Counted cooperatively as a rally: the goal is 50 shots in a row.',
+ va:['Make the target narrower.','Mix short and long to move your partner.']},
+'rotation-rails':{so:['A and B play straight drives on the right side, C waits on the left by the side wall.','Whoever hits a cross-court switches to the other side.','C takes the cross-court and continues straight with the player who switched, the third player waits.'],
+ fo:['Only cross-court when it really comes well.','The waiting player stays close to the side wall and out of the way.'],
+ ze:'Coach: 5 minutes per side, then 10 court sprints.',
+ va:['Volley cross-court as the only switching shot.','With a boast option (separate drill).'],
+ safe:'The waiting player stays out of the way. If unsure, wait outside by the door.'},
+'rails-boast':{so:['Like Rotation Rails, but a boast is also allowed.','Variation 1: the boast is followed by a cross-court back to the rail side.','Variation 2: the boast is followed by a straight drive to the other side, where the waiting player takes over.'],
+ fo:['Keep the boast from the corner low and short.','Straight to the T after the boast.'],
+ ze:'Coach: 5 minutes per side for each variation.',
+ va:['Only the player at the back may boast.'],
+ safe:'The waiting player stays out of the way. If unsure, wait outside by the door.'},
+'zwei-gegen-eins':{so:['A plays every ball alone, B and C take turns.','The pair plays error-free and makes A run.','A stays on alone until losing a rally, then rotate.'],
+ fo:['Pair: play into the four corners, no risk.','Single player: get to the T early and play neutral returns.'],
+ ze:'Count rallies until a mistake. The coach calls it good pressure training for the single player.',
+ va:['The pair may only play straight, the single player anything.'],
+ safe:'It is tight on a singles court: the partner who is not hitting moves to the back wall.'},
+'king-of-court':{so:['A and B play points, C waits outside by the door.','The winner serves from the side of their choice.','The loser swaps with the waiting player.'],
+ fo:['Every point counts, otherwise you have to go out.','Briefly call tactics between points.'],
+ ze:'The winner collects points, first to 11 wins.',
+ va:['With rules from Length Game or Above-the-Line Game only.','The winner may stay on for at most three points in a row.']},
+'halbcourt-cross':{so:['A and B play straight on the right half, C waits on the left.','Anyone may hit a cross-court.','The other player retrieves the cross-court and continues on the left with C. Whoever hit the cross-court waits.'],
+ fo:['Use the cross-court as a tactical weapon when your opponent is too far in.','The waiting player follows the rally and is ready.'],
+ ze:'Free rally training or with points per half.',
+ va:['Only volley cross-courts allowed.'],
+ safe:'The waiting player stays close to the side wall. If unsure, wait outside.'},
+'spiele-leiter':{so:['Two players play a conditioned game for 4 minutes, the third counts outside.','Winner stays, loser goes out, the counter comes in.','Game types in order: Length Game, second bounce behind the line, volleys everywhere, then a normal game.'],
+ fo:['The counter watches the rule and gives a tip after the game.','Deliberately improve one thing each round.'],
+ ze:'The coach uses 4-minute rotations with promotion and relegation.',
+ va:['Include Above-the-Line Game or Short Channel Game as a round.']},
+'easy-jog':{so:['Jog easily around the edge of the court.','Then backwards, sideways and with crossover steps along the short line.','Build the pace from very easy to brisk.'],
+ fo:['The coach says: start at low intensity and only build up slowly.','Stay on the balls of your feet already.'],
+ ze:'About 5 minutes, until you sweat lightly. Then continue with dynamic stretching.',
+ va:['Skipping rope if the court is still occupied.','With three, run one behind the other.'],
+ dose:'5 minutes, build the pace slowly'},
+'arm-swings':{so:['Stand upright, feet hip-width apart.','Swing your straight arms in big circles, one arm in front, one behind.','Start slowly, then build up to full speed.'],
+ fo:['Move dynamically, but don\'t fling or bounce.','Relax your shoulders, keep your core lightly engaged.'],
+ ze:'10–15 circles backwards, then 10–15 forwards.',
+ va:['Both arms in the same direction at once.','Finish with a few easy racket swings.'],
+ dose:'10–15× per direction'},
+'leg-swings':{so:['Stand side-on to the wall and support yourself with one hand.','Swing the outside leg loosely forwards and back.','Let the swing get gradually bigger.'],
+ fo:['Upper body stays upright, only the leg moves.','Swing, don\'t jerk.'],
+ ze:'10–15 swings per leg.',
+ va:['Sideways variation (separate drill).'],
+ dose:'10–15× per leg'},
+'leg-swings-side':{so:['Face the wall with both hands on it.','Swing one leg sideways back and forth in front of the standing leg.','Build up the swing slowly.'],
+ fo:['Hips stay square to the wall.','Standing leg slightly bent.'],
+ ze:'10–15 swings per leg.',
+ va:['Without the wall for more balance work.'],
+ dose:'10–15× per leg'},
+'high-knees':{so:['Run on the spot or slowly forwards.','Lift your knees alternately to hip height.','Swing your arms in opposition.'],
+ fo:['Land on the balls of your feet, quiet steps.','Upper body upright, don\'t lean back.'],
+ ze:'2 rounds of 20 seconds, walk for 20 seconds in between.',
+ va:['Forwards along the side wall.'],
+ dose:'2 × 20 seconds'},
+'leg-curls':{so:['Run on the spot and kick your heels alternately towards your bottom.','Knees point down.'],
+ fo:['Loose and rhythmic, don\'t tense up.','Stay on the balls of your feet.'],
+ ze:'10–15 reps per leg.',
+ va:['Slowly run backwards.'],
+ dose:'10–15× per leg'},
+'lunge-twist':{so:['Step forward into a lunge with your arms straight out in front.','Rotate your upper body towards the front leg, then to the other side.','Back to the centre and into the next lunge.'],
+ fo:['The lower body stays stable, only the upper body rotates.','Front knee above the ankle.'],
+ ze:'According to the coach one court length (6–8 lunges), a short rest, then back.',
+ va:['With a medicine ball in front of the body.','Walking backwards.'],
+ dose:'1 court length, 2–3 rounds'},
+'zigzag':{so:['Run in a zigzag from back to front at about 75 % pace.','Walk back easily.','Then sprints from back to front, building from 50 % to 100 %.'],
+ fo:['Change direction with a low centre of gravity.','Only sprint flat out at the end.'],
+ ze:'5 zigzag runs and 5 build-up sprints, each with an easy walk back.',
+ va:['With a racket in hand and a shadowed shot in each corner.'],
+ dose:'5 zigzag runs, 5 sprints'},
+'on-court-warmup':{so:['Both stand around the back of the service box, one on each side.','At most two balls straight to yourself, then cross-court to your partner.','After 2.5 minutes swap sides so everyone plays forehand and backhand.'],
+ fo:['Warm up the ball, find your timing and rhythm.','Test the walls and the length of the court.','Warm up fairly: your partner should get good balls too.'],
+ ze:'5 minutes, swap sides halfway.',
+ va:['Mix in different shots: volley, drop, boast.'],
+ dose:'2.5 minutes per side'},
+'pre-match-hit':{so:['Boast & drive: practise the drive from the front and feel how the front wall responds.','Straight drives on both sides, vary power and height.','Volley drops: both stand on the service line on opposite sides and play soft and firm volleys to each other.','Finish with five easy rallies.'],
+ fo:['According to the coach stay loose and get your feet moving without tiring yourself.','Watch how the ball reacts after clipping the side wall.'],
+ ze:'About 20 minutes before the match, like the pros.',
+ va:['Shorter if court time is limited: parts 2 and 3 only.'],
+ dose:'about 20 minutes'},
+'hamstring':{so:['One leg straight out in front, heel on the floor, toes pointing up.','Bend the back knee slightly.','Hinge forward from the hips with a straight back, hands on your thigh.'],
+ fo:['Move slowly to the end of the range, then hold still.','A light pull yes, pain no.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side. Static stretching belongs at the end of the session.',
+ va:['Seated on the floor.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'quad':{so:['Stand on one leg, support yourself on the wall if needed.','Pull the other heel towards your bottom and hold the ankle.','Knee points down, push the hips slightly forward.'],
+ fo:['Don\'t arch your lower back, keep your core tight.','Hold the ankle, not the toes.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Lying on your side if balance is hard after playing.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'hip-flexor':{so:['Kneel down with one foot planted in front.','Tilt your pelvis slightly backwards.','Then slowly push the hips forward until you feel it at the front of the back hip.'],
+ fo:['Upper body upright, don\'t arch your back.','Don\'t push the front knee past the toes.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Reach the arm on the back-leg side overhead.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'groin':{so:['Stand wide with your feet turned slightly out.','Shift your weight to one side and bend that knee.','The other leg stays straight, you feel it on the inner thigh.'],
+ fo:['Knee points towards the toes.','Back straight, hands on the bent thigh.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Go lower if it feels easy.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'gluteal':{so:['Lie on your back with both feet planted.','Cross one ankle over the other knee.','Pull the lower leg towards your chest until you feel it in the glutes.'],
+ fo:['Head and shoulders stay relaxed on the floor.','Let the top knee sink outwards.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Seated on a bench.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'calf':{so:['Lean against the wall with both hands.','One leg far back, straight, heel on the floor.','Bend the front knee and bring your weight towards the wall.'],
+ fo:['The back heel stays on the floor, foot pointing forward.','Body forms a line from head to heel.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Bend the back knee slightly to stretch the deeper calf.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'shoulder':{so:['Stand upright.','Bring your racket arm straight across your chest.','Gently pull the elbow towards your body with the other hand.'],
+ fo:['Keep the shoulder down, don\'t shrug.','Keep your head straight.'],
+ ze:'Hold for 20–30 seconds, 3–4 reps per side.',
+ va:['Elbow a little higher or lower to stretch other areas.'],
+ dose:'Hold 20–30 s, 3–4× per side'},
+'squat':{so:['Feet shoulder-width apart, toes slightly turned out.','Arms straight out in front at shoulder height, chest open.','Sit back into the hips until your thighs are roughly parallel to the floor.','Drive back up through your heels.'],
+ fo:['Lower with control.','Knees over the toes, not caving in or out.','Lead with the chest on the way up.'],
+ ze:'According to the coach 2–3 sets of 10–12, 2–3× per week. Only add weight once 10 clean reps feel solid.',
+ va:['Lower more slowly (3 seconds).'],
+ dose:'2–3 × 10–12, 2–3× per week'},
+'forward-lunge':{so:['Stand tall with your feet together.','Take a big step forward, about as long as your height.','Lower the hips until the front hip, knee and ankle form a right angle.','Push back through the heel of the front leg.'],
+ fo:['Upper body stays upright.','Front knee above the ankle, not past the toes.','Don\'t throw your shoulders back as you come up.'],
+ ze:'According to the coach 2–3 sets of 8–10 per leg, 2–3× per week. Only then add weight.',
+ va:['Backwards (separate drill).','With a twist (Walking Lunge with Twist).','Without the step as a Split Squat (separate drill).'],
+ dose:'2–3 × 8–10 per leg'},
+'backward-lunge':{so:['Feet hip-width apart.','Step one leg back, the back heel stays up.','Lower until the back knee hovers just above the floor.','Push through the back foot to stand up again, alternate legs.'],
+ fo:['Front knee above the ankle.','Shoulders stay above the hips, not in front of them.'],
+ ze:'According to the coach 5–8 per leg or 30–40 seconds in a circuit.',
+ va:['Arms overhead.','As a backwards walking lunge.'],
+ dose:'5–8 per leg or 30–40 s'},
+'split-squat':{so:['From standing take a big step forward, both feet stay on the floor the whole time.','The back heel is raised.','Lower straight down until the back knee is just above the floor.','Drive back up through the front heel. Do all reps on one side, then switch.'],
+ fo:['Upper body stays upright, shoulders over the hips.','Front knee above the ankle, pointing towards the second and third toe.','Slow and controlled, like a lunge without the step.'],
+ ze:'As with the lunge, the coach recommends 2–3 sets of 8–10 per leg, 2–3× per week. Only add weight once your technique is clean.',
+ va:['Harder: back foot raised on a bench (Bulgarian Split Squat).','With a pause at the bottom (2 seconds).'],
+ dose:'2–3 × 8–10 per leg'},
+'single-leg-squat':{so:['Stand on one leg, foot pointing straight ahead.','Extend the free leg forward.','Lower slowly, weight towards the heel.','Shoulders may move ahead of the hips, back stays flat.'],
+ fo:['Knee tracks over the second and third toe, not inwards.','If the heel lifts, that is your end point.'],
+ ze:'The coach uses it as a test: up to 5 reps, ideally filmed from the front and the side.',
+ va:['Easier: only halfway down or with a hand on the wall.'],
+ dose:'up to 5 per leg, slowly'},
+'bridge':{so:['Lie on your back with your feet planted.','First squeeze your glutes without lifting.','Then lift the hips and hold, the glutes stay active the whole time.'],
+ fo:['If you feel it in your lower back, your hamstrings are doing too much.','For endurance add reps rather than holding longer.'],
+ ze:'According to the coach hold for 10–15 seconds, aim for 4–6 reps.',
+ va:['Single-leg (separate drill).'],
+ dose:'4–6 × hold 10–15 s'},
+'one-leg-bridge':{so:['Like the bridge, but with one leg straight in the air.','Press the foot of the standing leg into the floor.','Pelvis stays level.'],
+ fo:['According to the coach squeeze your glutes as hard as if you were making a fist.','Don\'t let the pelvis tip to the side.'],
+ ze:'10–15 seconds per side, increase the reps over a few weeks.',
+ va:['Hold for two seconds at the top, then lower slowly.'],
+ dose:'Hold 10–15 s per side'},
+'side-bridge':{so:['Lie on your side, elbow under the shoulder, knees bent at 90°.','Lift the hips so you are supported on your elbow and knee.','Hold and lower with control.'],
+ fo:['Body forms a straight line.','Clean first, then progress.'],
+ ze:'According to the coach hold for 10 seconds, start with 2–3 sets and build to 5–6. Add sets first, then hold time.',
+ va:['Legs straight, on your feet.'],
+ dose:'2–3 × 10 s, later 5–6 sets'},
+'birddog':{so:['Start on all fours.','Extend one arm and the opposite leg.','Hold for 10 seconds, return, switch sides.'],
+ fo:['The spine doesn\'t move.','No "Superman" with an arched back, that loads the spine.'],
+ ze:'According to the coach 4–6 sets of 10 seconds, alternating arm and leg.',
+ va:['Slowly alternating without holding.'],
+ dose:'4–6 × hold 10 s, switch sides'},
+'curl-up':{so:['Lie on your back, one knee bent, the other leg relaxed and straight.','Hands under your lower back.','Lift your head and shoulders a little, hold, lower. Switch legs halfway.'],
+ fo:['The movement comes from the mid-back.','Don\'t press your lower back into the floor.','Don\'t bend your neck.'],
+ ze:'According to the coach 2–3 sets of 10, hold for 2–3 seconds at the top.',
+ va:['Lift the elbows slightly off the floor.'],
+ dose:'2–3 × 10, hold 2–3 s at the top'}
+},
+l:{
+'Vorhand · gerader Drive':'Forehand · straight drive','Vorhand · eng & gerade':'Forehand · tight & straight','Volley vor dem Aufschlagfeld':'Volley in front of the service box','Nach hinten wechseln':'Move to the back','Tiefer Volley':'Deep volley','Wieder nach vorne':'Back to the front',
+'Vorhand-Volley in die linke Ecke':'Forehand volley into the left corner','Rückhand-Volley in die rechte Ecke':'Backhand volley into the right corner','Vorhand · Boast':'Forehand · boast','Rückhand · Cross-Drive':'Backhand · cross-court drive','Rückhand · Drop':'Backhand · drop','Rückhand · gerader Drive':'Backhand · straight drive','Eigenen Drive hinten erlaufen':'Chase your own drive at the back','Rückhand · Boast':'Backhand · boast',
+'Aufschlag':'Serve','Gerader Volley-Return':'Straight volley return','Return erlaufen':'Chase the return','Ball zurück, neu aufschlagen':'Ball back, serve again',
+'An der rechten Seitenwand':'Along the right side wall','Entlang der Rückwand':'Along the back wall','An der linken Seitenwand':'Along the left side wall','Entlang der Stirnwand':'Along the front wall','Ecke, nächste Runde':'Corner, next lap',
+'Vorhand · Drop':'Forehand · drop','Vorne links':'Front left','Zurück zum T':'Back to the T','Vorne rechts':'Front right','Mitte links':'Middle left','Mitte rechts':'Middle right','Hinten links':'Back left','Hinten rechts':'Back right',
+'Hinten rechts → vorne links':'Back right → front left','Zurück nach hinten rechts':'Back to the back right','Seitwärts nach hinten links':'Sideways to the back left','Hinten links → vorne rechts':'Back left → front right','Zurück nach hinten links':'Back to the back left','Seitwärts nach hinten rechts':'Sideways to the back right',
+'Sprint nach vorne':'Sprint to the front','Sprint zurück':'Sprint back','Gemeinsam nach vorne sprinten':'Sprint to the front together','Gemeinsam zurück':'Back together','Nebeneinander nach vorne sprinten':'Sprint to the front side by side','Nebeneinander zurück':'Back side by side',
+'20 × Vorhand-Drive':'20 × forehand drive','30 s Ghosting':'30 s ghosting','Zur Rückhand':'To the backhand','20 × Rückhand-Drive':'20 × backhand drive','Zurück zur Vorhand':'Back to the forehand',
+'B · Boast':'B · boast','A · gerader Drive':'A · straight drive','B · Boast, jetzt ist C dran':'B · boast, now it\'s C\'s turn','C · gerader Drive':'C · straight drive','A · Cross-Drive':'A · cross-court drive','A · hoher Cross-Volley':'A · high cross-court volley','B · hoher Cross-Volley':'B · high cross-court volley','B · gerader Drive':'B · straight drive',
+'A · gerader Drive, dann hinten anstellen':'A · straight drive, then join the queue','B · gerader Drive, dann hinten anstellen':'B · straight drive, then join the queue','C · gerader Drive, dann hinten anstellen':'C · straight drive, then join the queue',
+'A · gerade':'A · straight','B · Cross':'B · cross-court','B · Cross · C wartet und rotiert rein':'B · cross-court · C waits and rotates in',
+'A · hoch & gerade':'A · high & straight','B · weicher Boast':'B · soft boast','A · Cross-Lob':'A · cross-court lob','B · hoch & gerade':'B · high & straight',
+'A · gerade in den Kanal':'A · straight into the channel','B · kurz':'B · short','A · Drop':'A · drop','B · anheben':'B · lift','B · Drop':'B · drop','A · Lob gerade':'A · straight lob','B · gerade':'B · straight',
+'A · Angriff in die Ecke':'A · attack into the corner','B · nächstes Zuspiel':'B · next feed','A · Cross':'A · cross-court','A · Cross-Drop':'A · cross-court drop','B · Cross-Lob':'B · cross-court lob',
+'B zeigt: vorne rechts':'B points: front right','B zeigt: hinten links':'B points: back left','B zeigt: Mitte links':'B points: middle left','B zeigt: vorne links':'B points: front left',
+'B zeigt: vorne rechts · C zählt':'B points: front right · C counts','B zeigt: hinten links · C zählt':'B points: back left · C counts','B zeigt: Mitte links · C zählt':'B points: middle left · C counts','B zeigt: vorne links · C zählt':'B points: front left · C counts',
+'A · Boast':'A · boast','A · kurzes Zuspiel':'A · short feed','A · hoher Cross-Lob':'A · high cross-court lob','A · Zuspiel':'A · feed','A · hohes Zuspiel':'A · high feed','B · gerader Volley':'B · straight volley','A · gerader Volley':'A · straight volley','B · Cross-Volley':'B · cross-court volley',
+'A · gerade lang':'A · straight & long','B · gerade, zu kurz':'B · straight, too short','A · Volley-Drop':'A · volley drop','B · gerader Lob':'B · straight lob','A (stärker) · nur gerade':'A (stronger) · straight only','B · frei, hier Cross':'B · free, here cross-court',
+'B · Cross zu mittig':'B · cross-court too central','A · Volley: Punkt für A':'A · volley: point to A','Neuer Ballwechsel':'New rally',
+'A · Aufschlag, 3 Punkte':'A · serve, 3 points','Wechsel: B schlägt auf':'Switch: B serves','B · Aufschlag, 2 Punkte':'B · serve, 2 points','Wechsel: A schlägt auf':'Switch: A serves',
+'A · Cross → wechselt die Seite':'A · cross-court → switches sides','C · gerade':'C · straight','A · Cross → wechselt zurück':'A · cross-court → switches back','A · gerade auf die andere Seite':'A · straight down the other side','C · Boast':'C · boast','A · gerade nach hinten':'A · straight to the back',
+'A · Drop: Punkt für A':'A · drop: point to A','B verliert, C kommt rein':'B loses, C comes in','C · Cross':'C · cross-court','C verliert, B kommt rein':'C loses, B comes in','A · Cross: B holt ihn':'A · cross-court: B retrieves it','C · Cross: B holt ihn':'C · cross-court: B retrieves it',
+'Locker joggen':'Easy jog','Rückwärts zur Kurzlinie':'Backwards to the short line','Seitwärts an der Kurzlinie':'Sideways along the short line','Überkreuzschritte zurück':'Crossover steps back','Vorwärts nach vorne':'Forwards to the front',
+'Vorwärts joggen, hintereinander':'Jog forwards, one behind the other','Seitwärts, hintereinander':'Sideways, one behind the other','Rückwärts joggen, hintereinander':'Jog backwards, one behind the other','Überkreuzschritte, hintereinander':'Crossover steps, one behind the other',
+'Zickzack, 75 %':'Zigzag, 75 %','Locker zurück':'Easy back','Zickzack in der eigenen Hälfte':'Zigzag in your own half','Nebeneinander sprinten':'Sprint side by side','Zickzack in der eigenen Bahn':'Zigzag in your own lane',
+'A · gerade zu sich':'A · straight to yourself','A · Cross zu B':'A · cross-court to B','B · gerade zu sich':'B · straight to yourself','B · Cross zu A':'B · cross-court to A','A · Volley, eher weich':'A · volley, rather soft','B · Volley, eher fest':'B · volley, rather firm'
+},
+z:{'Ziel':'Target','eng':'Tight','Zielzone':'Target zone','Kanal':'Channel','Spielfeld':'Play area','Kein Aufsprung':'No bounce','Längenzone':'Length zone','2–3':'2–3','Runde 1: hinter der Linie':'Round 1: behind the line'},
+cat:{all:'All areas',laenge:'Length & drives',volley:'Volley',kurz:'Short game & touch',bewegung:'Movement & timing',spiele:'Conditioned games',fitness:'Ghosting & fitness',aufwaermen:'Warm-up',dehnen:'Stretching',kraft:'Strength'},
+catAllBody:'All',
+src:{gb:'Graham Bassett (US Squash Director of Doubles) – “Squash Doubles Practice With Two or Three Players” (Squash Magazine, 2018), adapted for singles courts',rc:'Roehampton Club Squash – “Solo Drills” parts 1–3',ss:'Scottish Squash (Paul Bell) – solo resources and guided ghosting series',mu:'Munster Squash – “Drills and Routines” (pairs drills collection)',ar:'Anthony Ricketts (former PSA No. 6) – “Pre-Match Training Sessions” (Squash Magazine, 2007)',ld3:'Damon Leedale-Brown (sports scientist & conditioning specialist) – “Strength Training for Squash Part III: Squats & Lunges” (Squash Magazine, 2009)',cs:'Common coaching drill (no single source)',el:'Elevate Squash – solo focus and ghosting'}
+};
+
+/* ---------- Sprache ---------- */
+const LKEY='squash-t-party-lang';
+const navDe=()=>((navigator.language||'de').toLowerCase().startsWith('de'));
+let LANG='de';
+try{const v=localStorage.getItem(LKEY);LANG=(v==='en'||v==='de')?v:(navDe()?'de':'en')}catch(e){LANG=navDe()?'de':'en'}
+const en=()=>LANG==='en';
+const tr=(de,e)=>en()?e:de;
+function dx(d,k){const e=en()&&EN.d[d.id];return e&&e[k]!==undefined?e[k]:d[k];}
+const lab=t=>(en()&&EN.l[t])||t;
+const zlab=t=>(en()&&EN.z[t])||t;
+const catName=id=>en()?(EN.cat[id]||id):CATN[id];
+const srcName=k=>en()?(EN.src[k]||SRC[k].n.replace(/„([^“]*)“/g,'“$1”')):SRC[k].n;
+
 /* ---------- Varianten für mehr Spieler ---------- */
 const ALT={
  'court-sprints':{
@@ -933,6 +1299,7 @@ function playerRoutes(a){
 /* Gespiegelt bleibt eine Vorhand eine Vorhand, nur links und rechts tauschen */
 function sw(t){
   if(!state.lefty||!t) return t;
+  if(en()) return t.replace(/\b(left|right|Left|Right)\b/g,m=>({left:'right',right:'left',Left:'Right',Right:'Left'})[m]);
   return t.replace(/\b([Ll])ink(s|e|en|er|es)\b|\b([Rr])echt(s|e|en|er|es)\b/g,(m,l,ls,r,rs)=>
     l?(l==='L'?'R':'r')+'echt'+ls:(r==='R'?'L':'l')+'ink'+rs);
 }
@@ -941,7 +1308,7 @@ function mir(d){
   if(!state.lefty||!d.a) return d;
   if(d._m) return d._m;
   const mo=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,mx(v)]));
-  const a={start:mo(d.a.start),steps:d.a.steps.map(x=>({...x,l:sw(x.l),b:x.b&&x.b.map(mx),h:x.h&&mx(x.h),to:mo(x.to||{})}))};
+  const a={start:mo(d.a.start),steps:d.a.steps.map(x=>({...x,b:x.b&&x.b.map(mx),h:x.h&&mx(x.h),to:mo(x.to||{})}))};
   const z=(d.z||[]).map(q=>q.r?{...q,r:[+(W-q.r[0]-q.r[2]).toFixed(3),q.r[1],q.r[2],q.r[3]]}:q.line?{...q,line:q.line.map(mx)}:q);
   return d._m={...d,a,z};
 }
@@ -951,7 +1318,7 @@ function courtSVG(d0,big){
   let s=`<svg viewBox="-0.4 ${big?-0.62:-0.25} 7.2 ${big?11.45:10.75}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Draufsicht Court: ${d.n}">`;
   s+=`<rect x="0" y="0" width="${W}" height="${LEN}" style="fill:var(--floor)"/>`;
   (d.z||[]).forEach(z=>{
-    if(z.r) s+=`<rect x="${z.r[0]}" y="${z.r[1]}" width="${z.r[2]}" height="${z.r[3]}" style="fill:var(--zone)"/>`+(big&&z.l?`<text x="${z.r[0]+z.r[2]/2}" y="${z.r[1]+z.r[3]/2}" text-anchor="middle" dominant-baseline="central" style="fill:var(--accent);font:600 .3px var(--display);letter-spacing:.02px;text-transform:uppercase">${z.l.toUpperCase()}</text>`:'');
+    if(z.r) s+=`<rect x="${z.r[0]}" y="${z.r[1]}" width="${z.r[2]}" height="${z.r[3]}" style="fill:var(--zone)"/>`+(big&&z.l?`<text x="${z.r[0]+z.r[2]/2}" y="${z.r[1]+z.r[3]/2}" text-anchor="middle" dominant-baseline="central" style="fill:var(--accent);font:600 .3px var(--display);letter-spacing:.02px;text-transform:uppercase">${zlab(z.l).toUpperCase()}</text>`:'');
     if(z.line) s+=`<line x1="${z.line[0][0]}" y1="${z.line[0][1]}" x2="${z.line[1][0]}" y2="${z.line[1][1]}" style="stroke:var(--accent);stroke-width:.05;stroke-dasharray:.22 .16"/>`;
   });
   const ln='style="stroke:var(--floor-line);stroke-width:.05;fill:none"';
@@ -960,9 +1327,9 @@ function courtSVG(d0,big){
   s+=`<rect x="0" y="0" width="${W}" height="${LEN}" style="fill:none;stroke:var(--wall);stroke-width:.09"/>`;
   s+=`<line x1="-.06" y1="0" x2="${W+.06}" y2="0" style="stroke:var(--floor-line);stroke-width:.16"/>`;
   if(big){
-    s+=`<text x="3.2" y="-0.25" text-anchor="middle" style="fill:var(--muted);font:600 .27px var(--display);letter-spacing:.06px">STIRNWAND</text>`;
-    s+=`<text x="0.05" y="10.6" style="fill:var(--muted);font:600 .24px var(--display);letter-spacing:.04px">◀ ${state.lefty?'VORHAND':'RÜCKHAND'}</text>`;
-    s+=`<text x="6.35" y="10.6" text-anchor="end" style="fill:var(--muted);font:600 .24px var(--display);letter-spacing:.04px">${state.lefty?'RÜCKHAND':'VORHAND'} ▶</text>`;
+    s+=`<text x="3.2" y="-0.25" text-anchor="middle" style="fill:var(--muted);font:600 .27px var(--display);letter-spacing:.06px">${tr('STIRNWAND','FRONT WALL')}</text>`;
+    s+=`<text x="0.05" y="10.6" style="fill:var(--muted);font:600 .24px var(--display);letter-spacing:.04px">◀ ${state.lefty?tr('VORHAND','FOREHAND'):tr('RÜCKHAND','BACKHAND')}</text>`;
+    s+=`<text x="6.35" y="10.6" text-anchor="end" style="fill:var(--muted);font:600 .24px var(--display);letter-spacing:.04px">${state.lefty?tr('RÜCKHAND','BACKHAND'):tr('VORHAND','FOREHAND')} ▶</text>`;
   }
   const hasBall=a.steps.some(x=>x.b);
   a.steps.forEach(x=>{ if(x.b) s+=`<polyline points="${pts(x.b)}" style="fill:none;stroke:var(--path);stroke-opacity:${big?.18:.35};stroke-width:${big?.035:.09};stroke-linejoin:round;stroke-linecap:round"/>`; });
@@ -1004,7 +1371,7 @@ function startAnim(svg,d,cap){
   keys.forEach(k=>{st.pos[k]=[...a.start[k]];st.from[k]=[...a.start[k]];});
   function setStep(i){
     const s=steps[i];
-    cap.textContent=s.l;
+    cap.textContent=sw(lab(s.l));
     // Ball startet dort, wo er zuletzt war: keine Sprünge zwischen den Schlägen
     st.path=s.b?(st.ball&&dist(st.ball,s.b[0])<.6?[st.ball,...s.b.slice(1)]:s.b):null;
     st.hold=s.h?(st.ball&&dist(st.ball,s.h)<.6?st.ball:s.h):null;
@@ -1054,20 +1421,24 @@ const PL=[{v:0,n:'Alle',d:0},{v:1,n:'Solo',d:1},{v:2,n:'Zu zweit',d:2},{v:3,n:'Z
 
 const $=s=>document.querySelector(s);
 const seg=$('#seg'), chips=$('#chips'), list=$('#list');
-seg.innerHTML=PL.map(p=>`<button type="button" id="pl-${p.v}" data-v="${p.v}" aria-pressed="${p.v===0}"><span class="dots">${p.d?Array(p.d).fill('<i></i>').join(''):'<i></i><i></i><i></i>'}</span>${p.n}</button>`).join('');
+const PLN={0:['Alle','All'],1:['Solo','Solo'],2:['Zu zweit','Pairs'],3:['Zu dritt','Threes']};
+function renderSeg(){seg.innerHTML=PL.map(p=>`<button type="button" id="pl-${p.v}" data-v="${p.v}" aria-pressed="${p.v===state.pl}"><span class="dots">${p.d?Array(p.d).fill('<i></i>').join(''):'<i></i><i></i><i></i>'}</span>${tr(...PLN[p.v])}</button>`).join('');}
+renderSeg();
 function renderChips(){
   const cs=state.mode==='body'?BCATS:CATS;
-  chips.innerHTML=cs.map(c=>`<button type="button" class="chip" id="cat-${c.id}" data-c="${c.id}" aria-pressed="${c.id===state.cat}">${c.n}</button>`).join('');
+  chips.innerHTML=cs.map(c=>`<button type="button" class="chip" id="cat-${c.id}" data-c="${c.id}" aria-pressed="${c.id===state.cat}">${c.id==='all'?(state.mode==='body'?tr('Alles','All'):tr('Alle Bereiche','All areas')):catName(c.id)}</button>`).join('');
   seg.hidden=state.mode==='body';
 }
 renderChips();
 $('#modes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.dataset.m===state.mode)return;state.mode=b.dataset.m;state.cat='all';
   $('#modes').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderChips();renderList()});
-$('#srclist').innerHTML=Object.values(SRC).filter(s=>s.u).map(s=>`<li><a href="${s.u}" target="_blank" rel="noopener">${s.n}</a></li>`).join('');
+const renderSrc=()=>{$('#srclist').innerHTML=Object.entries(SRC).filter(([k,s])=>s.u).map(([k,s])=>`<li><a href="${s.u}" target="_blank" rel="noopener">${srcName(k)}</a></li>`).join('');};
+renderSrc();
 
 const plOf=d=>d.body&&d.p.length===3?'':plLabel(d.p);
-const plLabel=p=>p.length===1&&p[0]===1?'Solo':p.length===1?p[0]+' Spieler':p[0]===1?'1–'+p[p.length-1]+' Spieler':p[0]+'–'+p[p.length-1]+' Spieler';
-const lvl=n=>`<span class="lvl" title="Niveau ${n} von 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
+const SP=()=>tr(' Spieler',' players');
+const plLabel=p=>p.length===1&&p[0]===1?'Solo':p.length===1?p[0]+SP():p[0]===1?'1–'+p[p.length-1]+SP():p[0]+'–'+p[p.length-1]+SP();
+const lvl=n=>`<span class="lvl" title="${tr('Niveau','Level')} ${n} ${tr('von','of')} 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
 const starSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
 
 function filtered(){
@@ -1075,13 +1446,13 @@ function filtered(){
 }
 function renderList(){
   const f=filtered();
-  $('#count').textContent=f.length+(f.length===1?' Übung':' Übungen');
-  if(!f.length){list.innerHTML=`<div class="empty">${state.fav?'Noch keine Favoriten in dieser Auswahl. Tippe auf den Stern bei einer Übung, um sie zu merken.':'Keine Übung passt zu diesem Filter. Wähle einen anderen Bereich oder eine andere Spielerzahl.'}</div>`;return}
+  $('#count').textContent=f.length+(f.length===1?tr(' Übung',' drill'):tr(' Übungen',' drills'));
+  if(!f.length){list.innerHTML=`<div class="empty">${state.fav?tr('Noch keine Favoriten in dieser Auswahl. Tippe auf den Stern bei einer Übung, um sie zu merken.','No favourites in this selection yet. Tap the star on a drill to save it.'):tr('Keine Übung passt zu diesem Filter. Wähle einen anderen Bereich oder eine andere Spielerzahl.','No drill matches this filter. Choose another area or number of players.')}</div>`;return}
   list.innerHTML=f.map(d=>`<div class="card" role="button" tabindex="0" data-id="${d.id}">
     <span class="thumb${d.f?' fig':''}">${d.f?figThumb(d):courtSVG(vv(d),false)}</span>
-    <span class="body"><span class="tag">${d.c.map(c=>CATN[c]).join(' · ')}</span><h3>${d.n}</h3>
+    <span class="body"><span class="tag">${d.c.map(catName).join(' · ')}</span><h3>${d.n}</h3>
       <span class="meta">${plOf(d)?`<span>${plOf(d)}</span>`:''}<span>${d.t}</span>${lvl(d.lv)}${d.mat?`<span>+ ${d.mat}</span>`:''}</span></span>
-    <button type="button" class="star" data-fav="${d.id}" aria-pressed="${favs.has(d.id)}" aria-label="Als Favorit merken">${starSVG}</button>
+    <button type="button" class="star" data-fav="${d.id}" aria-pressed="${favs.has(d.id)}" aria-label="${tr('Als Favorit merken','Save as favourite')}">${starSVG}</button>
   </div>`).join('');
 }
 seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.pl=+b.dataset.v;seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderList()});
@@ -1107,37 +1478,37 @@ function openDetail(id){
   const d=D.find(x=>x.id===id); if(!d){closeDetail();return}
   curId=id;
   if(anim) anim.alive=false;
-  const srcs=d.s.map(k=>SRC[k]).map(s=>s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${s.n}</a></li>`:`<li>${s.n}</li>`).join('');
+  const srcs=d.s.map(k=>{const s=SRC[k],n=srcName(k);return s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${n}</a></li>`:`<li>${n}</li>`}).join('');
   const players=d.a?Object.keys(vv(d).a.start):[];
   det.innerHTML=`
-   <div class="d-title"><span class="tag">${d.c.map(c=>CATN[c]).join(' · ')}</span><h2>${d.n}</h2>
-     <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>Dauer <b>${d.t}</b></span><span>Niveau ${lvl(d.lv)}</span>${d.dose?`<span>Dosis <b>${d.dose}</b></span>`:''}<span>Material <b>${d.body&&d.f?'keins':d.mat?'Schläger, Ball + '+d.mat:'Schläger & Ball'}</b></span></div></div>
+   <div class="d-title"><span class="tag">${d.c.map(catName).join(' · ')}</span><h2>${d.n}</h2>
+     <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>${tr('Dauer','Time')} <b>${d.t}</b></span><span>${tr('Niveau','Level')} ${lvl(d.lv)}</span>${d.dose?`<span>${tr('Dosis','Dose')} <b>${dx(d,'dose')}</b></span>`:''}<span>${tr('Material','Equipment')} <b>${d.body&&d.f?tr('keins','none'):tr('Schläger & Ball','racket & ball')}</b></span></div></div>
    <div class="stage">
-     ${d.f?'<div class="figbox"><svg id="figsvg" viewBox="0 0 300 200" role="img" aria-label="Animierte Übung: '+d.n+'"></svg></div>':'<div class="courtbox">'+courtSVG(vv(d),true)+'</div>'}
+     ${d.f?'<div class="figbox"><svg id="figsvg" viewBox="0 0 300 200" role="img" aria-label="'+tr('Animierte Übung','Animated drill')+': '+d.n+'"></svg></div>':'<div class="courtbox">'+courtSVG(vv(d),true)+'</div>'}
      <div class="caption" id="cap" aria-live="polite"></div>
-     ${d.alt&&d.p.length>1?`<div class="speed plsel" role="group" aria-label="Spielerzahl in der Animation">${d.p.map(n=>`<button type="button" id="dp-${n}" data-n="${n}" aria-pressed="${n===plFor(d)}">${n===1?'Solo':n+' Spieler'}</button>`).join('')}</div>`:''}
+     ${d.alt&&d.p.length>1?`<div class="speed plsel" role="group" aria-label="${tr('Spielerzahl in der Animation','Players in the animation')}">${d.p.map(n=>`<button type="button" id="dp-${n}" data-n="${n}" aria-pressed="${n===plFor(d)}">${n===1?'Solo':n+SP()}</button>`).join('')}</div>`:''}
      <div class="ctrls">
        <button class="btn ghost" id="pp" type="button"></button>
-       <div class="speed" role="group" aria-label="Tempo">${[['0.5','0,5×'],['1','1×'],['1.5','1,5×']].map(([v,l])=>`<button type="button" id="sp-${v.replace('.','')}" data-s="${v}" aria-pressed="${v==='1'}">${l}</button>`).join('')}</div>
-       <button class="star" id="dstar" type="button" aria-pressed="${favs.has(d.id)}" aria-label="Als Favorit merken">${starSVG}</button>
+       <div class="speed" role="group" aria-label="Tempo">${[['0.5',tr('0,5×','0.5×')],['1','1×'],['1.5',tr('1,5×','1.5×')]].map(([v,l])=>`<button type="button" id="sp-${v.replace('.','')}" data-s="${v}" aria-pressed="${v==='1'}">${l}</button>`).join('')}</div>
+       <button class="star" id="dstar" type="button" aria-pressed="${favs.has(d.id)}" aria-label="${tr('Als Favorit merken','Save as favourite')}">${starSVG}</button>
      </div>
-     <div class="legend"${d.f?' hidden':''}>${players.map(k=>`<span><i style="background:${PC[k]}"></i>Spieler ${k}</span>`).join('')}${d.a&&d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>Ball &amp; Wandkontakt</span>':''}${(d.z||[]).some(z=>z.r)?'<span><i class="zone"></i>Zielzone</span>':''}</div>
+     <div class="legend"${d.f?' hidden':''}>${players.map(k=>`<span><i style="background:${PC[k]}"></i>${tr('Spieler','Player')} ${k}</span>`).join('')}${d.a&&d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>'+tr('Ball &amp; Wandkontakt','Ball &amp; wall contact')+'</span>':''}${(d.z||[]).some(z=>z.r)?'<span><i class="zone"></i>'+tr('Zielzone','Target zone')+'</span>':''}</div>
    </div>
-   <div class="sec"><h4>So geht's</h4><ol>${d.so.map(x=>`<li>${T(x)}</li>`).join('')}</ol></div>
-   <div class="sec"><h4>Darauf achten</h4><ul>${d.fo.map(x=>`<li>${T(x)}</li>`).join('')}</ul></div>
-   <div class="sec"><h4>${d.body?'Dosierung':'Zählen & steigern'}</h4><p>${T(d.ze)}</p></div>
-   <div class="sec"><h4>Varianten</h4><ul>${d.va.map(x=>`<li>${T(x)}</li>`).join('')}</ul></div>
-   ${d.safe?`<div class="callout"><b>Sicherheit:</b> ${T(d.safe)}</div>`:''}
-   <div class="sec src"><h4>Quelle</h4><ul>${srcs}</ul></div>
+   <div class="sec"><h4>${tr('So geht\'s','How it works')}</h4><ol>${dx(d,'so').map(x=>`<li>${T(x)}</li>`).join('')}</ol></div>
+   <div class="sec"><h4>${tr('Darauf achten','Focus on')}</h4><ul>${dx(d,'fo').map(x=>`<li>${T(x)}</li>`).join('')}</ul></div>
+   <div class="sec"><h4>${d.body?tr('Dosierung','Dosage'):tr('Zählen & steigern','Count & progress')}</h4><p>${T(dx(d,'ze'))}</p></div>
+   <div class="sec"><h4>${tr('Varianten','Variations')}</h4><ul>${dx(d,'va').map(x=>`<li>${T(x)}</li>`).join('')}</ul></div>
+   ${d.safe?`<div class="callout"><b>${tr('Sicherheit','Safety')}:</b> ${T(dx(d,'safe'))}</div>`:''}
+   <div class="sec src"><h4>${tr('Quelle','Source')}</h4><ul>${srcs}</ul></div>
    <div style="height:32px"></div>`;
   const fl=filtered(), fi=fl.findIndex(x=>x.id===id);
   $('#dpos').textContent=fi<0?'':(fi+1)+' / '+fl.length;
   sheet.hidden=false; sheet.scrollTop=0;
   document.body.style.overflow='hidden';
-  if(d.f){ anim=startFig(det.querySelector('#figsvg'),d); det.querySelector('#cap').textContent=d.dose||''; }
+  if(d.f){ anim=startFig(det.querySelector('#figsvg'),d); det.querySelector('#cap').textContent=dx(d,'dose')||''; }
   else anim=startAnim(det.querySelector('.courtbox svg'),mir(vv(d)),det.querySelector('#cap'));
   const pp=det.querySelector('#pp');
-  const setPP=()=>{pp.innerHTML=anim.playing?'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>Pause':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>Abspielen'};
+  const setPP=()=>{pp.innerHTML=anim.playing?'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'+tr('Pause','Pause'):'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>'+tr('Abspielen','Play')};
   setPP();
   pp.addEventListener('click',()=>{anim.playing=!anim.playing;setPP()});
   det.querySelector('.speed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;anim.speed=+b.dataset.s;det.querySelectorAll('.speed button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
@@ -1167,7 +1538,7 @@ addEventListener('hashchange',route);
 /* Hell/Dunkel: ohne eigene Wahl gilt die Systemeinstellung */
 const TKEY='squash-t-party-theme', mq=matchMedia('(prefers-color-scheme: dark)'), tbtn=$('#themebtn');
 const isDark=()=>{const t=document.documentElement.dataset.theme;return t?t==='dark':mq.matches};
-function syncTheme(){const d=isDark();tbtn.classList.toggle('is-dark',d);tbtn.setAttribute('aria-label',d?'Hellmodus einschalten':'Dunkelmodus einschalten');tbtn.title=d?'Hellmodus':'Dunkelmodus'}
+function syncTheme(){const d=isDark();tbtn.classList.toggle('is-dark',d);tbtn.setAttribute('aria-label',d?tr('Hellmodus einschalten','Switch to light mode'):tr('Dunkelmodus einschalten','Switch to dark mode'));tbtn.title=d?tr('Hellmodus','Light mode'):tr('Dunkelmodus','Dark mode')}
 try{const t=localStorage.getItem(TKEY);if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}
 tbtn.addEventListener('click',()=>{const t=isDark()?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem(TKEY,t)}catch(e){}syncTheme()});
 mq.addEventListener&&mq.addEventListener('change',syncTheme);
@@ -1176,11 +1547,11 @@ const hbtn=$('#handbtn');
 function syncHand(){
   hbtn.classList.toggle('is-left',state.lefty);
   $('#handlbl').textContent=state.lefty?'L':'R';
-  hbtn.title=state.lefty?'Linkshänder':'Rechtshänder';
-  hbtn.setAttribute('aria-label',state.lefty?'Auf Rechtshänder umstellen':'Auf Linkshänder umstellen');
+  hbtn.title=state.lefty?tr('Linkshänder','Left-handed'):tr('Rechtshänder','Right-handed');
+  hbtn.setAttribute('aria-label',state.lefty?tr('Auf Rechtshänder umstellen','Switch to right-handed'):tr('Auf Linkshänder umstellen','Switch to left-handed'));
   $('#handnote').textContent=state.lefty
-    ?'Draufsicht mit Stirnwand oben, gespiegelt für Linkshänder: links ist die Vorhand-, rechts die Rückhandseite. Umschalten mit „L“ oben rechts.'
-    :'Draufsicht mit Stirnwand oben, für Rechtshänder: rechts ist die Vorhand-, links die Rückhandseite. Für Linkshänder oben rechts auf „R“ tippen.';
+    ?tr('Draufsicht mit Stirnwand oben, gespiegelt für Linkshänder: links ist die Vorhand-, rechts die Rückhandseite. Umschalten mit „L“ oben rechts.','Top view with the front wall at the top, mirrored for left-handers: the forehand side is on the left, the backhand on the right. Switch back with “L” at the top right.')
+    :tr('Draufsicht mit Stirnwand oben, für Rechtshänder: rechts ist die Vorhand-, links die Rückhandseite. Für Linkshänder oben rechts auf „R“ tippen.','Top view with the front wall at the top, for right-handers: the forehand side is on the right, the backhand on the left. Left-handers tap “R” at the top right.');
 }
 hbtn.addEventListener('click',()=>{
   state.lefty=!state.lefty;
@@ -1190,10 +1561,41 @@ hbtn.addEventListener('click',()=>{
 });
 syncHand();
 $('#copymail').addEventListener('click',e=>{const b=e.currentTarget,t=$('#mail').textContent;
-  const ok=()=>{b.textContent='Kopiert';setTimeout(()=>b.textContent='Kopieren',1600)};
-  const sel=()=>{const r=document.createRange();r.selectNodeContents($('#mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Markiert';setTimeout(()=>b.textContent='Kopieren',1600)};
+  const ok=()=>{b.textContent=tr('Kopiert','Copied');setTimeout(()=>b.textContent=tr('Kopieren','Copy'),1600)};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents($('#mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent=tr('Markiert','Selected');setTimeout(()=>b.textContent=tr('Kopieren','Copy'),1600)};
   try{navigator.clipboard.writeText(t).then(ok,sel)}catch(err){sel()}});
-renderList(); route();
+function applyLang(){
+  document.documentElement.lang=LANG;
+  $('#langlbl').textContent=en()?'EN':'DE';
+  $('#langbtn').setAttribute('aria-label',en()?'Auf Deutsch umstellen':'Switch to English');
+  $('#langbtn').title=en()?'English':'Deutsch';
+  $('#lede').textContent=tr('Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein extra Equipment notwendig, nur Schläger und Ball.','Drills from coaches for solo, pairs or threes, plus warm-up, stretching and strength. No extra equipment needed, just racket and ball.');
+  $('#mode-court').textContent=tr('Auf dem Court','On court');
+  $('#mode-body').textContent=tr('Für den Körper','Body');
+  $('#modes').setAttribute('aria-label',tr('Bereich','Section'));
+  seg.setAttribute('aria-label',tr('Anzahl Spieler','Number of players'));
+  chips.setAttribute('aria-label',tr('Spielbereich','Area'));
+  $('#favlbl').textContent=tr('Favoriten','Favourites');
+  $('#srch').textContent=tr('Quellen','Sources');
+  $('#dblnote').textContent=tr('Übungen, die ursprünglich fürs Doppel gedacht sind, habe ich fürs Einzelcourt angepasst.','Drills originally designed for doubles have been adapted for singles courts.');
+  $('#upd').innerHTML=tr('Zuletzt aktualisiert am <time datetime="2026-11-04">4. November 2026</time>.','Last updated on <time datetime="2026-11-04">4 November 2026</time>.');
+  $('#wish').textContent=tr('Wünsche, Änderungen oder neue Übungen? Schreib an','Requests, changes or new drills? Write to');
+  $('#copymail').textContent=tr('Kopieren','Copy');
+  $('#backlbl').textContent=tr('Übersicht','Overview');
+  $('#back').setAttribute('aria-label',tr('Zurück zur Liste','Back to the list'));
+  $('#nextlbl').textContent=tr('Nächste','Next');
+  $('#dnext').setAttribute('aria-label',tr('Nächste Übung in der Liste','Next drill in the list'));
+  $('#dprev').setAttribute('aria-label',tr('Vorherige Übung in der Liste','Previous drill in the list'));
+  const pv=$('#priv'); if(pv) pv.innerHTML=tr('Besuche werden anonym mit <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener">GoatCounter</a> gezählt, ohne Cookies und ohne persönliche Profile. Favoriten, Sprache, Hell/Dunkel- und Rechts/Links-Wahl bleiben nur auf deinem Gerät.','Visits are counted anonymously with <a href="https://www.goatcounter.com/help/privacy" target="_blank" rel="noopener">GoatCounter</a>, without cookies or personal profiles. Favourites, language, light/dark and left/right settings stay on your device only.');
+  renderSeg(); renderChips(); renderSrc(); syncTheme(); syncHand(); renderList();
+}
+$('#langbtn').addEventListener('click',()=>{
+  LANG=en()?'de':'en';
+  try{localStorage.setItem(LKEY,LANG)}catch(e){}
+  applyLang();
+  if(curId){const y=sheet.scrollTop;openDetail(curId);sheet.scrollTop=y;}
+});
+applyLang(); route();
 </script>
 
 <script data-goatcounter="https://squash-t-party.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
