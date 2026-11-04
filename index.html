@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
-html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}body{margin:0}
 
 /* Layout: einspaltige Handy-App – Filter oben (sticky), Übungsliste mit Mini-Courts, Detail als Vollbild-Blatt mit animierter Court-Draufsicht */
 :root{
@@ -16,7 +16,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
   --accent:#C7362C; --accent-ink:#FFFFFF;
   --floor:#E7D3AD; --floor-line:#C7362C; --wall:#8E9BA6; --outside:#DCE1E5;
   --pA:#2361A6; --pB:#D46A07; --pC:#1F8455; --ptext:#FFFFFF;
-  --ball:#121212; --ballring:#E9B514; --path:#14212B; --zone:rgba(199,54,44,.14);
+  --ball:#121212; --ballring:#E9B514; --path:#14212B; --zone:rgba(199,54,44,.14); --fig2:#A9B3BB;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
@@ -25,14 +25,14 @@ html{-webkit-text-size-adjust:100%}body{margin:0}[hidden]{display:none!important
   --accent:#E85A4F; --accent-ink:#FFFFFF;
   --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D78; --outside:#131C23;
   --pA:#6FAAEE; --pB:#F4A24E; --pC:#5DC892; --ptext:#0E151B;
-  --ball:#F3F3F3; --ballring:#F0C02A; --path:#E5EBEF; --zone:rgba(232,90,79,.2);
+  --ball:#F3F3F3; --ballring:#F0C02A; --path:#E5EBEF; --zone:rgba(232,90,79,.2); --fig2:#5E6B75;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E151B; --surface:#16212A; --surface-2:#1C2933; --fg:#E5EBEF; --muted:#97A5B0; --rule:#2B3944;
   --accent:#E85A4F; --accent-ink:#FFFFFF;
   --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D78; --outside:#131C23;
   --pA:#6FAAEE; --pB:#F4A24E; --pC:#5DC892; --ptext:#0E151B;
-  --ball:#F3F3F3; --ballring:#F0C02A; --path:#E5EBEF; --zone:rgba(232,90,79,.2);
+  --ball:#F3F3F3; --ballring:#F0C02A; --path:#E5EBEF; --zone:rgba(232,90,79,.2); --fig2:#5E6B75;
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -45,11 +45,18 @@ button{font:inherit;color:inherit}
 header.top{padding-block:20px 6px}
 .brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 h1{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:1;letter-spacing:.01em;margin:0;text-transform:uppercase}
-h1 span{color:var(--accent)}
+h1 span{color:var(--accent);white-space:nowrap}
+[hidden]{display:none!important}
 .count{font-family:var(--display);font-size:1rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;white-space:nowrap}
 .lede{margin:6px 0 0;color:var(--muted);font-size:.95rem;max-width:60ch}
 
 .filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 10px;border-bottom:1px solid var(--rule)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.modes button{border:1px solid var(--rule);background:var(--surface);border-radius:10px;padding:9px 6px;font-family:var(--display);font-weight:700;font-size:1.12rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.thumb.fig{background:var(--outside);border-radius:8px;padding:2px}
+.figbox{width:100%;max-width:420px;background:var(--outside);border-radius:12px;padding:6px}
+.figbox svg{display:block;width:100%;height:auto}
 .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:3px}
 .seg button{border:0;background:transparent;padding:8px 2px;border-radius:7px;font-weight:600;font-size:.92rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .seg button .dots{display:flex;gap:3px;height:8px;align-items:center}
@@ -130,10 +137,11 @@ main{padding-block:14px 40px}
 <div class="wrap">
   <header class="top">
     <div class="brand"><h1>Squash <span>T-Party</span></h1><div class="count" id="count"></div></div>
-    <p class="lede">Übungen von Coaches für dich allein, zu zweit oder zu dritt. Kein Aufbau, nur Schläger, Ball und ab zurück aufs T.</p>
+    <p class="lede">Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein Aufbau, nur Schläger, Ball und ab zurück aufs T.</p>
   </header>
 </div>
 <div class="filters"><div class="wrap">
+  <div class="modes" id="modes" role="group" aria-label="Bereich"><button type="button" id="mode-court" data-m="court" aria-pressed="true">Am Court</button><button type="button" id="mode-body" data-m="body" aria-pressed="false">Körper</button></div>
   <div class="seg" id="seg" role="group" aria-label="Anzahl Spieler"></div>
   <div class="chips" id="chips" role="group" aria-label="Spielbereich"></div>
   <div class="actions">
@@ -178,6 +186,16 @@ const SRC={
  mu:{n:'Munster Squash – „Drills and Routines“ (Übungssammlung für Paare)',u:'https://www.munstersquash.com/index.php/drills-and-routines'},
  bt:{n:'Squash Magazine – „Breaking Through: Conditioned Games“ (2016)',u:'https://squashmagazine.com/2016/10/breaking-through-conditioned-games/'},
  sn:{n:'Scottish Squash – „Nailing the Basics: Example Exercises 2“',u:'https://www.scottishsquash.org/wp-content/uploads/2018/10/NTB-Example-Exercises-2.pdf'},
+ ld3:{n:'Damon Leedale-Brown (Sportwissenschaftler & Konditionstrainer) – „Strength Training for Squash Part III: Squats & Lunges“ (Squash Magazine, 2009)',u:'https://squashmagazine.com/2009/11/strength-training-for-squash-part-iii-squats-lunges/'},
+ ld5:{n:'Damon Leedale-Brown – „Strength Training for Squash Part V: Lunging“ (Squash Magazine, 2010)',u:'https://squashmagazine.com/2010/01/strength-training-for-squash-part-v-lunging/'},
+ lds:{n:'Damon Leedale-Brown – „Single Leg Strength for Squash“ (Squash Magazine, 2015)',u:'https://squashmagazine.com/2015/12/single-leg-strength-for-squash/'},
+ lc2:{n:'Damon Leedale-Brown – „Core Training & Back Health for Squash, Part II“ (Squash Magazine, 2010)',u:'https://squashmagazine.com/2010/10/core-training-back-health-for-squash-part-ii'},
+ lc3:{n:'Damon Leedale-Brown – „Core Training & Back Health for Squash, Part III“ (Squash Magazine, 2010)',u:'https://squashmagazine.com/2010/11/core-training-back-health-for-squash-part-iii/'},
+ mo:{n:'Moreau Physical Therapy – „Stretching Guide for Squash“',u:'https://www.moreaupt.com/Sports-Activities/Squash/Stretching-Guide-for-Squash/a~5038/article.html'},
+ sc:{n:'Squash Canada – „Gameplay: Warm-up, Movement, Tactics and Strategy“',u:'https://squash.ca/wp-content/uploads/2013/07/Gameplay.pdf'},
+ ar:{n:'Anthony Ricketts (ehem. PSA Nr. 6) – „Pre-Match Training Sessions“ (Squash Magazine, 2007)',u:'https://squashmagazine.com/2007/07/pre-match-training-sessions/'},
+ ct:{n:'Control the T – „Match Prep 101“',u:'https://blog.controlthet.com/blog/match-prep-101-get-ahead-of-the-game'},
+ te:{n:'Topend Sports – „Squash Warm-Up“',u:'https://www.topendsports.com/sport/squash/warm-up.htm'},
  cs:{n:'Verbreitete Coaching-Standardübung (keine Einzelquelle)',u:''}
 };
 const CATS=[
@@ -189,7 +207,13 @@ const CATS=[
  {id:'spiele',n:'Konditionsspiele'},
  {id:'fitness',n:'Ghosting & Fitness'}
 ];
-const CATN=Object.fromEntries(CATS.map(c=>[c.id,c.n]));
+const BCATS=[
+ {id:'all',n:'Alles'},
+ {id:'aufwaermen',n:'Aufwärmen'},
+ {id:'dehnen',n:'Dehnen'},
+ {id:'kraft',n:'Kraft'}
+];
+const CATN=Object.fromEntries([...CATS,...BCATS].map(c=>[c.id,c.n]));
 
 /* Kurzformen für Positionen (Meter: x 0–6,4 links→rechts, y 0 = Stirnwand) */
 const T=[3.2,5.6];
@@ -572,6 +596,265 @@ const D=[
  a:{start:{A:[5.3,8.2],B:[3.4,5.6],C:[5.8,10.25]},steps:[st('A · gerade',[[5.3,8.2],[6.0,0],[5.4,8.3]],{A:[3.0,5.6],B:[5.4,8.3]},1.4),st('B · Cross',[[5.4,8.3],[2.8,0],[0,6.6],[1.0,8.4]],{A:[1.0,8.4],B:[3.4,5.6]},1.6),st('A · gerade',[[1.0,8.4],[0.4,0],[1.0,8.3]],{A:[3.6,5.6],B:[1.0,8.3]},1.4),st('B · Cross',[[1.0,8.3],[3.6,0],[W,6.6],[5.3,8.2]],{A:[5.3,8.2],B:[3.4,5.6]},1.6)]}}
 ];
 
+/* ---------- KÖRPER: Aufwärmen, Dehnen, Kraft ----------
+   Strichmännchen in Seitenansicht (Blick nach rechts) bzw. Frontansicht, Boden bei y=170.
+   Punkte: h Kopf, n Nacken, p Becken, e/w Ellbogen/Hand, k/a/t Knie/Knöchel/Zehen; 1 = vorne (dunkel), 2 = hinten (grau). */
+const FS={h:[150,40],n:[150,58],p:[150,105],e1:[154,82],w1:[157,105],e2:[146,82],w2:[143,105],k1:[153,137],a1:[152,166],t1:[166,168],k2:[147,137],a2:[146,166],t2:[160,168]};
+const FF={h:[150,40],n:[150,58],p:[150,105],e1:[137,82],w1:[131,105],e2:[163,82],w2:[169,105],k1:[143,137],a1:[141,166],k2:[157,137],a2:[159,166]};
+const shf=(o,dx)=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,[v[0]+dx,v[1]]]));
+const LY={h:[72,160],n:[90,163],p:[150,165]};
+const QD={h:[198,100],n:[180,110],p:[110,112],e1:[182,140],w1:[182,168],e2:[178,140],w2:[178,168],k1:[112,168],a1:[75,168],k2:[108,168],a2:[71,168]};
+const AU={e1:[118,167],w1:[143,168],e2:[116,167],w2:[141,168]};
+const LB={h:[193,72],n:[193,90],p:[193,137],e1:[197,113],w1:[200,136],e2:[189,113],w2:[186,136],k1:[225,135],a1:[225,166],t1:[239,168],k2:[178,160],a2:[150,158],t2:[160,168]};
+function armCircle(){const n=[150,58],f=[];for(let i=0;i<8;i++){const t=i*Math.PI/4,d=[Math.cos(t),-Math.sin(t)];
+  f.push({...(i?{}:FS),e1:[n[0]+23*d[0],n[1]+23*d[1]],w1:[n[0]+47*d[0],n[1]+47*d[1]],e2:[n[0]-23*d[0],n[1]-23*d[1]],w2:[n[0]-47*d[0],n[1]-47*d[1]]});}return f;}
+const BODY=[
+/* Aufwärmen */
+{id:'easy-jog',n:'Easy Jog & Court Movement',c:['aufwaermen'],p:[1,2,3],t:'5 min',lv:1,s:['sc','ct','te'],dose:'5 Minuten, Tempo langsam steigern',
+ so:['Locker am Rand des Courts entlang joggen.','Dann rückwärts, seitwärts und mit Überkreuzschritten an der Kurzlinie entlang.','Tempo von ganz leicht bis zügig steigern.'],
+ fo:['Der Coach sagt: mit niedriger Intensität beginnen und erst langsam steigern.','Schon hier auf den Fußballen bleiben.'],
+ ze:'Etwa 5 Minuten, bis du leicht schwitzt. Danach geht es mit dynamischem Dehnen weiter.',
+ va:['Seilspringen, falls der Court noch belegt ist.','Zu dritt hintereinander laufen.'],
+ a:{start:{A:[5.6,1.0]},steps:[gh('Locker joggen',{A:[5.6,8.8]},2.2),gh('Locker joggen',{A:[0.8,8.8]},1.6),gh('Locker joggen',{A:[0.8,1.0]},2.2),gh('Locker joggen',{A:[5.6,1.0]},1.6),gh('Rückwärts zur Kurzlinie',{A:[5.6,5.44]},1.8),gh('Seitwärts an der Kurzlinie',{A:[0.8,5.44]},1.8),gh('Überkreuzschritte zurück',{A:[5.6,5.44]},1.8),gh('Vorwärts nach vorne',{A:[5.6,1.0]},1.4)]}},
+
+{id:'arm-swings',n:'Arm Swings',c:['aufwaermen'],p:[1,2,3],t:'1 min',lv:1,s:['mo','ct'],dose:'10–15× pro Richtung',
+ so:['Aufrecht stehen, Füße hüftbreit.','Arme gestreckt in großen Kreisen schwingen, ein Arm vorne, einer hinten.','Erst langsam, dann bis zum vollen Tempo steigern.'],
+ fo:['Dynamisch bewegen, aber nicht schleudern oder federn.','Schultern locker lassen, Bauch leicht fest.'],
+ ze:'10–15 Kreise rückwärts, dann 10–15 vorwärts.',
+ va:['Beide Arme gleichzeitig in dieselbe Richtung.','Zum Schluss ein paar lockere Schlägerschwünge.'],
+ cyc:1,seg:420,hold:0,f:armCircle()},
+
+{id:'leg-swings',n:'Leg Swings Forward & Back',c:['aufwaermen'],p:[1,2,3],t:'1 min',lv:1,s:['mo'],dose:'10–15× pro Bein',
+ so:['Seitlich an die Wand stellen und mit einer Hand abstützen.','Das äußere Bein locker vor und zurück pendeln.','Schwung langsam größer werden lassen.'],
+ fo:['Oberkörper bleibt aufrecht, nur das Bein bewegt sich.','Nicht reißen, sondern pendeln.'],
+ ze:'10–15 Schwünge pro Bein.',
+ va:['Seitliche Variante (eigene Übung).'],
+ seg:700,hold:60,f:[{...FS,e1:[155,82],w1:[147,103],e2:[170,66],w2:[192,72],k1:[136,134],a1:[123,162],t1:[135,167]},{k1:[174,126],a1:[198,146],t1:[208,135]}]},
+
+{id:'leg-swings-side',n:'Leg Swings Sideways',c:['aufwaermen'],p:[1,2,3],t:'1 min',lv:1,s:['mo'],dose:'10–15× pro Bein',
+ so:['Mit dem Gesicht zur Wand stellen, beide Hände an die Wand.','Ein Bein seitlich vor dem Standbein hin und her pendeln.','Schwung langsam steigern.'],
+ fo:['Becken bleibt gerade zur Wand.','Standbein leicht gebeugt.'],
+ ze:'10–15 Schwünge pro Bein.',
+ va:['Ohne Wand für mehr Gleichgewichtsarbeit.'],
+ seg:700,hold:60,f:[{...FF,e1:[127,64],w1:[106,70],e2:[173,64],w2:[194,70],k1:[132,131],a1:[113,157]},{k1:[164,134],a1:[177,162]}]},
+
+{id:'high-knees',n:'High Knees',c:['aufwaermen'],p:[1,2,3],t:'30 s',lv:1,s:['ct'],dose:'2 × 20 Sekunden',
+ so:['Auf der Stelle oder langsam vorwärts laufen.','Knie abwechselnd bis auf Hüfthöhe ziehen.','Arme gegengleich mitschwingen.'],
+ fo:['Auf dem Fußballen landen, leise Schritte.','Oberkörper aufrecht, nicht nach hinten lehnen.'],
+ ze:'2 Durchgänge à 20 Sekunden, dazwischen 20 Sekunden gehen.',
+ va:['Entlang der Seitenwand vorwärts.'],
+ seg:360,hold:40,f:[{...FS,k1:[182,104],a1:[180,134],t1:[194,137],k2:[149,134],a2:[148,162],t2:[160,168],e1:[138,78],w1:[133,99],e2:[166,76],w2:[181,60]},{k1:[153,134],a1:[152,162],t1:[164,168],k2:[182,104],a2:[180,134],t2:[194,137],e1:[166,76],w1:[181,60],e2:[138,78],w2:[133,99]}]},
+
+{id:'leg-curls',n:'Leg Curls',c:['aufwaermen'],p:[1,2,3],t:'30 s',lv:1,s:['mo'],dose:'10–15× pro Bein',
+ so:['Auf der Stelle laufen und die Fersen abwechselnd Richtung Po ziehen.','Knie zeigen dabei nach unten.'],
+ fo:['Locker und rhythmisch, nicht verkrampfen.','Auf den Fußballen bleiben.'],
+ ze:'10–15 Wiederholungen pro Bein.',
+ va:['Langsam rückwärts laufen.'],
+ seg:360,hold:40,f:[{...FS,k1:[152,137],a1:[129,121],t1:[124,133],e1:[138,78],w1:[133,99],e2:[166,76],w2:[181,60]},{k1:[153,137],a1:[152,166],t1:[166,168],k2:[147,137],a2:[124,121],t2:[119,133],e1:[166,76],w1:[181,60],e2:[138,78],w2:[133,99]}]},
+
+{id:'lunge-twist',n:'Walking Lunge with Twist',c:['aufwaermen','kraft'],p:[1,2,3],t:'2 min',lv:2,s:['ld5'],dose:'1 Court-Länge, 2–3 Durchgänge',
+ so:['In einen Ausfallschritt nach vorne gehen, Arme gestreckt vor dem Körper.','Oberkörper zum vorderen Bein drehen, dann zur anderen Seite.','Zurück zur Mitte und in den nächsten Ausfallschritt.'],
+ fo:['Der Unterkörper bleibt stabil, nur der Oberkörper dreht.','Vorderes Knie über dem Knöchel.'],
+ ze:'Laut Coach einmal die Court-Länge (6–8 Ausfallschritte), kurz Pause, dann zurück.',
+ va:['Mit Medizinball vor dem Körper.','Rückwärts gehend.'],
+ seg:1300,hold:400,f:[{...FS,e1:[173,60],w1:[196,60],e2:[171,62],w2:[194,62]},{...LB,e1:[216,90],w1:[239,90],e2:[214,92],w2:[237,92]},{e1:[176,93],w1:[158,97],e2:[214,92],w2:[236,98]}]},
+
+{id:'zigzag',n:'Zigzag Runs & Build-Ups',c:['aufwaermen'],p:[1,2,3],t:'3 min',lv:2,s:['te','sc'],dose:'5 Zickzack-Läufe, 5 Sprints',
+ so:['Im Zickzack von hinten nach vorne laufen, etwa 75 % Tempo.','Locker zurückgehen.','Dann Sprints von hinten nach vorne, von 50 % bis 100 % steigern.'],
+ fo:['Richtungswechsel mit tiefem Schwerpunkt.','Erst am Ende voll sprinten.'],
+ ze:'5 Zickzack-Läufe und 5 Steigerungssprints, jeweils locker zurück.',
+ va:['Mit Schläger in der Hand und angedeutetem Schlag in jeder Ecke.'],
+ a:{start:{A:[1.0,9.0]},steps:[gh('Zickzack, 75 %',{A:[5.4,7.0]},.9),gh('Zickzack, 75 %',{A:[1.0,5.0]},.9),gh('Zickzack, 75 %',{A:[5.4,3.0]},.9),gh('Zickzack, 75 %',{A:[1.0,1.0]},.9),gh('Locker zurück',{A:[3.2,9.0]},2.4),gh('Sprint nach vorne',{A:[3.2,1.0]},1.1),gh('Locker zurück',{A:[1.0,9.0]},2.4)]}},
+
+{id:'on-court-warmup',n:'On-Court Warm-Up',c:['aufwaermen'],p:[2],t:'5 min',lv:1,s:['sc'],dose:'2,5 Minuten pro Seite',
+ so:['Beide stehen etwa an der Rückseite des Aufschlagfelds, jeder auf einer Seite.','Höchstens zwei Bälle gerade zu sich selbst, dann Cross zum Partner.','Nach 2,5 Minuten die Seiten tauschen, damit jeder Vorhand und Rückhand spielt.'],
+ fo:['Ball warm spielen, Timing und Rhythmus finden.','Wände und Länge des Courts testen.','Fair einschlagen: der Partner soll auch gute Bälle bekommen.'],
+ ze:'5 Minuten, Seitenwechsel nach der Hälfte.',
+ va:['Verschiedene Schläge einstreuen: Volley, Drop, Boast.'],
+ a:{start:{A:[5.3,7.6],B:[1.1,7.6]},steps:[st('A · gerade zu sich',[[5.3,7.6],[6.0,0],[5.4,7.9]],{A:[5.4,7.9]},1.3),st('A · gerade zu sich',[[5.4,7.9],[6.0,0],[5.3,7.6]],{A:[5.3,7.6]},1.3),st('A · Cross zu B',[[5.3,7.6],[2.8,0],[0,6.4],[1.1,7.6]],{},1.6),st('B · gerade zu sich',[[1.1,7.6],[0.4,0],[1.0,7.9]],{B:[1.0,7.9]},1.3),st('B · gerade zu sich',[[1.0,7.9],[0.4,0],[1.1,7.6]],{B:[1.1,7.6]},1.3),st('B · Cross zu A',[[1.1,7.6],[3.6,0],[W,6.4],[5.3,7.6]],{},1.6)]}},
+
+{id:'pre-match-hit',n:'Pre-Match Hit',c:['aufwaermen'],p:[2],t:'20 min',lv:2,s:['ar'],dose:'etwa 20 Minuten',
+ so:['Boast & Drive: Drive von vorne üben und spüren, wie die Stirnwand reagiert.','Gerade Drives an beiden Seiten, Härte und Höhe variieren.','Volley-Drops: beide stehen an der Aufschlaglinie auf gegenüberliegenden Seiten und spielen sich weiche und feste Volleys zu.','Zum Schluss fünf lockere Ballwechsel.'],
+ fo:['Laut Coach locker bleiben und die Füße in Bewegung bringen, ohne dich zu ermüden.','Beobachten, wie der Ball nach Seitenwandkontakt springt.'],
+ ze:'Etwa 20 Minuten vor dem Match, wie bei Profis.',
+ va:['Kürzer, wenn wenig Court-Zeit da ist: nur Teil 2 und 3.'],
+ a:{start:{A:[1.5,5.3],B:[4.9,5.3]},steps:[st('A · Volley, eher weich',[[1.5,5.3],[3.9,0],[W,4.0],[4.9,5.3]],{},1.3),st('B · Volley, eher fest',[[4.9,5.3],[2.5,0],[0,4.0],[1.5,5.3]],{},1.1)]}},
+
+/* Dehnen */
+{id:'hamstring',n:'Hamstring Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Ein Bein gestreckt nach vorne, Ferse am Boden, Zehen zeigen nach oben.','Hinteres Knie leicht beugen.','Mit geradem Rücken aus der Hüfte nach vorne kippen, Hände auf dem Oberschenkel.'],
+ fo:['Langsam bis zum Ende der Bewegung, dann still halten.','Leichter Zug ja, Schmerz nein.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite. Statisches Dehnen gehört ans Ende der Einheit.',
+ va:['Im Sitzen auf dem Boden.'],
+ seg:1400,hold:1800,f:[{h:[145,43],n:[145,61],p:[145,108],e1:[152,86],w1:[162,108],e2:[142,86],w2:[155,110],k1:[167,137],a1:[188,164],t1:[193,151],k2:[151,138],a2:[140,166],t2:[154,168]},{p:[138,110],n:[176,82],h:[188,70],e1:[178,106],w1:[172,128],e2:[176,108],w2:[170,130]}]},
+
+{id:'quad',n:'Quadriceps Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Auf einem Bein stehen, bei Bedarf an der Wand abstützen.','Die andere Ferse zum Po ziehen und am Knöchel greifen.','Knie zeigt nach unten, Hüfte leicht nach vorne schieben.'],
+ fo:['Nicht ins Hohlkreuz fallen, Bauch fest.','Am Knöchel greifen, nicht an den Zehen.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['In Seitlage, wenn das Gleichgewicht nach dem Spiel schwer fällt.'],
+ seg:1300,hold:1800,f:[{...FS,e2:[168,70],w2:[190,74]},{k1:[153,138],a1:[136,118],t1:[129,129],e1:[142,86],w1:[136,116]}]},
+
+{id:'hip-flexor',n:'Hip Flexor Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['In den Kniestand, ein Fuß vorne aufgestellt.','Becken leicht nach hinten kippen.','Dann die Hüfte langsam nach vorne schieben, bis es vorne an der hinteren Hüfte zieht.'],
+ fo:['Oberkörper aufrecht, nicht ins Hohlkreuz.','Vorderes Knie nicht über die Zehen schieben.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['Arm der hinteren Seite nach oben strecken.'],
+ seg:1400,hold:1800,f:[{h:[140,58],n:[140,76],p:[140,126],e1:[160,105],w1:[180,127],e2:[156,105],w2:[176,127],k1:[182,130],a1:[186,168],t1:[200,168],k2:[122,166],a2:[88,166]},{h:[153,60],n:[152,78],p:[155,130],e1:[168,105],w1:[184,126],e2:[164,105],w2:[180,126],k1:[190,132]}]},
+
+{id:'groin',n:'Groin Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Breit stehen, Füße zeigen leicht nach außen.','Gewicht zu einer Seite verlagern und das Knie beugen.','Das andere Bein bleibt gestreckt, es zieht innen am Oberschenkel.'],
+ fo:['Knie zeigt in Richtung Fußspitze.','Rücken gerade, Hände auf dem gebeugten Oberschenkel.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['Tiefer gehen, wenn es leicht fällt.'],
+ seg:1400,hold:1800,f:[{...FF,p:[150,112],n:[150,65],h:[150,47],k1:[124,140],a1:[104,166],k2:[176,140],a2:[196,166],e1:[140,88],w1:[129,112],e2:[160,88],w2:[171,112]},{p:[128,126],n:[130,79],h:[130,61],k1:[110,142],k2:[162,146],e1:[121,102],w1:[112,126],e2:[139,102],w2:[124,128]}]},
+
+{id:'gluteal',n:'Gluteal Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Auf den Rücken legen, beide Füße aufgestellt.','Einen Knöchel über das andere Knie legen.','Das untere Bein Richtung Brust ziehen, bis es im Gesäß zieht.'],
+ fo:['Kopf und Schultern bleiben entspannt am Boden.','Das obere Knie locker nach außen sinken lassen.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['Im Sitzen auf einer Bank.'],
+ nf:0,seg:1500,hold:1800,f:[{...LY,e1:[115,152],w1:[140,156],e2:[113,154],w2:[138,158],k2:[185,132],a2:[205,168],t2:[218,168],k1:[162,134],a1:[184,128],t1:[194,122]},{k2:[174,128],a2:[202,136],t2:[210,126],k1:[158,132],a1:[175,124],t1:[184,118]}]},
+
+{id:'calf',n:'Calf Stretch',c:['dehnen'],p:[1,2,3],t:'2 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Mit beiden Händen an die Wand lehnen.','Ein Bein weit nach hinten, gestreckt, Ferse am Boden.','Das vordere Knie beugen und das Gewicht Richtung Wand bringen.'],
+ fo:['Hintere Ferse bleibt am Boden, Fuß zeigt nach vorne.','Körper bildet vom Kopf bis zur Ferse eine Linie.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['Hinteres Knie leicht beugen, dann dehnt sich die tiefere Wade.'],
+ wall:1,seg:1400,hold:1800,f:[{h:[200,58],n:[190,74],p:[168,114],e1:[210,80],w1:[230,76],e2:[208,82],w2:[230,80],k1:[195,138],a1:[198,166],t1:[212,168],k2:[145,140],a2:[122,166],t2:[136,168]},{h:[208,64],n:[198,78],p:[174,116],e1:[214,86],w1:[230,80],e2:[212,88],w2:[230,84],k1:[203,140],k2:[148,141]}]},
+
+{id:'shoulder',n:'Posterior Shoulder Stretch',c:['dehnen'],p:[1,2,3],t:'1 min',lv:1,s:['mo'],dose:'20–30 s halten, 3–4× pro Seite',
+ so:['Aufrecht stehen.','Schlagarm gestreckt quer vor die Brust führen.','Mit der anderen Hand am Ellbogen sanft zum Körper ziehen.'],
+ fo:['Schulter bleibt unten, nicht hochziehen.','Kopf gerade lassen.'],
+ ze:'20–30 Sekunden halten, 3–4 Wiederholungen pro Seite.',
+ va:['Ellbogen etwas höher oder tiefer, um andere Bereiche zu dehnen.'],
+ seg:1200,hold:1800,f:[{...FF},{e1:[172,62],w1:[194,66],e2:[178,90],w2:[172,65]}]},
+
+/* Kraft */
+{id:'squat',n:'Body-Weight Squat',c:['kraft'],p:[1,2,3],t:'5 min',lv:1,s:['ld3'],dose:'2–3 × 10–12, 2–3× pro Woche',
+ so:['Füße schulterbreit, Zehen leicht nach außen.','Arme auf Schulterhöhe nach vorne strecken, Brust offen.','In die Hüfte nach hinten setzen, bis die Oberschenkel etwa parallel zum Boden sind.','Über die Fersen nach oben drücken.'],
+ fo:['Kontrolliert nach unten.','Knie über den Zehen, nicht nach innen oder außen.','Mit der Brust nach oben drücken.'],
+ ze:'Laut Coach 2–3 Sätze à 10–12, 2–3× pro Woche. Gewicht erst dazu, wenn 10 saubere Wiederholungen sitzen.',
+ va:['Langsamer nach unten (3 Sekunden).'],
+ seg:1300,hold:400,f:[{...FS,e1:[173,60],w1:[196,60],e2:[171,62],w2:[194,62]},{p:[138,140],n:[168,104],h:[179,90],e1:[191,104],w1:[214,104],e2:[189,106],w2:[212,106],k1:[170,140],k2:[166,140]}]},
+
+{id:'forward-lunge',n:'Forward Lunge',c:['kraft'],p:[1,2,3],t:'5 min',lv:1,s:['ld3','ld5'],dose:'2–3 × 8–10 pro Bein',
+ so:['Mit geschlossenen Füßen aufrecht stehen.','Einen großen Schritt nach vorne machen, etwa so lang wie deine Körpergröße.','Becken absenken, bis vorne Hüfte, Knie und Knöchel einen rechten Winkel bilden.','Über die Ferse des vorderen Beins zurückdrücken.'],
+ fo:['Oberkörper bleibt aufrecht.','Vorderes Knie über dem Knöchel, nicht über die Zehen.','Beim Hochkommen die Schultern nicht nach hinten werfen.'],
+ ze:'Laut Coach 2–3 Sätze à 8–10 pro Bein, 2–3× pro Woche. Erst dann mit Zusatzgewicht.',
+ va:['Rückwärts (eigene Übung).','Mit Drehung (Walking Lunge with Twist).'],
+ seg:1300,hold:400,f:[{...FS},{...LB}]},
+
+{id:'backward-lunge',n:'Backwards Lunge',c:['kraft'],p:[1,2,3],t:'5 min',lv:1,s:['ld5'],dose:'5–8 pro Bein oder 30–40 s',
+ so:['Füße hüftbreit.','Ein Bein nach hinten setzen, die hintere Ferse bleibt oben.','Absenken, bis das hintere Knie knapp über dem Boden schwebt.','Über den hinteren Fuß zurück in den Stand drücken, Beine abwechseln.'],
+ fo:['Vorderes Knie über dem Knöchel.','Schultern bleiben über, nicht vor der Hüfte.'],
+ ze:'Laut Coach 5–8 pro Bein oder 30–40 Sekunden im Zirkel.',
+ va:['Arme über Kopf.','Als Walking Lunge rückwärts.'],
+ seg:1300,hold:400,f:[{...shf(FS,75)},{...LB}]},
+
+{id:'x-over-lunge',n:'X-Over Lunge',c:['kraft'],p:[1,2,3],t:'5 min',lv:2,s:['ld5'],dose:'5–8 pro Bein oder 30–40 s',
+ so:['Füße hüftbreit.','Mit einem Fuß im 45-Grad-Winkel über die Körpermitte in einen Ausfallschritt.','Der hintere Fuß dreht natürlich mit.','Über das vordere Bein zurück in den Stand drücken, Seite wechseln.'],
+ fo:['Diagonaler Schritt wie zur Ecke im Spiel.','Kontrolliert abbremsen.'],
+ ze:'Laut Coach 5–8 pro Bein oder 30–40 Sekunden im Zirkel.',
+ va:['Mit Medizinball vor der Brust, beim Schritt nach vorne drücken.'],
+ seg:1300,hold:400,f:[{...FF},{p:[162,128],n:[160,81],h:[160,63],k1:[184,140],a1:[192,166],k2:[150,150],e1:[150,104],w1:[146,126],e2:[170,104],w2:[176,126]}]},
+
+{id:'single-leg-squat',n:'Single Leg Squat',c:['kraft'],p:[1,2,3],t:'5 min',lv:3,s:['lds'],dose:'bis zu 5 pro Bein, langsam',
+ so:['Auf einem Bein stehen, Fuß zeigt gerade nach vorne.','Das freie Bein nach vorne strecken.','Langsam absenken, Gewicht Richtung Ferse.','Schultern dürfen vor die Hüfte, Rücken bleibt flach.'],
+ fo:['Knie zeigt über die zweite und dritte Zehe, nicht nach innen.','Hebt die Ferse ab, ist das dein Endpunkt.'],
+ ze:'Der Coach nutzt sie als Test: bis zu 5 Wiederholungen, gern von vorne und von der Seite filmen.',
+ va:['Leichter: nur halb tief oder mit Hand an der Wand.'],
+ seg:1500,hold:400,f:[{...FS,e1:[173,62],w1:[196,64],e2:[171,64],w2:[194,66],k2:[168,130],a2:[194,140],t2:[200,130]},{p:[140,128],n:[165,88],h:[174,73],k1:[168,140],e1:[188,90],w1:[211,92],e2:[186,92],w2:[209,94],k2:[172,128],a2:[203,130],t2:[208,121]}]},
+
+{id:'bridge',n:'Supine Bridge',c:['kraft'],p:[1,2,3],t:'3 min',lv:1,s:['lc2'],dose:'4–6 × 10–15 s halten',
+ so:['Auf den Rücken legen, Füße aufgestellt.','Erst das Gesäß anspannen, ohne abzuheben.','Dann die Hüfte heben und halten, das Gesäß bleibt die ganze Zeit aktiv.'],
+ fo:['Zieht es im unteren Rücken, arbeiten die Oberschenkelrückseiten zu viel.','Für Ausdauer mehr Wiederholungen statt länger halten.'],
+ ze:'Laut Coach 10–15 Sekunden halten, Ziel 4–6 Wiederholungen.',
+ va:['Einbeinig (eigene Übung).'],
+ nf:0,seg:1300,hold:1200,f:[{...LY,...AU,k1:[185,135],a1:[202,168],k2:[180,135],a2:[197,168]},{p:[150,133],k1:[188,125],k2:[183,125]}]},
+
+{id:'one-leg-bridge',n:'One-Legged Bridge',c:['kraft'],p:[1,2,3],t:'3 min',lv:2,s:['lc2'],dose:'10–15 s halten pro Seite',
+ so:['Wie die Bridge, aber ein Bein gestreckt in der Luft.','Den Fuß des Standbeins in den Boden drücken.','Becken bleibt gerade.'],
+ fo:['Laut Coach das Gesäß so fest anspannen, als würdest du eine Faust machen.','Becken nicht zur Seite kippen lassen.'],
+ ze:'10–15 Sekunden pro Seite, über ein paar Wochen die Wiederholungen steigern.',
+ va:['Zwei Sekunden oben halten, dann langsam ab.'],
+ nf:0,seg:1300,hold:1200,f:[{...LY,...AU,k1:[185,157],a1:[220,150],k2:[180,135],a2:[197,168]},{p:[150,133],k1:[190,126],a1:[228,119],k2:[183,125]}]},
+
+{id:'side-bridge',n:'Side Bridge',c:['kraft'],p:[1,2,3],t:'3 min',lv:1,s:['lc3'],dose:'2–3 × 10 s, später 5–6 Sätze',
+ so:['Auf die Seite legen, Ellbogen unter der Schulter, Knie 90° gebeugt.','Hüfte anheben, sodass du auf Ellbogen und Knie stützt.','Halten und kontrolliert absenken.'],
+ fo:['Körper bildet eine Linie.','Erst sauber, dann steigern.'],
+ ze:'Laut Coach 10 Sekunden halten, mit 2–3 Sätzen starten und auf 5–6 steigern. Erst Sätze, dann Haltezeit erhöhen.',
+ va:['Beine gestreckt, auf den Füßen.'],
+ nf:0,seg:1300,hold:1200,f:[{h:[76,130],n:[95,142],p:[140,163],e1:[93,168],w1:[118,168],e2:[112,148],w2:[135,158],k1:[182,166],a1:[150,166],k2:[180,166],a2:[148,166]},{p:[140,146],e2:[112,128],w2:[135,142],n:[95,140],h:[75,127]}]},
+
+{id:'birddog',n:'Birddog',c:['kraft'],p:[1,2,3],t:'3 min',lv:1,s:['lc3'],dose:'4–6 × 10 s halten, Seiten wechseln',
+ so:['Im Vierfüßlerstand starten.','Einen Arm und das gegenüberliegende Bein strecken.','10 Sekunden halten, zurück, Seite wechseln.'],
+ fo:['Die Wirbelsäule bewegt sich nicht.','Kein „Superman“ mit Hohlkreuz, das belastet die Wirbelsäule.'],
+ ze:'Laut Coach 4–6 Sätze à 10 Sekunden, Arm und Bein abwechseln.',
+ va:['Langsam im Wechsel ohne Halten.'],
+ nf:0,seg:1300,hold:1200,f:[{...QD},{e1:[210,106],w1:[240,102],k2:[75,110],a2:[40,108]}]},
+
+{id:'curl-up',n:'Curl-Up',c:['kraft'],p:[1,2,3],t:'3 min',lv:1,s:['lc3'],dose:'2–3 × 10, oben 2–3 s halten',
+ so:['Auf den Rücken legen, ein Knie gebeugt, das andere Bein locker gestreckt.','Hände unter den unteren Rücken.','Kopf und Schultern ein kleines Stück anheben, halten, ablegen. Nach der Hälfte das Bein wechseln.'],
+ fo:['Die Bewegung kommt aus der Brustwirbelsäule.','Unteren Rücken nicht in den Boden drücken.','Nacken nicht abknicken.'],
+ ze:'Laut Coach 2–3 Sätze à 10, oben 2–3 Sekunden halten.',
+ va:['Ellbogen leicht vom Boden lösen.'],
+ nf:0,seg:900,hold:1000,f:[{...LY,...AU,k1:[185,135],a1:[202,168],k2:[182,166],a2:[214,166],t2:[220,158]},{n:[96,152],h:[81,144]}]}
+];
+BODY.forEach(b=>b.body=true);
+D.push(...BODY);
+
+/* ---------- Strichmännchen ---------- */
+const mid2=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+function prepFig(x){
+  if(x.F) return x;
+  let prev={};
+  x.F=x.f.map(r=>{const m={...prev,...r};if(!r.s)m.s=mid2(m.n,m.p);prev=m;return m;});
+  const m=x.F.length,seq=[];for(let i=0;i<m;i++)seq.push(i);
+  if(!x.cyc) for(let i=m-2;i>0;i--)seq.push(i);
+  x.seq=seq; x.SEG=x.seg??1300; x.HOLD=x.hold??500; return x;
+}
+function lerpPose(a,b,u){const o={};for(const k in a){const va=a[k],vb=b[k]!==undefined?b[k]:va;o[k]=[va[0]+(vb[0]-va[0])*u,va[1]+(vb[1]-va[1])*u];}return o;}
+function figPose(x,t){
+  const per=x.SEG+x.HOLD,n=x.seq.length,el=((t%(n*per))+n*per)%(n*per),si=Math.floor(el/per)%n,loc=el-Math.floor(el/per)*per;
+  const a=x.F[x.seq[si]],b=x.F[x.seq[(si+1)%n]];
+  const u=loc<x.HOLD?0:(x.cyc?(loc-x.HOLD)/x.SEG:ease(Math.min(1,(loc-x.HOLD)/x.SEG)));
+  return lerpPose(a,b,u);
+}
+function figInner(q,x){
+  const P=p=>p[0].toFixed(1)+' '+p[1].toFixed(1);
+  const sty=(c,w)=>` style="fill:none;stroke:${c};stroke-width:${w};stroke-linecap:round;stroke-linejoin:round"`;
+  const ln=(pts,c,w)=>`<path d="M${pts.map(P).join(' L')}"${sty(c,w)}/>`;
+  const NC='var(--fg)',FC='var(--fig2)',GC='var(--accent)';
+  let s='';
+  if(x.nf!==1) s+=`<line x1="20" y1="170" x2="280" y2="170"${sty(GC,1.5)}/>`;
+  if(x.wall) s+=`<line x1="234" y1="40" x2="234" y2="170"${sty('var(--wall)',4)}/>`;
+  const l2=[q.p,q.k2,q.a2];if(q.t2)l2.push(q.t2);
+  s+=ln([q.n,q.e2,q.w2],FC,4)+ln(l2,FC,4);
+  s+=`<path d="M${P(q.n)} Q${P(q.s)} ${P(q.p)}"${sty(NC,4.5)}/>`;
+  const dx=q.h[0]-q.n[0],dy=q.h[1]-q.n[1],d=Math.hypot(dx,dy)||1,r=10;
+  s+=ln([q.n,[q.h[0]-dx/d*r,q.h[1]-dy/d*r]],NC,4);
+  s+=`<circle cx="${q.h[0].toFixed(1)}" cy="${q.h[1].toFixed(1)}" r="${r}"${sty(NC,3.5)}/>`;
+  const l1=[q.p,q.k1,q.a1];if(q.t1)l1.push(q.t1);
+  s+=ln(l1,NC,4.5)+ln([q.n,q.e1,q.w1],NC,4.5);
+  return s;
+}
+function figThumb(d){const x=prepFig(d);return `<svg viewBox="30 25 240 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${figInner(x.F[Math.min(1,x.F.length-1)],x)}</svg>`;}
+function startFig(svg,d){
+  const x=prepFig(d);
+  const st={playing:!reduce,speed:1,alive:true,t:reduce?(x.SEG+x.HOLD):0,last:null};
+  const paint=()=>{svg.innerHTML=figInner(figPose(x,st.t),x)};
+  function frame(ts){
+    if(!st.alive) return;
+    if(st.last==null) st.last=ts;
+    const dt=Math.min(100,ts-st.last); st.last=ts;
+    if(st.playing){st.t+=dt*st.speed;paint();}
+    requestAnimationFrame(frame);
+  }
+  paint(); requestAnimationFrame(frame);
+  return st;
+}
+
 /* ---------- Court-Zeichnung ---------- */
 const PC={A:'var(--pA)',B:'var(--pB)',C:'var(--pC)'};
 const pts=a=>a.map(p=>p[0]+','+p[1]).join(' ');
@@ -682,30 +965,38 @@ const LS='squash-drillbuch-v1';
 let favs=new Set();
 try{favs=new Set(JSON.parse(localStorage.getItem(LS)||'[]'))}catch(e){}
 function saveFavs(){try{localStorage.setItem(LS,JSON.stringify([...favs]))}catch(e){}}
-const state={pl:0,cat:'all',fav:false};
+const state={mode:'court',pl:0,cat:'all',fav:false};
 const PL=[{v:0,n:'Alle',d:0},{v:1,n:'Solo',d:1},{v:2,n:'Zu zweit',d:2},{v:3,n:'Zu dritt',d:3}];
 
 const $=s=>document.querySelector(s);
 const seg=$('#seg'), chips=$('#chips'), list=$('#list');
 seg.innerHTML=PL.map(p=>`<button type="button" id="pl-${p.v}" data-v="${p.v}" aria-pressed="${p.v===0}"><span class="dots">${p.d?Array(p.d).fill('<i></i>').join(''):'<i></i><i></i><i></i>'}</span>${p.n}</button>`).join('');
-chips.innerHTML=CATS.map(c=>`<button type="button" class="chip" id="cat-${c.id}" data-c="${c.id}" aria-pressed="${c.id==='all'}">${c.n}</button>`).join('');
+function renderChips(){
+  const cs=state.mode==='body'?BCATS:CATS;
+  chips.innerHTML=cs.map(c=>`<button type="button" class="chip" id="cat-${c.id}" data-c="${c.id}" aria-pressed="${c.id===state.cat}">${c.n}</button>`).join('');
+  seg.hidden=state.mode==='body';
+}
+renderChips();
+$('#modes').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.dataset.m===state.mode)return;state.mode=b.dataset.m;state.cat='all';
+  $('#modes').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderChips();renderList()});
 $('#srclist').innerHTML=Object.values(SRC).filter(s=>s.u).map(s=>`<li><a href="${s.u}" target="_blank" rel="noopener">${s.n}</a></li>`).join('');
 
+const plOf=d=>d.body&&d.p.length===3?'':plLabel(d.p);
 const plLabel=p=>p.length===1&&p[0]===1?'Solo':p.length===1?p[0]+' Spieler':p[0]===1?'1–'+p[p.length-1]+' Spieler':p[0]+'–'+p[p.length-1]+' Spieler';
 const lvl=n=>`<span class="lvl" title="Niveau ${n} von 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
 const starSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
 
 function filtered(){
-  return D.filter(d=>(!state.pl||d.p.includes(state.pl))&&(state.cat==='all'||d.c.includes(state.cat))&&(!state.fav||favs.has(d.id)));
+  return D.filter(d=>(state.mode==='body')===!!d.body&&(state.mode==='body'||!state.pl||d.p.includes(state.pl))&&(state.cat==='all'||d.c.includes(state.cat))&&(!state.fav||favs.has(d.id)));
 }
 function renderList(){
   const f=filtered();
   $('#count').textContent=f.length+(f.length===1?' Übung':' Übungen');
   if(!f.length){list.innerHTML=`<div class="empty">${state.fav?'Noch keine Favoriten in dieser Auswahl. Tippe auf den Stern bei einer Übung, um sie zu merken.':'Keine Übung passt zu diesem Filter. Wähle einen anderen Bereich oder eine andere Spielerzahl.'}</div>`;return}
   list.innerHTML=f.map(d=>`<div class="card" role="button" tabindex="0" data-id="${d.id}">
-    <span class="thumb">${courtSVG(d,false)}</span>
+    <span class="thumb${d.f?' fig':''}">${d.f?figThumb(d):courtSVG(d,false)}</span>
     <span class="body"><span class="tag">${d.c.map(c=>CATN[c]).join(' · ')}</span><h3>${d.n}</h3>
-      <span class="meta"><span>${plLabel(d.p)}</span><span>${d.t}</span>${lvl(d.lv)}${d.mat?`<span>+ ${d.mat}</span>`:''}</span></span>
+      <span class="meta">${plOf(d)?`<span>${plOf(d)}</span>`:''}<span>${d.t}</span>${lvl(d.lv)}${d.mat?`<span>+ ${d.mat}</span>`:''}</span></span>
     <button type="button" class="star" data-fav="${d.id}" aria-pressed="${favs.has(d.id)}" aria-label="Als Favorit merken">${starSVG}</button>
   </div>`).join('');
 }
@@ -733,23 +1024,23 @@ function openDetail(id){
   curId=id;
   if(anim) anim.alive=false;
   const srcs=d.s.map(k=>SRC[k]).map(s=>s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${s.n}</a></li>`:`<li>${s.n}</li>`).join('');
-  const players=Object.keys(d.a.start);
+  const players=d.a?Object.keys(d.a.start):[];
   det.innerHTML=`
    <div class="d-title"><span class="tag">${d.c.map(c=>CATN[c]).join(' · ')}</span><h2>${d.n}</h2>
-     <div class="factrow"><span><b>${plLabel(d.p)}</b></span><span>Dauer <b>${d.t}</b></span><span>Niveau ${lvl(d.lv)}</span><span>Material <b>${d.mat?'Schläger, Ball + '+d.mat:'Schläger & Ball'}</b></span></div></div>
+     <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>Dauer <b>${d.t}</b></span><span>Niveau ${lvl(d.lv)}</span>${d.dose?`<span>Dosis <b>${d.dose}</b></span>`:''}<span>Material <b>${d.body&&d.f?'keins':d.mat?'Schläger, Ball + '+d.mat:'Schläger & Ball'}</b></span></div></div>
    <div class="stage">
-     <div class="courtbox">${courtSVG(d,true)}</div>
+     ${d.f?'<div class="figbox"><svg id="figsvg" viewBox="0 0 300 200" role="img" aria-label="Animierte Übung: '+d.n+'"></svg></div>':'<div class="courtbox">'+courtSVG(d,true)+'</div>'}
      <div class="caption" id="cap" aria-live="polite"></div>
      <div class="ctrls">
        <button class="btn ghost" id="pp" type="button"></button>
        <div class="speed" role="group" aria-label="Tempo">${[['0.5','0,5×'],['1','1×'],['1.5','1,5×']].map(([v,l])=>`<button type="button" id="sp-${v.replace('.','')}" data-s="${v}" aria-pressed="${v==='1'}">${l}</button>`).join('')}</div>
        <button class="star" id="dstar" type="button" aria-pressed="${favs.has(d.id)}" aria-label="Als Favorit merken">${starSVG}</button>
      </div>
-     <div class="legend">${players.map(k=>`<span><i style="background:${PC[k]}"></i>Spieler ${k}</span>`).join('')}${d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>Ball &amp; Wandkontakt</span>':''}${(d.z||[]).some(z=>z.r)?'<span><i class="zone"></i>Zielzone</span>':''}</div>
+     <div class="legend"${d.f?' hidden':''}>${players.map(k=>`<span><i style="background:${PC[k]}"></i>Spieler ${k}</span>`).join('')}${d.a&&d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>Ball &amp; Wandkontakt</span>':''}${(d.z||[]).some(z=>z.r)?'<span><i class="zone"></i>Zielzone</span>':''}</div>
    </div>
    <div class="sec"><h4>So geht's</h4><ol>${d.so.map(x=>`<li>${x}</li>`).join('')}</ol></div>
    <div class="sec"><h4>Darauf achten</h4><ul>${d.fo.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-   <div class="sec"><h4>Zählen & steigern</h4><p>${d.ze}</p></div>
+   <div class="sec"><h4>${d.body?'Dosierung':'Zählen & steigern'}</h4><p>${d.ze}</p></div>
    <div class="sec"><h4>Varianten</h4><ul>${d.va.map(x=>`<li>${x}</li>`).join('')}</ul></div>
    ${d.safe?`<div class="callout"><b>Sicherheit:</b> ${d.safe}</div>`:''}
    <div class="sec src"><h4>Quelle</h4><ul>${srcs}</ul></div>
@@ -758,8 +1049,8 @@ function openDetail(id){
   $('#dpos').textContent=fi<0?'':(fi+1)+' / '+fl.length;
   sheet.hidden=false; sheet.scrollTop=0;
   document.body.style.overflow='hidden';
-  const svg=det.querySelector('.courtbox svg');
-  anim=startAnim(svg,d,det.querySelector('#cap'));
+  if(d.f){ anim=startFig(det.querySelector('#figsvg'),d); det.querySelector('#cap').textContent=d.dose||''; }
+  else anim=startAnim(det.querySelector('.courtbox svg'),d,det.querySelector('#cap'));
   const pp=det.querySelector('#pp');
   const setPP=()=>{pp.innerHTML=anim.playing?'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>Pause':'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>Abspielen'};
   setPP();
