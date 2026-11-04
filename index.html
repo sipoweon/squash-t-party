@@ -97,6 +97,11 @@ main{padding-block:14px 40px}
 .sources ul{margin:0;padding-left:18px;color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:6px}
 .sources a{color:var(--fg)}
 .note{font-size:.85rem;color:var(--muted);margin-top:12px}
+.foot{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule);font-size:.92rem;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.foot p{margin:0}
+.mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.mail{font-weight:700;color:var(--fg);user-select:all;word-break:break-all}
+.mailrow .btn{padding:7px 12px}
 
 /* Detail */
 .sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -136,7 +141,7 @@ main{padding-block:14px 40px}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><h1>Squash <span>T-Party 🎉</span></h1><div class="count" id="count"></div></div>
+    <div class="brand"><h1>Squash <span>T-Party</span></h1><div class="count" id="count"></div></div>
     <p class="lede">Übungen von Coaches für dich allein, zu zweit oder zu dritt, dazu Aufwärmen, Dehnen und Kraft. Kein Aufbau, nur Schläger, Ball und ab zurück aufs T.</p>
   </header>
 </div>
@@ -156,6 +161,11 @@ main{padding-block:14px 40px}
       <ul id="srclist"></ul>
       <p class="note">Draufsicht mit Stirnwand oben, für Rechtshänder: rechts ist die Vorhand-, links die Rückhandseite. Übungen, die ursprünglich fürs Doppel gedacht sind, habe ich fürs Einzelcourt angepasst.</p>
     </section>
+    <footer class="foot">
+      <p>Zuletzt aktualisiert am <time datetime="2026-11-04">4. November 2026</time>.</p>
+      <p>Wünsche, Änderungen oder neue Übungen? Schreib an</p>
+      <div class="mailrow"><span class="mail" id="mail">pascal.haaf@gmx.de</span><button type="button" class="btn ghost" id="copymail">Kopieren</button></div>
+    </footer>
   </main>
 </div>
 
@@ -1074,6 +1084,10 @@ function step(dir){
 $('#dnext').addEventListener('click',()=>step(1));
 $('#dprev').addEventListener('click',()=>step(-1));
 addEventListener('hashchange',route);
+$('#copymail').addEventListener('click',e=>{const b=e.currentTarget,t=$('#mail').textContent;
+  const ok=()=>{b.textContent='Kopiert';setTimeout(()=>b.textContent='Kopieren',1600)};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents($('#mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Markiert';setTimeout(()=>b.textContent='Kopieren',1600)};
+  try{navigator.clipboard.writeText(t).then(ok,sel)}catch(err){sel()}});
 renderList(); route();
 </script>
 
