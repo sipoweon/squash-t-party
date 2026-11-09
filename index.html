@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#F4F6FA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1320" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="T-Party">
+<meta name="application-name" content="T-Party">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <title>Squash T-Party</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8E%89%3C/text%3E%3C/svg%3E">
@@ -1603,7 +1612,7 @@ function applyLang(){
   $('#favlbl').textContent=tr('Favoriten','Favourites');
   $('#srch').textContent=tr('Quellen','Sources');
   $('#dblnote').textContent=tr('Übungen, die ursprünglich fürs Doppel gedacht sind, habe ich fürs Einzelcourt angepasst.','Drills originally designed for doubles have been adapted for singles courts.');
-  $('#upd').innerHTML=tr('Zuletzt aktualisiert am <time datetime="2026-11-04">4. November 2026</time>.','Last updated on <time datetime="2026-11-04">4 November 2026</time>.');
+  $('#upd').innerHTML=tr('Zuletzt aktualisiert am <time datetime="2026-11-09">9. November 2026</time>.','Last updated on <time datetime="2026-11-09">9 November 2026</time>.');
   $('#wish').textContent=tr('Wünsche, Änderungen oder neue Übungen? Schreib an','Requests, changes or new drills? Write to');
   $('#copymail').textContent=tr('Kopieren','Copy');
   $('#backlbl').textContent=tr('Übersicht','Overview');
@@ -1628,6 +1637,10 @@ applyLang(); route();
 /* Geöffnete Übungen zusätzlich als eigene Seite zählen */
 addEventListener('hashchange',function(){var h=location.hash.slice(1);
   if(h.indexOf('d-')===0&&window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:'/uebung/'+h.slice(2),title:h.slice(2)})}});
+</script>
+<script>
+/* App-Modus: Service Worker für Installation und Offline-Start */
+if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
 </script>
 </body>
 </html>
