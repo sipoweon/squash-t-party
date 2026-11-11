@@ -30,6 +30,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
   --floor:#E7D3AD; --floor-line:#C7362C; --wall:#8E9BA6; --outside:#DDE2EE;
   --pA:#2F6FD6; --pB:#D46A07; --pC:#1F8455; --ptext:#FFFFFF;
   --ball:#121212; --ballring:#E4C846; --path:#111D45; --zone:rgba(30,61,143,.14); --fig2:#A8B2C8;
+  --opt:#1E3D8F; --opt-soft:rgba(30,61,143,.10); --cond:#7A5A00; --cond-soft:rgba(228,200,70,.30); --tabu:#B3261E;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
@@ -39,6 +40,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
   --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#141A2B;
   --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0F1320;
   --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(143,172,245,.18); --fig2:#58607A;
+  --opt:#8FACF5; --opt-soft:rgba(143,172,245,.16); --cond:#E4C846; --cond-soft:rgba(228,200,70,.16); --tabu:#F0776C;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1320; --surface:#171C2E; --surface-2:#1D2338; --fg:#E8EBF3; --muted:#9AA2B8; --rule:#2A3149;
@@ -46,6 +48,7 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
   --floor:#3B3226; --floor-line:#E2564A; --wall:#5F6D8C; --outside:#141A2B;
   --pA:#7FAEF5; --pB:#F4A24E; --pC:#5DC892; --ptext:#0F1320;
   --ball:#F3F3F3; --ballring:#E4C846; --path:#E7EBF7; --zone:rgba(143,172,245,.18); --fig2:#58607A;
+  --opt:#8FACF5; --opt-soft:rgba(143,172,245,.16); --cond:#E4C846; --cond-soft:rgba(228,200,70,.16); --tabu:#F0776C;
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -160,6 +163,35 @@ main{padding-block:14px 40px}
 .src a{color:var(--fg);word-break:break-word}
 .factrow{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--muted);font-size:.9rem}
 .factrow b{color:var(--fg);font-weight:600}
+/* Stufen: Grundform, Erweiterung, Option, Condition */
+.k-base{--kc:var(--muted);--kc-soft:var(--surface-2);--kink:var(--bg)}
+.k-var,.k-step{--kc:var(--fg);--kc-soft:var(--surface-2);--kink:var(--bg)}
+.grp{font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:14px 2px 0}
+.grp:first-child{margin-top:2px}
+.k-opt{--kc:var(--opt);--kc-soft:var(--opt-soft);--kink:var(--accent-ink)}
+.k-cond{--kc:var(--cond);--kc-soft:var(--cond-soft);--kink:var(--accent-ink)}
+.kb{display:inline-block;font-family:var(--body);font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:1.3;padding:2px 7px;border-radius:5px;background:var(--kc-soft,var(--surface-2));color:var(--kc,var(--fg));white-space:nowrap}
+.kinds{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;align-items:center}
+.kinds .nst{font-size:.78rem;font-weight:600;color:var(--muted);margin-right:2px}
+.lv-row{display:flex;gap:6px;overflow-x:auto;margin-top:12px;padding-bottom:2px;scrollbar-width:none}
+.lv-row::-webkit-scrollbar{display:none}
+.lvchip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--rule);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-size:.84rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.lvchip b{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.76rem;background:var(--kc-soft);color:var(--kc);font-variant-numeric:tabular-nums}
+.lvchip[aria-pressed="true"]{border-color:var(--kc);background:var(--kc);color:var(--kink)}
+.lvchip[aria-pressed="true"] b{background:var(--kink);color:var(--kc)}
+.rulecard{margin-top:8px;background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--kc);border-radius:10px;padding:10px 12px 11px}
+.rulecard .rk{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.rulecard h3{font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.1;margin:7px 0 4px;text-transform:uppercase;letter-spacing:.01em}
+.rulecard p{margin:0;font-size:.95rem}
+.caption.tall{min-height:2.7em;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px 7px;line-height:1.15}
+.sec .lvlist{list-style:none;padding:0;gap:6px}
+.lvlist button{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--rule);background:var(--surface);border-radius:10px;padding:8px 10px;cursor:pointer}
+.lvlist button>b{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.76rem;background:var(--kc-soft);color:var(--kc)}
+.lvlist button>span{display:flex;flex-wrap:wrap;align-items:center;gap:3px 8px;min-width:0}
+.lvlist strong{font-weight:600;font-size:.95rem}
+.lvlist button[aria-current="true"]{border-color:var(--kc);box-shadow:inset 0 0 0 1px var(--kc)}
+.legend i.alt{width:16px;height:0;border-radius:0;border-top:2px dashed var(--opt)}
+.legend i.tabu{border-radius:3px;border:1px solid var(--tabu);background:repeating-linear-gradient(45deg,var(--tabu) 0 2px,transparent 2px 5px)}
 @media (prefers-reduced-motion: reduce){.card:active{transform:none}}
 </style>
 </head>
@@ -279,7 +311,7 @@ function ringSteps(){
 /* Rückweg für Rotation Rails: Spieler kehren in die Ausgangsaufstellung zurück, damit die Animation nahtlos loopt */
 const railsBack=[
   st('C · gerade',[[1.0,8.3],[0.4,0],[1.0,8.1]],{A:[1.0,8.1],C:[2.5,5.9]},1.4),
-  st('A · Cross → wechselt zurück',[[1.0,8.1],[3.6,0],[W,6.6],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2],C:[0.55,6.9]},1.6),
+  st('A · Cross → wechselt zurück',[[1.0,8.1],[3.6,0],[W,6.6],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2],C:[1.7,6.4]},1.6),
   st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.9]},1.4)];
 function kingRally(X,Y,Wt){return [
   st(X+' · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{[X]:[3.4,5.6],[Y]:[5.4,8.2]},1.4),
@@ -586,12 +618,12 @@ const D=[
 
 /* ---------- ZU DRITT ---------- */
 {id:'rotation-rails',n:'Rotation Rails',c:['laenge','bewegung'],p:[3],t:'10 min',lv:1,s:['us'],
- so:['A und B spielen gerade Drives auf der rechten Seite, C wartet links an der Seitenwand.','Wer einen Cross spielt, wechselt auf die andere Seite.','C übernimmt den Cross und spielt mit dem Wechsler weiter gerade, der dritte wartet.'],
- fo:['Cross nur, wenn er wirklich gut kommt.','Der Wartende steht dicht an der Seitenwand und aus dem Laufweg.'],
+ so:['A und B spielen gerade Drives auf der rechten Seite, C wartet links zwischen T und Seitenwand.','Wer einen Cross spielt, wechselt auf die andere Seite.','C übernimmt den Cross und spielt mit dem Wechsler weiter gerade, der dritte wartet.'],
+ fo:['Cross nur, wenn er wirklich gut kommt.','Der Wartende steht seitlich zwischen T und Seitenwand, aus dem Laufweg.'],
  ze:'Coach: 5 Minuten pro Seite, danach 10 Court-Sprints.',
  va:['Volley-Cross als einziger Wechsel-Schlag.','Mit Boast-Option (eigene Übung).'],
  safe:'Der Wartende bleibt aus dem Laufweg. Bei Unsicherheit draußen an der Tür warten.',
- a:{start:{A:[5.3,8.0],B:[3.9,5.9],C:[0.55,6.9]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2]},1.4),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.9]},1.4),st('A · Cross → wechselt die Seite',[[5.3,8.0],[2.8,0],[0,6.6],[1.0,8.3]],{A:[2.5,5.9],B:[5.85,6.9],C:[1.0,8.3]},1.6),st('C · gerade',[[1.0,8.3],[0.4,0],[1.0,8.1]],{A:[1.0,8.1],C:[2.5,5.9]},1.4),st('A · gerade',[[1.0,8.1],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],C:[1.0,8.3]},1.4),...railsBack]}},
+ a:{start:{A:[5.3,8.0],B:[3.9,5.9],C:[1.7,6.4]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2]},1.4),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.9]},1.4),st('A · Cross → wechselt die Seite',[[5.3,8.0],[2.8,0],[0,6.6],[1.0,8.3]],{A:[2.5,5.9],B:[4.7,6.4],C:[1.0,8.3]},1.6),st('C · gerade',[[1.0,8.3],[0.4,0],[1.0,8.1]],{A:[1.0,8.1],C:[2.5,5.9]},1.4),st('A · gerade',[[1.0,8.1],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],C:[1.0,8.3]},1.4),...railsBack]}},
 
 {id:'rails-boast',n:'Rotation Rails with Boast',c:['bewegung','laenge'],p:[3],t:'10 min',lv:2,s:['us'],
  so:['Wie Rotation Rails, zusätzlich ist ein Boast erlaubt.','Variante 1: Auf den Boast folgt ein Cross zurück auf die Rail-Seite.','Variante 2: Auf den Boast folgt ein gerader Drive auf die andere Seite, dort übernimmt der Wartende.'],
@@ -599,7 +631,7 @@ const D=[
  ze:'Coach: je Variante 5 Minuten pro Seite.',
  va:['Nur der Spieler hinten darf boasten.'],
  safe:'Der Wartende bleibt aus dem Laufweg. Bei Unsicherheit draußen an der Tür warten.',
- a:{start:{A:[5.3,8.0],B:[3.9,5.9],C:[0.55,6.9]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2]},1.4),st('B · Boast',[[5.4,8.2],[W,7.3],[2.0,0],[1.4,1.9]],{A:[1.4,1.9],B:[4.4,6.4]},1.5),st('A · gerade auf die andere Seite',[[1.4,1.9],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],B:[5.85,6.9],C:[1.0,8.3]},1.4),st('C · gerade',[[1.0,8.3],[0.4,0],[1.0,8.1]],{A:[1.0,8.1],C:[2.5,5.9]},1.4),st('A · gerade',[[1.0,8.1],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],C:[1.0,8.3]},1.4),...railsBack]}},
+ a:{start:{A:[5.3,8.0],B:[3.9,5.9],C:[1.7,6.4]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.9],B:[5.4,8.2]},1.4),st('B · Boast',[[5.4,8.2],[W,7.3],[2.0,0],[1.4,1.9]],{A:[1.4,1.9],B:[4.4,6.4]},1.5),st('A · gerade auf die andere Seite',[[1.4,1.9],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],B:[4.7,6.4],C:[1.0,8.3]},1.4),st('C · gerade',[[1.0,8.3],[0.4,0],[1.0,8.1]],{A:[1.0,8.1],C:[2.5,5.9]},1.4),st('A · gerade',[[1.0,8.1],[0.4,0],[1.0,8.3]],{A:[2.5,5.9],C:[1.0,8.3]},1.4),...railsBack]}},
 
 {id:'zwei-gegen-eins',n:'2 v. 1',c:['spiele','fitness'],p:[3],t:'10–15 min',lv:2,s:['gb'],
  so:['A spielt allein jeden Ball, B und C schlagen abwechselnd.','Das Paar spielt fehlerfrei und lässt A laufen.','A bleibt so lange allein, bis er einen Ballwechsel verliert, dann rotieren.'],
@@ -621,8 +653,8 @@ const D=[
  fo:['Cross als taktische Waffe, wenn der Gegner zu weit drin steht.','Wartender verfolgt den Ballwechsel und ist bereit.'],
  ze:'Freies Rally-Training oder mit Punkten pro Hälfte.',
  va:['Nur Volley-Cross erlaubt.'],
- safe:'Der Wartende bleibt dicht an der Seitenwand. Bei Unsicherheit draußen warten.',
- a:{start:{A:[5.3,8.0],B:[3.9,5.8],C:[0.55,6.9]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.8],B:[5.4,8.2]},1.4),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.8]},1.4),st('A · Cross: B holt ihn',[[5.3,8.0],[2.8,0],[0,6.6],[1.0,8.4]],{A:[5.85,6.9],B:[1.0,8.4],C:[2.5,5.8]},1.6),st('B · gerade',[[1.0,8.4],[0.4,0],[1.0,8.2]],{B:[2.5,5.9],C:[1.0,8.2]},1.4),st('C · gerade',[[1.0,8.2],[0.4,0],[1.0,8.4]],{B:[1.0,8.4],C:[2.5,5.8]},1.4),st('B · gerade',[[1.0,8.4],[0.4,0],[1.0,8.2]],{B:[2.5,5.9],C:[1.0,8.2]},1.4),st('C · Cross: B holt ihn',[[1.0,8.2],[3.6,0],[W,6.6],[5.4,8.2]],{A:[3.9,5.8],B:[5.4,8.2],C:[0.55,6.9]},1.6),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.8]},1.4)]}},
+ safe:'Der Wartende steht seitlich zwischen T und Seitenwand, aus dem Laufweg. Bei Unsicherheit draußen warten.',
+ a:{start:{A:[5.3,8.0],B:[3.9,5.8],C:[1.7,6.4]},steps:[st('A · gerade',[[5.3,8.0],[6.0,0],[5.4,8.2]],{A:[3.9,5.8],B:[5.4,8.2]},1.4),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.8]},1.4),st('A · Cross: B holt ihn',[[5.3,8.0],[2.8,0],[0,6.6],[1.0,8.4]],{A:[4.7,6.4],B:[1.0,8.4],C:[2.5,5.8]},1.6),st('B · gerade',[[1.0,8.4],[0.4,0],[1.0,8.2]],{B:[2.5,5.9],C:[1.0,8.2]},1.4),st('C · gerade',[[1.0,8.2],[0.4,0],[1.0,8.4]],{B:[1.0,8.4],C:[2.5,5.8]},1.4),st('B · gerade',[[1.0,8.4],[0.4,0],[1.0,8.2]],{B:[2.5,5.9],C:[1.0,8.2]},1.4),st('C · Cross: B holt ihn',[[1.0,8.2],[3.6,0],[W,6.6],[5.4,8.2]],{A:[3.9,5.8],B:[5.4,8.2],C:[1.7,6.4]},1.6),st('B · gerade',[[5.4,8.2],[6.0,0],[5.3,8.0]],{A:[5.3,8.0],B:[3.9,5.8]},1.4)]}},
 
 {id:'spiele-leiter',n:'Conditioned Games Ladder',c:['spiele'],p:[3],t:'20 min',lv:1,s:['us'],
  so:['Zwei spielen ein Konditionsspiel über 4 Minuten, der Dritte zählt draußen.','Gewinner bleibt, Verlierer geht raus, der Zähler kommt rein.','Spielformen nacheinander: Length Game, zweiter Aufsprung hinter der Linie, Volleys überall, dann normales Spiel.'],
@@ -996,8 +1028,8 @@ const EN={d:{
  fo:['Tight to the wall, don\'t aim too close to the front corner.','Vary pace and height to move your opponent.'],
  ze:'Coach: to 15. Counted cooperatively as a rally: the goal is 50 shots in a row.',
  va:['Make the target narrower.','Mix short and long to move your partner.']},
-'rotation-rails':{so:['A and B play straight drives on the right side, C waits on the left by the side wall.','Whoever hits a cross-court switches to the other side.','C takes the cross-court and continues straight with the player who switched, the third player waits.'],
- fo:['Only cross-court when it really comes well.','The waiting player stays close to the side wall and out of the way.'],
+'rotation-rails':{so:['A and B play straight drives on the right side, C waits on the left, between the T and the side wall.','Whoever hits a cross-court switches to the other side.','C takes the cross-court and continues straight with the player who switched, the third player waits.'],
+ fo:['Only cross-court when it really comes well.','The waiting player stands to the side between the T and the side wall, out of the way.'],
  ze:'Coach: 5 minutes per side, then 10 court sprints.',
  va:['Volley cross-court as the only switching shot.','With a boast option (separate drill).'],
  safe:'The waiting player stays out of the way. If unsure, wait outside by the door.'},
@@ -1019,7 +1051,7 @@ const EN={d:{
  fo:['Use the cross-court as a tactical weapon when your opponent is too far in.','The waiting player follows the rally and is ready.'],
  ze:'Free rally training or with points per half.',
  va:['Only volley cross-courts allowed.'],
- safe:'The waiting player stays close to the side wall. If unsure, wait outside.'},
+ safe:'The waiting player stands to the side between the T and the side wall, out of the way. If unsure, wait outside.'},
 'spiele-leiter':{so:['Two players play a conditioned game for 4 minutes, the third counts outside.','Winner stays, loser goes out, the counter comes in.','Game types in order: Length Game, second bounce behind the line, volleys everywhere, then a normal game.'],
  fo:['The counter watches the rule and gives a tip after the game.','Deliberately improve one thing each round.'],
  ze:'The coach uses 4-minute rotations with promotion and relegation.',
@@ -1201,9 +1233,9 @@ let LANG='de';
 try{const v=localStorage.getItem(LKEY);LANG=(v==='en'||v==='de')?v:(navDe()?'de':'en')}catch(e){LANG=navDe()?'de':'en'}
 const en=()=>LANG==='en';
 const tr=(de,e)=>en()?e:de;
-function dx(d,k){const e=en()&&EN.d[d.id];return e&&e[k]!==undefined?e[k]:d[k];}
-const lab=t=>(en()&&EN.l[t])||t;
-const zlab=t=>(en()&&EN.z[t])||t;
+function dx(d,k){const e=en()&&(EN.d[d.id]||d.en);return e&&e[k]!==undefined?e[k]:d[k];}
+const lab=t=>Array.isArray(t)?t[en()?1:0]:(en()&&EN.l[t])||t;
+const zlab=t=>Array.isArray(t)?t[en()?1:0]:(en()&&EN.z[t])||t;
 const catName=id=>en()?(EN.cat[id]||id):CATN[id];
 const srcName=k=>en()?(EN.src[k]||SRC[k].n.replace(/„([^“]*)“/g,'“$1”')):SRC[k].n;
 
@@ -1260,14 +1292,644 @@ D.forEach(d=>{
   const fix=(a,t)=>a&&a.steps.forEach((x,i)=>{if(x.b)x.b=physPath(x.b,t+'#'+i)});
   fix(d.a,d.id); if(d.alt) Object.entries(d.alt).forEach(([n,a])=>fix(a,d.id+'@'+n));
 });
-/* Welche Spielerzahl zeigt die Animation? Gewählte Zahl, sonst die kleinste */
-function plFor(d){const want=state.detPl||state.pl;return want&&d.p.includes(want)?want:d.p[0];}
-function vv(d){
-  const n=plFor(d);
-  if(!d.alt||!d.alt[n]) return d;
-  d._v=d._v||{};
-  return d._v[n]||(d._v[n]={...d,a:d.alt[n],_m:null,id:d.id});
+/* ---------- Stufen: Grundform, Erweiterung, Option, Condition ----------
+   Inspiriert von Jonathon Powers Drill-Serie „Above the Tin“. Texte und Animationen sind eine eigene Umsetzung. */
+SRC.pw={n:'Jonathon Power – „Above the Tin“ (Drill-Serie auf YouTube); Beschreibungen und Animationen sind eine eigene Umsetzung',u:'https://www.youtube.com/playlist?list=PLjIfZxbehdUaP3-nI75alYkRXVV4OVidB'};
+EN.src.pw='Jonathon Power – “Above the Tin” (drill series on YouTube); descriptions and animations are our own interpretation';
+
+/* Baukasten für Schlagfolgen: [Spieler, Schlag, von, nach, Extras]. Wandpunkte berechnet die Ballphysik. */
+const PT={FL:[1.2,1.8],FR:[5.2,1.8],fl:[0.9,1.25],fr:[5.5,1.25],ML:[1.4,5.3],MR:[5.0,5.3],BL:[1.0,8.4],BR:[5.4,8.4],bl:[1.2,7.1],br:[5.2,7.1],T:[3.2,5.6],Tb:[3.2,7.4],Tf:[3.2,4.2]};
+const P=k=>typeof k==='string'?PT[k]:k;
+/* w = Wandfolge: F Stirnwand, K Rückwand, N nahe Seitenwand, O gegenüberliegende Seitenwand, S Seitenwand auf der Zielseite */
+const SHOT={
+ drive:{n:['gerader Drive','straight drive'],w:'F'},
+ cross:{n:['Cross','cross-court'],w:'FS'},
+ xloose:{n:['Cross, zu locker','cross-court, too loose'],w:'F'},
+ boast:{n:['Boast','boast'],w:'NF'},
+ drop:{n:['Drop','drop'],w:'F'},
+ cdrop:{n:['Counter-Drop','counter drop'],w:'F'},
+ xdrop:{n:['Cross-Drop','cross-court drop'],w:'F'},
+ kill:{n:['gerader Kill','straight kill'],w:'F'},
+ xkill:{n:['Cross-Kill','cross-court kill'],w:'F'},
+ lob:{n:['Cross-Lob','cross-court lob'],w:'FS'},
+ feed:{n:['Zuspiel','feed'],w:'F'},
+ xfeed:{n:['Cross-Zuspiel','cross-court feed'],w:'F'},
+ vdrive:{n:['Volley gerade','straight volley'],w:'F'},
+ vcross:{n:['Volley-Cross','cross-court volley'],w:'FS'},
+ vdrop:{n:['Volley-Drop','volley drop'],w:'F'},
+ vboast:{n:['Volley-Boast','volley boast'],w:'NF'},
+ back:{n:['Drive über die Rückwand','drive off the back wall'],w:'FK'},
+ door:{n:['Drive an die Tür','drive onto the door'],w:'FK'},
+ kv1:{n:['Volley: Stirnwand, dann Seitenwand','volley: front wall, then side wall'],w:'FN'},
+ kv2:{n:['Volley: Seitenwand, dann Stirnwand','volley: side wall, then front wall'],w:'NF'},
+ side:{n:['hart von Seitenwand zu Seitenwand','hard from side wall to side wall'],w:'NO'},
+ toss:{n:['Zuwurf mit der Hand','hand feed'],w:''},
+ bwfeed:{n:['schlägt aus der Hand an die Rückwand','hits out of the hand against the back wall'],w:'KF'}
+};
+const SLOW={bwfeed:1,drop:1,cdrop:1,xdrop:1,lob:1,feed:1,xfeed:1,vdrop:1,back:1,toss:1};
+const SEQBAD=[];
+function wallPts(from,to,w){
+  const near=from[0]>W/2?W:0, tside=to[0]>W/2?W:0, mxx=(from[0]+to[0])/2, my=(from[1]+to[1])/2;
+  return [...w].map(c=>c==='F'?[mxx,0]:c==='K'?[mxx,LEN]:c==='N'?[near,my]:c==='O'?[W-near,my]:[tside,my]);
 }
+function tryPhys(b){const n0=PHYS.kept.length,r=physPath(b,'seq');if(PHYS.kept.length>n0){PHYS.kept.pop();return null}return r;}
+function mkPath(ty,from,to,w){
+  const walls=w!==undefined?w:SHOT[ty].w;
+  if(!walls) return [from,to];
+  let p=tryPhys([from,...wallPts(from,to,walls),to]);
+  if(!p&&walls.length>1) p=tryPhys([from,...wallPts(from,to,walls[0]),to]);
+  if(!p){SEQBAD.push(ty+' '+from+'>'+to);p=[from,[(from[0]+to[0])/2,0],to];}
+  return p;
+}
+function dur(b,ty,run){let L=0;for(let i=1;i<b.length;i++)L+=Math.hypot(b[i][0]-b[i-1][0],b[i][1]-b[i-1][1]);return +Math.min(2.4,Math.max(.95,(.9+L*.04)*(SLOW[ty]?1.15:1),run/4.8)).toFixed(2);}
+const HD={A:[3.05,5.45],B:[3.45,5.85],C:[3.2,6.45]};
+function seq(shots,o={}){
+  const home=o.home||{}, hm=k=>P(home[k]!==undefined?home[k]:HD[k]);
+  const real=shots.filter(s=>s[0]!=='*');
+  const ks=[...new Set([...real.map(s=>s[0]),...Object.keys(home),...Object.keys(o.start||{})])].sort();
+  const start={}; ks.forEach(k=>start[k]=hm(k));
+  start[real[0][0]]=P(real[0][2]);
+  Object.entries(o.start||{}).forEach(([k,v])=>start[k]=P(v));
+  const pos={...start};
+  const runOf=mv=>Math.max(0,...Object.entries(mv).map(([k,v])=>pos[k]?Math.hypot(v[0]-pos[k][0],v[1]-pos[k][1]):0));
+  const steps=shots.map((s,i)=>{
+    const nx=shots[(i+1)%shots.length];
+    if(s[0]==='*'){
+      const to={};Object.entries(s[2]||{}).forEach(([k,v])=>to[k]=P(v));
+      if(nx[0]!=='*'&&!to[nx[0]]) to[nx[0]]=P(nx[2]);
+      const d0=s[3]||Math.max(1.1,runOf(to)/4.8);Object.assign(pos,to);
+      return {l:s[1],to,d:+d0.toFixed(2)};
+    }
+    const [h,ty,f,t,x={}]=s, from=P(f), to=P(t), sh=SHOT[ty];
+    const b=mkPath(ty,from,to,x.w), mv={};
+    if(x.rec!==false) mv[h]=x.rec!==undefined?P(x.rec):hm(h);
+    if(nx[0]!=='*') mv[nx[0]]=P(nx[2]);
+    Object.entries(x.mv||{}).forEach(([k,v])=>mv[k]=P(v));
+    let nd=x.l?x.l[0]:sh.n[0], ne=x.l?x.l[1]:sh.n[1];
+    const st={b,to:mv,d:x.d||dur(b,ty,runOf(mv))};Object.assign(pos,mv);
+    if(x.or){
+      const ors=Array.isArray(x.or[0])?x.or:[x.or];
+      st.o=ors.map(([t2,q])=>mkPath(t2,from,P(q)));
+      if(!x.l){nd+=' oder '+ors.map(r=>SHOT[r[0]].n[0]).join(' oder ');ne+=' or '+ors.map(r=>SHOT[r[0]].n[1]).join(' or ');}
+    }
+    if(x.note){nd+=' · '+x.note[0];ne+=' · '+x.note[1];}
+    st.l=[h+' · '+nd,h+' · '+ne];
+    if(x.k) st.k=x.k;
+    return st;
+  });
+  const a={start,steps}; if(o.mb) a.mb=1; return a;
+}
+/* Eine Stufe: k = Art, n = Name, r = Regel, a = eigene Animation (sonst die der Grundform) */
+const stg=(k,n,r,a,x)=>{
+  if(a&&k==='opt') a.steps.forEach(s=>{if(s.o&&!s.k)s.k='opt'});
+  return {k,n,r,...(a?{a}:{}),...(x||{})};
+};
+function fam(id,stages,patch){
+  const d=D.find(x=>x.id===id); if(!d) return;
+  Object.assign(d,patch||{}); d.stages=stages;
+  if(!d.s.includes('pw')) d.s=[...d.s,'pw'];
+}
+const NEWD=[];
+function nd(d){
+  d.s=d.s||['pw'];
+  if(d.stages&&!d.a){const s0=d.stages[0];d.a=s0.a;if(s0.z)d.z=s0.z;if(s0.m)d.m=s0.m;}
+  NEWD.push(d);
+}
+const SELF=['zu sich selbst','to yourself'];
+const TABU_BACK={r:[0,9.3,6.4,.45],t:'tabu',l:['Rückwand tabu','No back wall']};
+
+/* ===== Bestehende Übungen bekommen Stufen ===== */
+fam('boast-drive',[
+ stg('base','Boast, Drive',['B boastet hinten, A spielt vorne gerade Drives. Das ist die Grundform, auf der die nächsten Stufen aufbauen.','B boasts at the back, A hits straight drives at the front. This is the base the next steps build on.']),
+ stg('step','Boast, Drive, Drive',['Auf den Boast folgen jetzt zwei gerade Drives, dann boastet der andere. So wechseln die Rollen laufend.','The boast is now followed by two straight drives, then the other player boasts. The roles keep rotating.'],
+  seq([['A','drive','FR','BR'],['B','drive','BR','BR'],['A','boast','BR','FL'],['B','drive','FL','BL'],['A','drive','BL','BL'],['B','boast','BL','FR']])),
+ stg('opt','Boast vs (Straight or Cross)',['B boastet weiter jeden Ball. A darf wählen: gerade oder Cross. Ziel ist, B auf dem falschen Fuß zu erwischen.','B keeps boasting every ball. A may choose: straight or cross-court. The aim is to wrong-foot B.'],
+  seq([['B','boast','BR','FL'],['A','drive','FL','BL',{or:['cross','BR']}],['B','boast','BL','FR'],['A','cross','FR','BL',{or:['drive','BR']}],['B','boast','BL','FR'],['A','drive','FR','BR',{or:['cross','BL']}]],{home:{A:'T',B:'Tb'}})),
+ stg('cond',['Volley nach losem Cross','Volley after a loose cross'],['Wie die Stufe davor. Zusätzlich gilt: Kommt der Cross zu locker durch die Mitte, wird er volley gerade in die Länge gespielt. Danach tauschen die Rollen.','As the step before, plus: if the cross-court comes too loose through the middle, it is volleyed straight to length. Then the roles swap.'],
+  seq([['B','boast','BR','FL'],['A','xloose','FL',[4.3,5.7]],['B','vdrive',[4.3,5.7],'BR',{k:'cond',note:['in die Länge','to length']}],['A','boast','BR','FL'],['B','xloose','FL',[4.3,5.7]],['A','vdrive',[4.3,5.7],'BR',{k:'cond',note:['in die Länge','to length']}]]))
+]);
+
+fam('boast-cross-paar',[
+ stg('base','Boast, Cross',['B boastet aus der hinteren Ecke, A spielt vorne einen Cross zurück zu B.','B boasts from the back corner, A hits a cross-court from the front back to B.']),
+ stg('step','Boast, Cross, Drive',['Nach dem Cross folgt ein gerader Drive, erst dann der nächste Boast. Bei drei Schlägen wechseln die Rollen von selbst.','The cross-court is followed by a straight drive, only then comes the next boast. With three shots the roles rotate automatically.'],
+  seq([['A','boast','BR','FL'],['B','cross','FL','BR'],['A','drive','BR','BR'],['B','boast','BR','FL'],['A','cross','FL','BR'],['B','drive','BR','BR']])),
+ stg('step','Boast, Cross, Drive, Drive',['Jetzt zwei gerade Drives nach dem Cross. A spielt immer Boast und Drive, B immer Cross und Drive. Nach ein paar Minuten tauschen.','Now two straight drives after the cross-court. A always plays boast and drive, B always cross-court and drive. Swap after a few minutes.'],
+  seq([['A','boast','BR','FL'],['B','cross','FL','BR'],['A','drive','BR','BR'],['B','drive','BR','BR']])),
+ stg('opt',['Boast jederzeit','Boast at any time'],['Nach dem ersten kompletten Durchgang darf jeder statt des Drives jederzeit boasten. Der andere muss sofort reagieren.','After the first full cycle, either player may boast instead of driving at any time. The other has to react immediately.'],
+  seq([['A','boast','BR','FL'],['B','cross','FL','BR'],['A','drive','BR','BR'],['B','drive','BR','BR',{or:['boast','FL']}],['A','drive','BR','BR',{or:['boast','FL']}],['B','boast','BR','FL',{or:['drive','BR']}],['A','cross','FL','BR'],['B','drive','BR','BR',{or:['boast','FL']}]]))
+]);
+
+fam('boast-lob',[
+ stg('base','Boast, Cross Lob',['B boastet, A spielt vorne einen hohen Cross-Lob zurück in die Ecke von B.','B boasts, A plays a high cross-court lob from the front back into B’s corner.']),
+ stg('step','Boast, Cross Lob, Volley Straight',['Der Lob wird jetzt volley genommen und gerade in die Länge gespielt. Erst danach kommt der nächste Boast. Die Rollen wechseln laufend.','The lob is now taken on the volley and hit straight to length. Only then comes the next boast. The roles keep rotating.'],
+  seq([['A','boast','BR','FL'],['B','lob','FL','br'],['A','vdrive','br','BR'],['B','boast','BR','FL'],['A','lob','FL','br'],['B','vdrive','br','BR']])),
+ stg('opt','Boast, Cross Lob, (Volley Straight or Cross)',['Der Volley darf gerade oder cross gespielt werden. Der Partner muss beide hinteren Ecken abdecken.','The volley may go straight or cross-court. The partner has to cover both back corners.'],
+  seq([['A','boast','BR','FL'],['B','lob','FL','br'],['A','vdrive','br','BR',{or:['vcross','BL']}],['B','boast','BR','FL'],['A','lob','FL','br'],['B','vcross','br','BL',{or:['vdrive','BR']}],
+       ['A','boast','BL','FR'],['B','lob','FR','bl'],['A','vdrive','bl','BL',{or:['vcross','BR']}],['B','boast','BL','FR'],['A','lob','FR','bl'],['B','vcross','bl','BR',{or:['vdrive','BL']}]]))
+]);
+
+fam('rails',[
+ stg('base','Rotating Straight Drives',['Nur gerade Drives auf einer Seite. Nach jedem Schlag Platz machen, der Nächste übernimmt.','Only straight drives on one side. Clear after each shot and the next player takes over.']),
+ stg('step','Straight, Straight, Cross',['Zwei gerade Drives, dann ein Cross auf die andere Seite. Dort geht es mit zwei geraden weiter.','Two straight drives, then a cross-court to the other side, where it continues with two straight drives.'],
+  seq([['A','drive','BR','BR'],['B','drive','BR','BR'],['A','cross','BR','BL'],['B','drive','BL','BL'],['A','drive','BL','BL'],['B','cross','BL','BR']])),
+ stg('step','Drive, Drive, Drop',['Zwei gerade Drives, dann ein gerader Drop von hinten. Der nächste Drive kommt aus dem Vorderfeld.','Two straight drives, then a straight drop from the back. The next drive is hit from the front.'],
+  seq([['A','drive','fr','BR'],['B','drive','BR','BR'],['A','drop','BR','fr'],['B','drive','fr','BR'],['A','drive','BR','BR'],['B','drop','BR','fr']])),
+ stg('step','Straight, Straight Drop, Cross',['Gerader Drive, gerader Drop von hinten, dann aus dem Vorderfeld ein Cross auf die andere Seite.','Straight drive, straight drop from the back, then a cross-court from the front to the other side.'],
+  seq([['A','drive','BR','BR'],['B','drop','BR','fr'],['A','cross','fr','BL'],['B','drive','BL','BL'],['A','drop','BL','fl'],['B','cross','fl','BR']]))
+]);
+
+/* Length Game: zehn Optionen als „Length Progression“ */
+function lenProg(ty,alt,cd){
+  const vd=ty==='vdrop', bo=ty==='boast', sp=bo?'FR':'fl';
+  const s=[['A','drive','BR','BR'],['B','cross','BR',vd?'ML':'BL',vd?{w:'F'}:{}],['A',ty,vd?'ML':'BL',sp,{k:'opt',...(alt?{or:[alt,'fr']}:{})}]];
+  if(bo){ if(cd) s.push(['B','cdrop','FR','fr',{k:'opt'}],['A','drive','fr','BR'],['B','drive','BR','BR']); else s.push(['B','drive','FR','BR']); }
+  else { if(cd) s.push(['B','cdrop','fl','fl',{k:'opt'}],['A','cross','fl','BR'],['B','drive','BR','BR']); else s.push(['B','cross','fl','BR']); }
+  return seq(s);
+}
+const LP=[
+ ['I: Straight Kill','kill',null,0,['In der Längen-Rally darf jederzeit ein gerader Kill gespielt werden. Danach geht es mit Länge weiter.','During the length rally a straight kill may be played at any time. Then play continues with length.']],
+ ['II: Straight or Cross Kill','kill','xkill',0,['Der Kill darf jetzt gerade oder cross gespielt werden.','The kill may now go straight or cross-court.']],
+ ['III: Straight Kill + Counter Drop','kill',null,1,['Gerader Kill erlaubt. Der Gegner darf darauf mit einem Counter-Drop antworten.','Straight kill allowed. The opponent may answer it with a counter drop.']],
+ ['IV: Straight or Cross Kill + Counter Drop','kill','xkill',1,['Kill gerade oder cross. Als Antwort ist ein Counter-Drop erlaubt.','Kill straight or cross-court. A counter drop is allowed in reply.']],
+ ['V: Straight Drop','drop',null,0,['Statt des Kills ist jetzt ein gerader Drop die Option.','Instead of the kill, a straight drop is now the option.']],
+ ['VI: Straight Drop + Counter Drop','drop',null,1,['Gerader Drop erlaubt. Der Gegner darf mit einem Counter-Drop antworten.','Straight drop allowed. The opponent may answer with a counter drop.']],
+ ['VII: Straight Volley Drop','vdrop',null,0,['Die Option ist ein gerader Volley-Drop: einen Ball am T abfangen und kurz legen.','The option is a straight volley drop: intercept a ball on the T and play it short.']],
+ ['VIII: Straight Volley Drop + Counter Drop','vdrop',null,1,['Gerader Volley-Drop erlaubt. Der Gegner darf mit einem Counter-Drop antworten.','Straight volley drop allowed. The opponent may answer with a counter drop.']],
+ ['IX: Boast','boast',null,0,['Die Option ist ein Boast aus der hinteren Ecke.','The option is a boast from the back corner.']],
+ ['X: Boast + Counter Drop','boast',null,1,['Boast erlaubt. Der Gegner darf mit einem Counter-Drop antworten.','Boast allowed. The opponent may answer with a counter drop.']]
+];
+fam('laengen-spiel',[
+ stg('base','Length Game',['Alle Bälle müssen hinter der Kurzlinie aufspringen, gerade oder Cross. Darauf bauen die zehn Optionen der Length Progression auf.','Every ball must bounce behind the short line, straight or cross-court. The ten options of the Length Progression build on this.']),
+ ...LP.map(([n,ty,alt,cd,r])=>stg('opt',n.replace(/^[IVX]+: /,''),r,lenProg(ty,alt,cd)))
+]);
+
+fam('zuspiel-drive',[
+ stg('base','Feed, Drive',['A spielt von hinten kurz zu, B spielt aus dem Vorderfeld einen geraden Drive in die Länge.','A feeds short from the back, B hits a straight length drive from the front.']),
+ stg('step','Feed, Crosscourt',['B spielt jetzt Cross statt gerade. A wechselt hinten die Seite und spielt dort wieder kurz zu.','B now hits cross-court instead of straight. A switches sides at the back and feeds again from there.'],
+  seq([['A','feed','BR','FR'],['B','cross','FR','BL'],['A','feed','BL','FL'],['B','cross','FL','BR']],{home:{A:'Tb',B:'T'}})),
+ stg('step','Drop, Drive ×3, Boast',['A spielt von hinten gerade Drops, B gerade Drives. Nach drei Durchgängen spielt A einen Boast, und es geht auf der anderen Seite weiter.','A plays straight drops from the back, B straight drives. After three rounds A boasts and play continues on the other side.'],
+  seq([['A','drop','BR','fr'],['B','drive','fr','BR'],['A','boast','BR','FL',{note:['nach 3 Durchgängen','after 3 rounds']}],['B','drive','FL','BL'],['A','drop','BL','fl'],['B','drive','fl','BL'],['A','boast','BL','FR',{note:['nach 3 Durchgängen','after 3 rounds']}],['B','drive','FR','BR']],{home:{A:'Tb',B:'T'}}))
+]);
+
+fam('boast-drop-drive',[
+ stg('base','Boast, Drop, Drive',['Boast von hinten, gerader Drop vorne, dann ein gerader Drive nach hinten. Die Rollen wechseln von selbst.','Boast from the back, straight drop at the front, then a straight drive to the back. The roles rotate automatically.']),
+ stg('step','Boast, Drop, Drop, Drive',['Auf den Drop folgt ein Counter-Drop, erst dann der Drive.','The drop is answered with a counter drop, only then comes the drive.'],
+  seq([['A','boast','BR','FL'],['B','drop','FL','fl'],['A','cdrop','fl','fl'],['B','drive','fl','BL'],['A','boast','BL','FR'],['B','drop','FR','fr'],['A','cdrop','fr','fr'],['B','drive','fr','BR']])),
+ stg('step','Boast, Drop, Drop, Cross',['Wie davor, aber der vierte Schlag ist ein Cross zurück in die Ecke des Boasters. Alles bleibt auf einer Diagonale.','As before, but the fourth shot is a cross-court back to the boaster’s corner. Everything stays on one diagonal.'],
+  seq([['A','boast','BR','FL'],['B','drop','FL','fl'],['A','cdrop','fl','fl'],['B','cross','fl','BR']])),
+ stg('opt','Boast vs (Drop or Drive)',['A spielt jeden Ball als Boast, auch aus dem Vorderfeld. B wählt zwischen Drop und Drive.','A plays every ball as a boast, even from the front. B chooses between drop and drive.'],
+  seq([['A','boast','BR','FL'],['B','drive','FL','BL',{or:['drop','fl']}],['A','boast','BL','FR'],['B','drop','FR','fr',{or:['drive','BR']}],['A','boast','fr','FL'],['B','drive','FL','BL',{or:['drop','fl']}],['A','boast','BL','FR'],['B','drive','FR','BR',{or:['drop','fr']}]],{home:{A:'Tb',B:'Tf'}})),
+ stg('var','(Drive + Boast), (Drop + Cross)',['Jeder spielt zwei Schläge hintereinander. A: gerader Drive zu sich selbst, dann Boast. B: Drop zu sich selbst, dann Cross zurück zu A.','Each player hits two shots in a row. A: straight drive to yourself, then boast. B: drop to yourself, then cross-court back to A.'],
+  seq([['A','drive','BR','BR',{note:SELF}],['A','boast','BR','FL'],['B','drop','FL','fl',{note:SELF}],['B','cross','fl','BR']],{home:{A:'Tb',B:'Tf'}})),
+ stg('var','(Drive + Boast), (Drop + Drive)',['Wieder zwei Schläge hintereinander. A: gerader Drive zu sich selbst, dann Boast. B: Drop zu sich selbst, dann gerader Drive. Dadurch wechselt nach jedem Durchgang die Seite.','Again two shots in a row. A: straight drive to yourself, then boast. B: drop to yourself, then straight drive. This switches sides after every cycle.'],
+  seq([['A','drive','BR','BR',{note:SELF}],['A','boast','BR','FL'],['B','drop','FL','fl',{note:SELF}],['B','drive','fl','BL'],['A','drive','BL','BL',{note:SELF}],['A','boast','BL','FR'],['B','drop','FR','fr',{note:SELF}],['B','drive','fr','BR']],{home:{A:'Tb',B:'Tf'}}))
+]);
+
+fam('drop-test',[
+ stg('base','Straight Feed, Straight Drop',['A spielt vorne gerade zu, B spielt gerade Drops. Als Test: 100 Zuspiele, Ziel sind weniger als 10 Fehler.','A feeds straight at the front, B plays straight drops. As a test: 100 feeds, the goal is fewer than 10 mistakes.']),
+ stg('step','Straight Feed, Volley Drop',['Das Zuspiel kommt höher. B nimmt es volley und legt es kurz.','The feed comes higher. B takes it on the volley and plays it short.'],
+  seq([['A','feed','fr',[5.1,4.6]],['B','vdrop',[5.1,4.6],'fr']],{home:{A:[4.5,2.0],B:[4.3,4.9]}})),
+ stg('step','Volley Drop, Drive',['Statt Zuspiel spielt A jetzt harte gerade Drives. B fängt sie ab und spielt Volley-Drops.','Instead of feeding, A now hits hard straight drives. B cuts them off with volley drops.'],
+  seq([['A','drive','fr','MR',{l:['harter gerader Drive','hard straight drive']}],['B','vdrop','MR','fr']],{home:{A:[4.5,2.0],B:[4.2,5.7]}})),
+ stg('var','(Straight Drop + Feed)',['Jeder spielt zwei Schläge hintereinander: erst einen geraden Drop, dann den eigenen Drop als Zuspiel für den Partner.','Each player hits two shots in a row: first a straight drop, then your own drop as a feed for your partner.'],
+  seq([['A','drop',[5.2,2.8],'fr',{note:SELF}],['A','feed','fr',[5.2,2.8],{note:['für den Partner','for your partner']}],['B','drop',[5.2,2.8],'fr',{note:SELF}],['B','feed','fr',[5.2,2.8],{note:['für den Partner','for your partner']}]],{home:{A:[4.2,2.4],B:[4.2,3.5]}}))
+],{n:'Feed & Drop'});
+
+fam('volley-zuspiel',[
+ stg('base','Straight Feed, Volley Straight',['A spielt von hinten hoch zu, B spielt gerade Volleys in die Länge.','A feeds high from the back, B hits straight volleys to length.']),
+ stg('step','5 Volleys and Switch',['A spielt Drives, B volleyt gerade zurück. Nach fünf Volleys tauschen beide die Position, ohne die Rally zu unterbrechen. Alles auf einer Seite.','A hits drives, B volleys them straight back. After five volleys both switch positions without stopping the rally. Everything on one side.'],
+  seq([['A','drive','BR','MR',{rec:[4.8,7.9]}],['B','vdrive','MR','BR',{note:['5× in Folge','5 in a row'],rec:[4.3,5.6]}],['A','drive','BR','BR',{l:['Drive, B lässt durch: Positionswechsel','drive, B lets it go: switch positions'],rec:[4.3,5.6]}],
+       ['B','drive','BR','MR',{rec:[4.8,7.9]}],['A','vdrive','MR','BR',{note:['5× in Folge','5 in a row'],rec:[4.3,5.6]}],['B','drive','BR','BR',{l:['Drive, A lässt durch: Positionswechsel','drive, A lets it go: switch positions'],rec:[4.3,5.6]}]],{home:{A:[4.8,7.9],B:[4.3,5.6]}})),
+ stg('var','Straight Feed, (Volley Straight + Volley Boast + Cross)',['A spielt immer gerade zu. B spielt drei Schläge hintereinander: Volley gerade zu sich selbst, Volley-Boast, dann vorne den Cross zurück zu A.','A always feeds straight. B hits three shots in a row: straight volley to yourself, volley boast, then the cross-court from the front back to A.'],
+  seq([['A','feed','BR','MR'],['B','vdrive','MR','MR',{note:SELF}],['B','vboast','MR','FL'],['B','cross','FL','BR']],{home:{A:[4.8,7.9],B:[4.2,5.6]}})),
+ stg('var','Volley Straight, (Drop + Cross)',['B spielt zwei Schläge hintereinander: gerader Drop von hinten, dann vorne den Cross. A fängt den Cross ab und spielt ihn volley gerade in die Länge.','B hits two shots in a row: straight drop from the back, then the cross-court at the front. A intercepts the cross and volleys it straight to length.'],
+  seq([['B','drop','BR','fr',{note:SELF}],['B','cross','fr','ML',{w:'F'}],['A','vdrive','ML','BL'],['B','drop','BL','fl',{note:SELF}],['B','cross','fl','MR',{w:'F'}],['A','vdrive','MR','BR']],{home:{A:'T',B:'Tb'}}))
+]);
+
+fam('cross-volley',[
+ stg('base','Volley Cross',['Beide stehen auf Höhe der Kurzlinie und spielen sich hohe Cross-Volleys zu.','Both stand level with the short line and play high cross-court volleys to each other.']),
+ stg('var','(Volley Straight + Volley Cross)',['Jeder spielt zwei Volleys hintereinander: erst gerade zu sich selbst, dann cross zum Partner.','Each player hits two volleys in a row: first straight to yourself, then cross-court to your partner.'],
+  seq([['A','vdrive','ML',[1.5,5.7],{note:SELF}],['A','vcross',[1.5,5.7],'MR'],['B','vdrive','MR',[4.9,5.7],{note:SELF}],['B','vcross',[4.9,5.7],'ML']],{home:{A:'ML',B:'MR'}}))
+]);
+
+fam('rails-boast',[
+ stg('base',['Rails mit Boast','Rails with boast'],['Zwei spielen gerade Drives, der Dritte wartet auf der anderen Seite. Nach einem Boast geht es dort weiter.','Two play straight drives, the third waits on the other side. After a boast play continues there.']),
+ stg('var','Line Game',['Dasselbe als Spiel um Punkte: Die beiden an der Wand spielen gegeneinander, der Boast ist die Angriffsoption. Einer von beiden holt den Boast und spielt mit dem Dritten weiter. Schafft er es nicht, übernimmt der andere.','The same as a game for points: the two on the wall play against each other, the boast is the attacking option. One of them retrieves the boast and plays on with the third. If they do not make it, the other takes over.'])
+]);
+
+fam('gerade-laenge',[
+ stg('base','Straight Length',['Gerade Drives, die hinter dem Aufschlagfeld aufspringen und zu dir zurückkommen.','Straight drives that bounce behind the service box and come back to you.']),
+ stg('cond',['Ohne Rückwand','No back wall'],['Der Ball darf die Rückwand nicht erreichen. Er soll nach dem zweiten Aufsprung davor liegen bleiben.','The ball must not reach the back wall. It should die in front of it after the second bounce.'],null,{z:[TABU_BACK]}),
+ stg('var','Overhit Drives',['Bewusst zu lang: Der Drive springt hinter dem Aufschlagfeld auf und kommt von der Rückwand zurück. So oft wie möglich hintereinander.','Deliberately too long: the drive bounces behind the service box and comes back off the back wall. As many in a row as possible.'],
+  seq([['A','back',[5.2,7.3],[5.4,8.3]],['A','back',[5.4,8.3],[5.2,7.3]]],{home:{A:[5.2,7.3]}}))
+]);
+
+fam('gerade-volleys',[
+ stg('base','Straight Volleys',['Gerade Volleys zu dir selbst, erst vor, dann hinter dem Aufschlagfeld.','Straight volleys to yourself, first in front of, then behind the service box.']),
+ stg('var','Up & Down the Wall',['Während der Volleys langsam nach vorne und wieder nach hinten gehen, ohne dass der Ball aufspringt.','Walk slowly forwards and back again while volleying, without letting the ball bounce.'],
+  (()=>{const ys=[7.6,6.4,5.2,4.0,2.8,4.0,5.2,6.4];return seq(ys.map((y,i)=>['A','vdrive',[5.1,y],[5.1,ys[(i+1)%ys.length]]]),{home:{A:[5.1,7.6]}})})())
+]);
+
+/* ===== Neue Übungen zu zweit ===== */
+nd({id:'straight-vs-cross',n:'Straight vs Cross',c:['laenge','bewegung'],p:[2],t:'10–15 min',lv:2,
+ so:['Beide spielen aus dem hinteren Court in die Länge.','In der Grundform spielt A nur gerade und B nur Cross, der Ball wandert von Seite zu Seite.','Nach jedem Schlag über das T zurück, dann in die nächste Ecke.'],
+ fo:['Cross breit spielen, damit er am T nicht abgefangen werden kann.','Gerade eng an der Wand, erster Aufsprung hinter dem Aufschlagfeld.','Erst zur nächsten Stufe gehen, wenn die Rally stabil läuft.'],
+ ze:'Pro Stufe 3–4 Minuten, dann die Rollen tauschen.',
+ va:['Volleys erlauben, wenn der Ball locker kommt.','Als Spiel um Punkte: Wer vor der Kurzlinie aufspringen lässt, verliert.'],
+ en:{so:['Both hit to length from the back of the court.','In the base drill A only hits straight and B only cross-court, so the ball moves from side to side.','After every shot recover through the T, then move to the next corner.'],
+  fo:['Hit the cross-court wide so it cannot be cut off on the T.','Straight drives tight to the wall, first bounce behind the service box.','Only move to the next step once the rally is stable.'],
+  ze:'3–4 minutes per step, then swap roles.',
+  va:['Allow volleys when the ball comes loose.','As a game for points: whoever lets the ball bounce in front of the short line loses.']},
+ stages:[
+  stg('base','Straight vs Cross',['A spielt nur gerade, B nur Cross. Der Ball wandert von Seite zu Seite.','A only hits straight, B only cross-court. The ball moves from side to side.'],
+   seq([['A','drive','BR','BR'],['B','cross','BR','BL'],['A','drive','BL','BL'],['B','cross','BL','BR']])),
+  stg('opt','Straight vs (Straight or Cross)',['B darf jetzt wählen: gerade oder Cross. A spielt weiter nur gerade und muss lesen, wohin der Ball geht.','B may now choose: straight or cross-court. A keeps hitting straight only and has to read where the ball is going.'],
+   seq([['A','drive','BR','BR'],['B','drive','BR','BR',{or:['cross','BL']}],['A','drive','BR','BR'],['B','cross','BR','BL',{or:['drive','BR']}],['A','drive','BL','BL'],['B','drive','BL','BL',{or:['cross','BR']}],['A','drive','BL','BL'],['B','cross','BL','BR',{or:['drive','BL']}]])),
+  stg('cond',['Ohne Rückwand','No back wall'],['Beide dürfen gerade oder Cross spielen, aber der Ball darf die Rückwand nicht erreichen. Wer sie trifft, verliert den Ballwechsel. Das trainiert die sterbende Länge.','Both may hit straight or cross-court, but the ball must not reach the back wall. Whoever hits it loses the rally. This trains dying length.'],
+   seq([['A','drive','BR','BR',{or:['cross','BL']}],['B','cross','BR','BL',{or:['drive','BR']}],['A','cross','BL','BR',{or:['drive','BL']}],['B','drive','BR','BR',{or:['cross','BL']}]]),{z:[TABU_BACK]}),
+  stg('opt','(Straight or Boast) vs (Straight or Cross)',['A wählt zwischen gerade und Boast, B zwischen gerade und Cross.','A chooses between straight and boast, B between straight and cross-court.'],
+   seq([['A','drive','BR','BR',{or:['boast','FL']}],['B','drive','BR','BR',{or:['cross','BL']}],['A','boast','BR','FL',{or:['drive','BR']}],['B','drive','FL','BL',{or:['cross','BR']}],['A','drive','BL','BL',{or:['boast','FR']}],['B','cross','BL','BR',{or:['drive','BL']}]])),
+  stg('opt','(Straight or Boast) vs Cross',['A wählt weiter zwischen gerade und Boast. B darf jetzt nur noch Cross spielen, auch nach dem Boast.','A still chooses between straight and boast. B may now only hit cross-court, even after the boast.'],
+   seq([['A','drive','BR','BR',{or:['boast','FL']}],['B','cross','BR','BL'],['A','boast','BL','FR',{or:['drive','BL']}],['B','cross','FR','BL'],['A','drive','BL','BL',{or:['boast','FR']}],['B','cross','BL','BR']]))
+ ]});
+
+nd({id:'drive-volley-drop',n:'Drive, Volley Drop, Drive',c:['volley','kurz'],p:[2],t:'10 min',lv:2,
+ so:['A spielt von hinten einen geraden Drive, der auf Höhe des T an der Wand entlang kommt.','B fängt ihn am T mit einem geraden Volley-Drop ab.','A läuft nach vorne und spielt den Drop gerade in die Länge. Jetzt startet B von hinten, die Rollen wechseln laufend.'],
+ fo:['Volley-Drop weich abfedern, Schläger leicht offen.','Nach dem Volley-Drop sofort zurück Richtung T.','Der Drive aus dem Vorderfeld muss tief genug sein, damit der Partner hinten Zeit hat.'],
+ ze:'5 Minuten pro Seite. Fehler zählen und in der nächsten Runde unterbieten.',
+ va:['Auf der Rückhandseite.','Volley-Drop als Cross.'],
+ en:{so:['A hits a straight drive from the back that comes down the wall at the height of the T.','B cuts it off on the T with a straight volley drop.','A runs forward and drives the drop straight to length. Now B starts from the back, the roles keep rotating.'],
+  fo:['Cushion the volley drop softly, racket face slightly open.','Head straight back towards the T after the volley drop.','The drive from the front must be deep enough to give your partner time at the back.'],
+  ze:'5 minutes per side. Count mistakes and beat that number in the next round.',
+  va:['On the backhand side.','Volley drop cross-court.']},
+ stages:[
+  stg('base','Drive, Volley Drop, Drive',['Drive von hinten, Volley-Drop am T, dann aus dem Vorderfeld ein gerader Drive nach hinten. Die Rollen wechseln laufend.','Drive from the back, volley drop on the T, then a straight drive to the back from the front. The roles keep rotating.'],
+  seq([['A','drive','BR','MR'],['B','vdrop','MR','fr'],['A','drive','fr','BR'],['B','drive','BR','MR'],['A','vdrop','MR','fr'],['B','drive','fr','BR']])),
+  stg('opt','Drive or Counter Drop',['Der dritte Schlag darf ein gerader Drive oder ein Counter-Drop sein.','The third shot may be a straight drive or a counter drop.'],
+  seq([['A','drive','BR','MR'],['B','vdrop','MR','fr'],['A','drive','fr','BR',{or:['cdrop','fr']}],['B','drive','BR','MR'],['A','vdrop','MR','fr'],['B','cdrop','fr','fr',{or:['drive','BR']}],['A','drive','fr','BR',{or:['cdrop','fr']}],['B','drive','BR','MR'],['A','vdrop','MR','fr'],['B','drive','fr','BR',{or:['cdrop','fr']}]]))
+ ]});
+
+nd({id:'kill-cross',n:'Kill & Cross',c:['kurz','bewegung'],p:[2],t:'10 min',lv:3,
+ so:['Ein Spieler arbeitet hinten, der andere vorne.','In der Grundform spielt A von hinten gerade Kills, B spielt vorne jeden Ball als Cross in die andere hintere Ecke.','A läuft hinten von Ecke zu Ecke, B vorne von Seite zu Seite.'],
+ fo:['Kill flach und hart, knapp über dem Tin, eng an der Seitenwand.','Schläger früh vorbereiten, der Kill lebt vom Tempo.','Cross hoch und breit genug, damit der Partner Zeit hat.'],
+ ze:'Pro Stufe 3 Minuten, dann Rollen tauschen. Kills zählen, die vor der Kurzlinie zweimal aufspringen.',
+ va:['Kill als Volley, wenn der Cross locker kommt.'],
+ en:{so:['One player works at the back, the other at the front.','In the base drill A hits straight kills from the back, B plays every ball from the front as a cross-court into the other back corner.','A runs from corner to corner at the back, B from side to side at the front.'],
+  fo:['Hit the kill low and hard, just above the tin and tight to the side wall.','Prepare the racket early, the kill lives on pace.','Cross-court high and wide enough to give your partner time.'],
+  ze:'3 minutes per step, then swap roles. Count kills that bounce twice in front of the short line.',
+  va:['Kill on the volley when the cross-court comes loose.']},
+ stages:[
+  stg('base','Cross vs Straight Kill',['A spielt von hinten gerade Kills, B vorne nur Cross in die andere Ecke.','A hits straight kills from the back, B only cross-court from the front into the other corner.'],
+   seq([['A','kill','BR','fr'],['B','cross','fr','BL'],['A','kill','BL','fl'],['B','cross','fl','BR']],{home:{A:'Tb',B:'Tf'}})),
+  stg('var','Straight vs Cross Kill',['Umgekehrt: A spielt vorne gerade Drives nach hinten, B antwortet von hinten mit einem Cross-Kill.','The other way round: A hits straight drives from the front to the back, B answers from the back with a cross-court kill.'],
+   seq([['A','drive','fr','BR'],['B','xkill','BR','fl'],['A','drive','fl','BL'],['B','xkill','BL','fr']],{home:{A:'Tf',B:'Tb'}})),
+  stg('step','Straight, Straight Kill, Cross',['Gerader Drive, gerader Kill, dann der Cross auf die andere Seite. Bei drei Schlägen wechseln die Rollen von selbst.','Straight drive, straight kill, then the cross-court to the other side. With three shots the roles rotate automatically.'],
+   seq([['A','drive','BR','BR'],['B','kill','BR','fr'],['A','cross','fr','BL'],['B','drive','BL','BL'],['A','kill','BL','fl'],['B','cross','fl','BR']]))
+ ]});
+
+nd({id:'door-game',n:'The Door Game',c:['spiele','laenge'],p:[2],t:'5–10 min',lv:1,
+ so:['Rally in die Länge, das Ziel ist die Tür in der Rückwand.','Wie bei Rails wird rotiert: Nach dem Schlag Platz machen, der andere übernimmt vom selben Bereich aus.','Jeder Treffer an die Tür zählt einen Punkt. Wer zuerst 10 Treffer hat, gewinnt.'],
+ fo:['Länge und Höhe so dosieren, dass der Ball die Rückwand an der Tür erreicht.','Nach dem Schlag den Weg freimachen.'],
+ ze:'Bis 10 Treffer. Danach Revanche mit der schwächeren Seite.',
+ va:['Nur Treffer nach einem Aufsprung zählen.','Solo als Door Hits (eigene Übung).'],
+ en:{so:['A length rally where the target is the door in the back wall.','Rotate as in Rails: clear after your shot and the other player takes over from the same area.','Every hit on the door scores a point. First to 10 hits wins.'],
+  fo:['Judge length and height so the ball reaches the back wall at the door.','Clear the way after your shot.'],
+  ze:'To 10 hits. Then a rematch on your weaker side.',
+  va:['Only hits after one bounce count.','Solo as Door Hits (separate drill).']},
+ m:[{t:'door'}],
+ a:seq([['A','door',[3.95,7.45],[3.55,7.85],{note:['Treffer: 1 Punkt','hit: 1 point']}],['B','door',[3.55,7.85],[3.95,7.45],{note:['Treffer: 1 Punkt','hit: 1 point']}]],{home:{A:[2.75,6.1],B:[2.75,6.1]}})});
+
+nd({id:'goaltending',n:'Goaltending Drill',c:['volley'],p:[2],t:'5 min',lv:3,
+ so:['A steht hinten und schlägt harte Drives in die Mitte, zwischen die beiden Aufschlagfelder.','B steht dort als Torwart und nimmt jeden Ball volley.','B spielt den Volley kontrolliert nach hinten.'],
+ fo:['Schläger oben und vor dem Körper, kurzer Schwung.','Auf den Fußballen stehen, es geht um Reaktion.','A schlägt so hart wie möglich, aber kontrolliert in den Zielbereich.'],
+ ze:'10 Bälle, dann tauschen. Abgewehrte Bälle zählen.',
+ va:['Volley gezielt in eine hintere Ecke.'],
+ safe:'Schutzbrille tragen. A zielt in die Mitte des Courts, nicht auf den Körper.',
+ en:{so:['A stands at the back and hits hard drives into the middle, between the two service boxes.','B stands there as the goalkeeper and takes every ball on the volley.','B volleys the ball back under control.'],
+  fo:['Racket up and in front of your body, short swing.','Stay on the balls of your feet, this is about reactions.','A hits as hard as possible but under control into the target area.'],
+  ze:'10 balls, then swap. Count the balls you save.',
+  va:['Aim the volley into a back corner.'],
+  safe:'Wear eye protection. A aims for the middle of the court, not at the body.'},
+ z:[{r:[1.6,5.44,3.2,1.6],l:['Tor','Goal']}],
+ a:seq([['A','drive','BR',[3.3,6.2],{l:['harter Drive in die Mitte','hard drive into the middle']}],['B','vdrive',[3.3,6.2],'BR',{l:['Reaktions-Volley nach hinten','reaction volley to the back']}]],{home:{A:[4.9,8.0],B:[3.2,5.9]}})});
+
+nd({id:'short-game',n:'The Short Game',c:['spiele','kurz'],p:[2],t:'10 min',lv:2,
+ so:['Gespielt wird nur im Vorderfeld.','Der Ball muss vor der Kurzlinie zweimal aufspringen können, sonst ist er zu lang.','Drops, Cross-Drops und Boasts sind erlaubt, harte Schläge nach hinten nicht.'],
+ fo:['Weiche Hand, Schläger unter den Ball.','Nach jedem Schlag einen Schritt zurück in die Mitte.','Mit Winkeln arbeiten, nicht mit Tempo.'],
+ ze:'Bis 11, jeder Ballwechsel zählt.',
+ va:['Nur gerade Drops erlaubt.','Auf eine Seite begrenzen (Short Channel Game).'],
+ en:{so:['Play in the front of the court only.','The ball must be able to bounce twice in front of the short line, otherwise it is too long.','Drops, cross-court drops and boasts are allowed, hard shots to the back are not.'],
+  fo:['Soft hands, racket under the ball.','Take a step back to the middle after every shot.','Work with angles, not pace.'],
+  ze:'To 11, point-a-rally.',
+  va:['Straight drops only.','Limit play to one side (Short Channel Game).']},
+ z:[{r:[0,0,6.4,5.44],l:['2× aufspringen vor der Linie','2 bounces before the line']},{r:[0,5.44,6.4,4.31],t:'tabu',l:['zu lang','too long']}],
+ a:seq([['A','drop','FR','fr'],['B','xdrop','fr','FL'],['A','drop','FL','fl'],['B','xdrop','fl','FR']],{home:{A:[2.8,3.5],B:[3.6,4.3]}})});
+
+nd({id:'short-vs-long',n:'Short vs Long',c:['spiele','bewegung'],p:[2],t:'10 min',lv:2,
+ so:['Der hintere Spieler darf nur kurz spielen: Drop, Boast oder Kill.','Der vordere Spieler darf nur lang spielen: gerade oder Cross.','Nach ein paar Minuten die Rollen tauschen.'],
+ fo:['Hinten: kurz variieren, nicht immer derselbe Schlag.','Vorne: nach dem langen Ball sofort wieder Richtung T.'],
+ ze:'4 Minuten pro Rolle, oder als Spiel bis 11.',
+ va:['Vorne nur gerade erlaubt.'],
+ en:{so:['The back player may only play short: drop, boast or kill.','The front player may only play long: straight or cross-court.','Swap roles after a few minutes.'],
+  fo:['At the back: vary your short shots, not always the same one.','At the front: straight back towards the T after the long ball.'],
+  ze:'4 minutes per role, or as a game to 11.',
+  va:['Front player straight only.']},
+ a:seq([['A','drop','BR','fr',{or:['boast','FL']}],['B','drive','fr','BR',{or:['cross','BL']}],['A','boast','BR','FL',{or:['drop','fr']}],['B','drive','FL','BL',{or:['cross','BR']}],['A','drop','BL','fl',{or:['boast','FR']}],['B','cross','fl','BR',{or:['drive','BL']}]],{home:{A:'Tb',B:'Tf'}})});
+
+nd({id:'pressure-drill',n:'The Pressure Drill',c:['volley','kurz'],p:[2],t:'8 min',lv:3,
+ so:['A steht am T und spielt Vorhand-Volleys kurz: Drop oder Boast.','B läuft jeden Angriff an und spielt den Ball zurück auf die Vorhandseite von A.','A bleibt am T, B macht die Laufarbeit.'],
+ fo:['A: Volley früh nehmen, Schläger oben.','B: Ball hoch genug zurückspielen, damit A volleyen kann.','B: nach jedem Schlag zurück Richtung Mitte.'],
+ ze:'60–90 Sekunden, dann tauschen. 3–4 Durchgänge.',
+ va:['Auf der Rückhandseite.'],
+ en:{so:['A stands on the T and plays forehand volleys short: drop or boast.','B chases every attack and returns the ball to A’s forehand side.','A stays on the T, B does the running.'],
+  fo:['A: take the volley early, racket up.','B: return the ball high enough for A to volley.','B: back towards the middle after every shot.'],
+  ze:'60–90 seconds, then swap. 3–4 rounds.',
+  va:['On the backhand side.']},
+ a:seq([['A','vdrop','MR','fr',{or:['vboast','FL']}],['B','drive','fr','MR',{l:['zurück auf die Vorhand','back to the forehand']}],['A','vboast','MR','FL',{or:['vdrop','fr']}],['B','cross','FL','MR',{w:'F',l:['zurück auf die Vorhand','back to the forehand']}]],{home:{A:[4.5,5.5],B:'Tf'}})});
+
+nd({id:'back-wall-drill',n:'Off the Back Wall',c:['kurz','laenge'],p:[2],t:'10 min',lv:2,
+ so:['A steht hinten und schlägt den Ball aus der Hand gegen die Rückwand, sodass er bis an die Stirnwand fliegt.','Von der Stirnwand kommt der Ball ins Mittelfeld zurück. B versucht, ihn zu killen.','B hat höchstens zwei Versuche. Gelingt kein Kill, wird rotiert.'],
+ fo:['Den Ball lesen: Über die Rückwand kommt er höher und langsamer als ein normaler Drive.','Früh in Position gehen, Schläger schon vorbereitet.','Kill flach, knapp über dem Tin und eng an der Seitenwand.'],
+ ze:'10 Zuspiele, dann Rollen tauschen. Gelungene Kills zählen.',
+ va:['Nur gerade Kills.','Zuspiel diagonal, damit der Ball auf der anderen Seite ankommt.'],
+ en:{so:['A stands at the back and hits the ball out of the hand against the back wall so that it carries to the front wall.','From the front wall the ball comes back into mid-court. B tries to kill it.','B has at most two attempts. If no kill comes off, rotate.'],
+  fo:['Read the ball: off the back wall it comes higher and slower than a normal drive.','Get into position early with the racket already prepared.','Hit the kill low, just above the tin and tight to the side wall.'],
+  ze:'10 feeds, then swap roles. Count successful kills.',
+  va:['Straight kills only.','Feed diagonally so the ball arrives on the other side.']},
+ a:seq([['A','bwfeed',[3.4,7.4],[4.8,4.5],{rec:false}],
+        ['B','kill',[4.8,4.5],'fr',{or:['xkill','fl'],note:['max. 2 Versuche','max. 2 attempts']}],
+        ['*',['Neuer Ball, nächstes Zuspiel','new ball, next feed'],{B:[4.3,6.3]}]],{home:{A:[3.4,7.4],B:[4.3,6.3]},mb:1})});
+
+(()=>{
+ const cs=D.find(x=>x.id==='cross-spiel');
+ const FREE=(de,en)=>({l:['frei, hier '+de,'free, here '+en]});
+ nd({id:'condition-games',n:'Condition Games',c:['spiele'],p:[2],t:'10–15 min',lv:2,s:['pw','gb','bt'],
+  so:['Normales Spiel mit Aufschlag und Punkten.','Dazu kommt eine Condition, also eine Zusatzregel, die einen Teil des Spiels gezielt trainiert.','Pro Spiel eine Condition wählen. Gilt sie nur für einen Spieler, nach jedem Spiel tauschen.'],
+  fo:['Die Regel zwingt dich zu bestimmten Lösungen. Nutze sie bewusst.','Der Spieler ohne Einschränkung übt, die Schwäche der Regel auszunutzen.'],
+  ze:'Bis 11, dann Rollen tauschen oder die nächste Condition.',
+  va:['Zwei Conditions kombinieren.','Als Ausgleich: nur der stärkere Spieler bekommt die Condition.'],
+  en:{so:['A normal game with serve and points.','Added to it is a condition, an extra rule that trains one part of the game.','Choose one condition per game. If it applies to one player only, swap after each game.'],
+   fo:['The rule forces certain solutions on you. Use them deliberately.','The unrestricted player practises exploiting the weakness of the rule.'],
+   ze:'To 11, then swap roles or move to the next condition.',
+   va:['Combine two conditions.','As a handicap: only the stronger player gets the condition.']},
+  a:cs.a,z:cs.z,
+  stages:[
+   stg('cond',['Nur Cross','Cross-court only'],['Jeder Schlag muss cross gespielt werden: Drive, Boast, Volley, Lob oder Drop.','Every shot must go cross-court: drive, boast, volley, lob or drop.']),
+   stg('cond',['Einer nur Cross lang','One player cross-court long only'],['A darf nur Cross nach hinten spielen. B darf alles.','A may only hit cross-court to the back. B may play anything.'],
+    seq([['A','cross','BR','BL',{l:['Cross lang, sein einziger Schlag','cross-court long, the only shot allowed'],k:'cond'}],['B','drop','BL','fl',FREE('Drop','a drop')],['A','cross','fl','BR',{l:['Cross lang, sein einziger Schlag','cross-court long, the only shot allowed'],k:'cond'}],['B','drive','BR','BR',FREE('gerade','straight')]])),
+   stg('cond',['Einer nur gerade lang','One player straight long only'],['A darf nur gerade nach hinten spielen. B darf alles.','A may only hit straight to the back. B may play anything.'],
+    seq([['A','drive','BR','BR',{l:['gerade lang, sein einziger Schlag','straight long, the only shot allowed'],k:'cond'}],['B','boast','BR','FL',FREE('Boast','a boast')],['A','drive','FL','BL',{l:['gerade lang, sein einziger Schlag','straight long, the only shot allowed'],k:'cond'}],['B','cross','BL','BR',FREE('Cross','cross-court')]])),
+   stg('cond',['Einer nur lang','One player long only'],['A darf nur nach hinten spielen, gerade oder Cross. B darf alles.','A may only hit to the back, straight or cross-court. B may play anything.'],
+    seq([['A','drive','BR','BR',{or:['cross','BL'],k:'cond'}],['B','drop','BR','fr',FREE('Drop','a drop')],['A','cross','fr','BL',{or:['drive','BR'],k:'cond'}],['B','boast','BL','FR',FREE('Boast','a boast')],['A','drive','FR','BR',{or:['cross','BL'],k:'cond'}],['B','drive','BR','BR',FREE('gerade','straight')]])),
+   stg('cond',['Einer nur kurz','One player short only'],['A darf nur nach vorne spielen: Drop, Boast oder Kill. B darf alles.','A may only play to the front: drop, boast or kill. B may play anything.'],
+    seq([['A','drop','BR','fr',{or:['boast','FL'],k:'cond'}],['B','drive','fr','BR',FREE('gerade','straight')],['A','boast','BR','FL',{or:['drop','fr'],k:'cond'}],['B','cross','FL','BR',FREE('Cross','cross-court')]],{home:{A:'Tb',B:'T'}})),
+   stg('cond',['Punkt in 3 Schlägen','Win it in 3 shots'],['A muss den Ballwechsel spätestens mit seinem dritten Schlag gewinnen, sonst geht der Punkt an B. B darf alles.','A must win the rally with their third shot at the latest, otherwise the point goes to B. B may play anything.'],
+    seq([['A','drive','BR','BR',{l:['Schlag 1 von 3','shot 1 of 3'],k:'cond'}],['B','drive','BR','BR',FREE('gerade','straight')],['A','boast','BR','FL',{l:['Schlag 2 von 3','shot 2 of 3'],k:'cond'}],['B','drop','FL','fl',FREE('Drop','a drop')],['A','cross','fl','BR',{l:['Schlag 3 von 3: muss den Punkt machen','shot 3 of 3: has to win the point'],k:'cond'}],['*',['Ballwechsel vorbei, neuer Aufschlag','rally over, new serve'],{A:'BR'}]])),
+   stg('cond',['Unter der Aufschlaglinie','Below the service line'],['Jeder Schlag muss die Stirnwand unter der Aufschlaglinie treffen. Das macht das Spiel flach und schnell.','Every shot must hit the front wall below the service line. This makes the game low and fast.'],
+    seq([['A','drive','BR','BR'],['B','cross','BR','BL'],['A','kill','BL','fl'],['B','cross','fl','BR']]),{m:[{t:'wall',l:['Nur unter der Aufschlaglinie','Below the service line only']}]}),
+   stg('cond',['Seitenwand-Spiel mit Volley-Regel','Side wall game with volley rule'],['Gespielt wird nur an einer Seitenwand entlang. Volleys sind nur erlaubt, wenn mindestens ein Fuß hinter der Kurzlinie steht.','Play only along one side wall. Volleys are only allowed with at least one foot behind the short line.'],
+    seq([['A','drive','BR',[5.1,6.3]],['B','vdrive',[5.1,6.3],'BR',{l:['Volley, ein Fuß hinter der Linie','volley, one foot behind the line'],k:'cond'}],['A','drive','BR','BR'],['B','drive','BR','BR']]),{z:[{r:[4.8,5.44,1.6,4.31]},{r:[4.8,0,1.6,5.44],t:'tabu',l:['kein Volley','no volley']}]}),
+   stg('cond',['Doppelter Aufsprung','Two bounces'],['Für unterschiedlich starke Partner: B (schwächer) darf den Ball zweimal aufspringen lassen. A (stärker) darf nicht volleyen.','For players of different levels: B (weaker) may let the ball bounce twice. A (stronger) may not volley.'],
+    seq([['A','back','BR',[1.5,7.7],{l:['Cross, kein Volley erlaubt','cross-court, no volleys allowed'],k:'cond'}],['B','cross',[1.5,7.7],'BR',{l:['nach dem 2. Aufsprung, hier Cross','after the 2nd bounce, here cross-court'],k:'cond'}]])),
+   stg('cond',['Rückwand als Handicap','Back wall handicap'],['A (stärker) verliert den Ballwechsel, wenn sein Ball vor dem zweiten Aufsprung die Rückwand trifft. B (schwächer) bekommt einen Punkt, wenn sein Ball nach einem Aufsprung die Rückwand trifft.','A (stronger) loses the rally if their ball hits the back wall before the second bounce. B (weaker) wins a point if their ball hits the back wall after one bounce.'],
+    seq([['A','drive','BR','BR',{l:['gerade, muss vor der Rückwand sterben','straight, has to die before the back wall'],k:'cond'}],['B','cross','BR','BL',FREE('Cross','cross-court')],['A','drive','BL','BL',{l:['gerade, muss vor der Rückwand sterben','straight, has to die before the back wall'],k:'cond'}],['B','cross','BL','BR',FREE('Cross','cross-court')]]),{z:[{r:[0,9.3,6.4,.45],t:'tabu',l:['Rückwand tabu für A','No back wall for A']}]}),
+   stg('cond',['Schläger-Bonus','Racket bonus'],['Hinter jedem Aufschlagfeld liegt ein Ersatzschläger direkt an der Seitenwand. Wer ihn im normalen Spiel trifft, bekommt 3 Extrapunkte.','A spare racket lies against the side wall behind each service box. Whoever hits one during normal play gets 3 bonus points.'],
+    seq([['A','cross','BR','BL'],['B','drive','BL',[0.3,7.5],{l:['trifft den Schläger: +3 Punkte','hits the racket: +3 points'],k:'cond'}],['*',['Weiter mit Aufschlag','continue with a serve'],{A:'BR'}]]),{m:[{t:'racket',p:[0.2,7.5]},{t:'racket',p:[6.2,7.5]}]})
+  ]});
+})();
+
+/* ===== Neue Übungen zu dritt ===== */
+nd({id:'two-ball-feeds',n:'Two-Ball Feeds',c:['laenge','kurz','volley'],p:[3],t:'10 min',lv:2,
+ so:['Zwei Zuspieler stehen hinten, jeder mit einem Ball auf seiner Seite.','Der Dritte arbeitet in der Mitte und spielt abwechselnd rechts und links.','Die Zuspieler spielen einen leichten Ball nach vorne, sobald der Arbeiter bereit ist.'],
+ fo:['Arbeiter: nach jedem Schlag über das T zur anderen Seite.','Zuspieler: gleichmäßig und leicht zuspielen, Rhythmus halten.'],
+ ze:'20 Schläge oder 90 Sekunden, dann rotieren.',
+ va:['Tempo der Zuspiele steigern.'],
+ en:{so:['Two feeders stand at the back, each with a ball on their side.','The third player works in the middle, alternating right and left.','The feeders play an easy ball to the front as soon as the worker is ready.'],
+  fo:['Worker: after every shot move through the T to the other side.','Feeders: feed evenly and gently, keep the rhythm.'],
+  ze:'20 shots or 90 seconds, then rotate.',
+  va:['Increase the pace of the feeds.']},
+ stages:[
+  stg('base','Straight Drive',['Der Arbeiter spielt jeden Ball als geraden Drive zurück zum Zuspieler. Mit zwei Bällen kommt das nächste Zuspiel sofort von der anderen Seite. Die Animation zeigt zur Übersicht immer nur einen Ball.','The worker hits every ball as a straight drive back to the feeder. With two balls the next feed comes straight away from the other side. For clarity the animation shows only one ball at a time.'],
+   seq([['C','feed','BR','FR'],['A','drive','FR','BR'],['B','feed','BL','FL'],['A','drive','FL','BL']],{home:{A:'Tf',B:'BL',C:'BR'},mb:1})),
+  stg('var','Straight Drop',['Der Arbeiter spielt gerade Drops und geht nach jedem Schlag zurück zum T.','The worker plays straight drops and returns to the T after every shot.'],
+   seq([['C','feed','BR','FR'],['A','drop','FR','fr',{note:['dann zurück zum T','then back to the T']}],['B','feed','BL','FL'],['A','drop','FL','fl',{note:['dann zurück zum T','then back to the T']}]],{home:{A:'T',B:'BL',C:'BR'},mb:1})),
+  stg('var','Straight Volley Drive',['Die Zuspieler spielen an der Wand entlang, der Arbeiter nimmt jeden Ball volley und spielt gerade in die Länge.','The feeders hit down the wall, the worker takes every ball on the volley and hits straight to length.'],
+   seq([['C','drive','BR','MR',{l:['Zuspiel an der Wand entlang','feed down the wall']}],['A','vdrive','MR','BR'],['B','drive','BL','ML',{l:['Zuspiel an der Wand entlang','feed down the wall']}],['A','vdrive','ML','BL']],{home:{A:'T',B:'BL',C:'BR'},mb:1})),
+  stg('var','Straight Kill',['Leichtes Zuspiel nach vorne, der Arbeiter tötet den Ball mit einem kurzen geraden Kill.','An easy feed to the front, the worker finishes the ball with a short straight kill.'],
+   seq([['C','feed','BR',[5.2,3.2]],['A','kill',[5.2,3.2],'fr'],['B','feed','BL',[1.2,3.2]],['A','kill',[1.2,3.2],'fl']],{home:{A:'Tf',B:'BL',C:'BR'},mb:1}))
+ ]});
+
+nd({id:'feed-and-kill',n:'Kill from the T',c:['volley','kurz'],p:[3],t:'10 min',lv:2,
+ so:['Einer steht am T, die beiden anderen spielen von hinten leichte gerade Bälle zu.','Der Spieler am T versucht, jeden Ball zu töten.','In der Grundform geht der Kill in die Länge, gerade oder Cross.'],
+ fo:['Früh am Ball sein und im Treffpunkt stabil stehen.','Ziel ist ein Ball, der nicht mehr aus der Ecke kommt.'],
+ ze:'10 Zuspiele, dann rotieren. Gewinnschläge zählen.',
+ va:['Die Zuspieler versuchen, den Kill zu erlaufen.'],
+ en:{so:['One player stands on the T, the other two feed easy straight balls from the back.','The player on the T tries to kill every ball.','In the base drill the kill goes to length, straight or cross-court.'],
+  fo:['Get to the ball early and be stable at contact.','The aim is a ball that does not come out of the corner again.'],
+  ze:'10 feeds, then rotate. Count winners.',
+  va:['The feeders try to retrieve the kill.']},
+ stages:[
+  stg('base','Length Kills',['Kill in die Länge, als Cross oder Drive in eine hintere Ecke.','Kill to length, as a cross-court or drive into a back corner.'],
+   seq([['C','feed','BR',[4.5,5.7]],['A','cross',[4.5,5.7],'BL',{or:['drive','BR']}],['B','feed','BL',[1.9,5.7]],['A','cross',[1.9,5.7],'BR',{or:['drive','BL']}]],{home:{A:'T',B:'BL',C:'BR'}})),
+  stg('var','Cross-Court Kills, Side to Side',['Die Zuspiele kommen abwechselnd von rechts und links. Der Spieler am T spielt jeden Ball als Cross-Kill nach vorne.','The feeds come alternately from right and left. The player on the T plays every ball as a cross-court kill to the front.'],
+   seq([['C','feed','BR',[4.5,5.7]],['A','xkill',[4.5,5.7],'fl'],['B','feed','BL',[1.9,5.7]],['A','xkill',[1.9,5.7],'fr']],{home:{A:'T',B:'BL',C:'BR'},mb:1})),
+  stg('opt',['Short Kills, freie Wahl','Short kills, free choice'],['Die Zuspieler stehen hinter dem Spieler und spielen gerade nach vorne. Er macht den Ball kurz tot: Kill, Drop oder Nick, gerade oder cross.','The feeders stand behind the player and feed straight to the front. The player finishes the ball short: kill, drop or nick, straight or cross-court.'],
+   seq([['C','feed','BR',[5.0,3.4]],['A','kill',[5.0,3.4],'fr',{or:['xdrop','fl']}],['B','feed','BL',[1.4,3.4]],['A','kill',[1.4,3.4],'fl',{or:['xdrop','fr']}]],{home:{A:'Tf',B:'BL',C:'BR'},mb:1}))
+ ]});
+
+nd({id:'boast-drive-rotation',n:'Boast & Drive',np:3,c:['bewegung','laenge'],p:[3],s:['us','pw'],t:'10 min',lv:2,
+ so:['Boast & Drive zu dritt.','In der Grundform boastet B hinten, A und C spielen vorne abwechselnd die Drives. Wer nicht dran ist, wartet nahe der Mitte.','Die weiteren Stufen verteilen die Rollen anders, siehe Aufbau der Übung.'],
+ fo:['Wissen, wann du dran bist: jeder dritte Schlag.','Laufwege absprechen, damit niemand im Weg steht.'],
+ ze:'5 Minuten am Stück, Fehler zählen.',
+ va:['Mit Cross statt Drive.'],
+ safe:'Zu dritt wird es eng: Der Spieler, der nicht dran ist, bleibt hinter dem Schlagenden.',
+ en:{so:['Boast & Drive with three players.','In the base drill B boasts at the back, A and C take turns hitting the drives at the front. Whoever is not hitting waits near the middle.','The further steps share out the roles differently, see how the drill builds up.'],
+  fo:['Know when it is your turn: every third shot.','Agree on the running paths so nobody is in the way.'],
+  ze:'5 minutes continuously, count mistakes.',
+  va:['With cross-court instead of drive.'],
+  safe:'It gets tight with three: the player who is not hitting stays behind the hitter.'},
+ stages:[
+  stg('base',['Ein Boaster, zwei Driver','One boaster, two drivers'],['B boastet hinten aus beiden Ecken. A und C spielen vorne abwechselnd den geraden Drive.','B boasts at the back from both corners. A and C take turns hitting the straight drive at the front.'],D.find(x=>x.id==='boast-drive').alt[3]),
+  stg('var',['Alle rotieren','Everyone rotates'],['Boast, Drive, Boast, Drive. Geschlagen wird reihum: A, B, C. So spielt jeder abwechselnd Boast und Drive.','Boast, drive, boast, drive. Players hit in turn: A, B, C. This way everyone alternates between boast and drive.'],
+   (()=>{const hs=['A','B','C'],pat=[['boast','BR','FL'],['drive','FL','BL'],['boast','BL','FR'],['drive','FR','BR']],s=[];for(let i=0;i<12;i++)s.push([hs[i%3],...pat[i%4]]);return seq(s,{home:{A:[2.7,5.4],B:[3.2,6.1],C:[3.7,5.4]}})})()),
+  stg('opt',['Zwei hinten, einer vorne','Two at the back, one at the front'],['B und C stehen hinten und spielen nur Boasts. A arbeitet vorne und darf wählen: gerade oder Cross.','B and C stand at the back and only boast. A works at the front and may choose: straight or cross-court.'],
+   seq([['B','boast','BR','FL'],['A','drive','FL','BL',{or:['cross','BR']}],['C','boast','BL','FR'],['A','drive','FR','BR',{or:['cross','BL']}]],{home:{A:'T',B:[5.0,7.9],C:[1.4,7.9]}}))
+ ]});
+
+nd({id:'three-corner-combo',n:'Drive + Boast, Drop + Drive',c:['bewegung','kurz'],p:[3],t:'10 min',lv:2,
+ so:['A und C stehen in den hinteren Ecken, B arbeitet vorne.','Jeder spielt zwei Schläge hintereinander. Hinten: gerader Drive zu sich selbst, dann Boast.','B vorne: Drop zu sich selbst, dann gerader Drive in die hintere Ecke.'],
+ fo:['Der erste Schlag bereitet den zweiten vor: sauber zu sich selbst spielen.','B läuft vorne von Seite zu Seite und geht nach dem Drive zurück zur Mitte.'],
+ ze:'3 Minuten, dann rotiert jeder eine Position weiter.',
+ va:['B spielt Drop und Cross statt Drop und Drive.'],
+ en:{so:['A and C stand in the back corners, B works at the front.','Each player hits two shots in a row. At the back: straight drive to yourself, then boast.','B at the front: drop to yourself, then a straight drive into the back corner.'],
+  fo:['The first shot sets up the second: play it cleanly to yourself.','B runs from side to side at the front and returns to the middle after the drive.'],
+  ze:'3 minutes, then everyone rotates one position.',
+  va:['B plays drop and cross-court instead of drop and drive.']},
+ stages:[
+  stg('base','Drive + Boast, Drop + Drive',['Hinten: Drive zu sich selbst, dann Boast. Vorne: Drop zu sich selbst, dann gerader Drive in die Ecke des nächsten Spielers.','At the back: drive to yourself, then boast. At the front: drop to yourself, then a straight drive into the next player’s corner.'],
+   seq([['A','drive','BR','BR',{note:SELF}],['A','boast','BR','FL'],['B','drop','FL','fl',{note:SELF}],['B','drive','fl','BL'],['C','drive','BL','BL',{note:SELF}],['C','boast','BL','FR'],['B','drop','FR','fr',{note:SELF}],['B','drive','fr','BR']],{home:{A:[4.9,7.8],B:'Tf',C:[1.5,7.8]}})),
+  stg('step','Volley Drive + Boast',['Die hinteren Spieler nehmen den Drive von B volley, spielen ihn gerade zu sich selbst und boasten dann.','The back players take B’s drive on the volley, play it straight to themselves and then boast.'],
+   seq([['A','vdrive','br','BR',{note:SELF}],['A','boast','BR','FL'],['B','drop','FL','fl',{note:SELF}],['B','drive','fl','bl'],['C','vdrive','bl','BL',{note:SELF}],['C','boast','BL','FR'],['B','drop','FR','fr',{note:SELF}],['B','drive','fr','br']],{home:{A:[4.8,7.3],B:'Tf',C:[1.6,7.3]}}))
+ ]});
+
+nd({id:'hand-feed-sprint',n:'Hand-Feed Sprint',c:['fitness'],p:[3],t:'5–8 min',lv:1,
+ so:['B steht hinten und wirft A den Ball mit der Hand zu, A spielt einen geraden Drive.','Dann sprintet A diagonal nach vorne. Dort wirft C zu, A spielt einen Drop.','A sprintet zurück nach hinten, und es geht von vorne los.'],
+ fo:['Trotz Tempo sauber schlagen.','Letzter Schritt vor dem Schlag kontrolliert.'],
+ ze:'10 Diagonalen oder 60 Sekunden, dann rotieren.',
+ va:['Andere Diagonale.','Volley statt Drive.'],
+ en:{so:['B stands at the back and hand-feeds the ball to A, who hits a straight drive.','Then A sprints diagonally to the front. There C hand-feeds and A plays a drop.','A sprints back to the back and it starts again.'],
+  fo:['Hit cleanly despite the pace.','Make the last step before the shot a controlled one.'],
+  ze:'10 diagonals or 60 seconds, then rotate.',
+  va:['The other diagonal.','Volley instead of drive.']},
+ a:seq([['B','toss',[5.95,8.5],[5.2,8.0],{rec:false}],['A','drive',[5.2,8.0],[5.6,8.9],{rec:false}],['*',['A · diagonal nach vorne sprinten','A · sprint diagonally to the front'],{A:[1.6,2.4]},1.5],['C','toss',[0.5,2.7],[1.3,2.2],{rec:false}],['A','drop',[1.3,2.2],'fl',{rec:false}],['*',['A · zurück nach hinten sprinten','A · sprint back to the back'],{A:[5.0,7.7]},1.5]],{home:{A:[5.0,7.7],B:[5.95,8.5],C:[0.5,2.7]},mb:1})});
+
+nd({id:'interception-game',n:'Interception Game',c:['volley','spiele'],p:[3],t:'10–15 min',lv:3,
+ so:['Zwei Spieler halten den Ball im Spiel, der Dritte steht am T und versucht, ihn abzufangen.','In der Grundform spielen die beiden hinten nur gerade Drives.','Der Spieler am T nimmt den Ball volley und spielt ihn nach hinten, gerade oder Cross.'],
+ fo:['Am T: Schläger oben, früh entscheiden, welcher Ball abgefangen wird.','Die anderen: eng und druckvoll spielen, um das Abfangen schwer zu machen.'],
+ ze:'3 Minuten am T, dann rotieren. Abgefangene Bälle zählen.',
+ va:['Als Spiel: ein Punkt für jeden sauberen Abfang-Volley.'],
+ safe:'Der Spieler am T steht mitten im Geschehen. Schutzbrille tragen und nur schlagen, wenn der Weg frei ist.',
+ en:{so:['Two players keep the ball in play, the third stands on the T and tries to intercept it.','In the base drill the two at the back only hit straight drives.','The player on the T takes the ball on the volley and plays it to the back, straight or cross-court.'],
+  fo:['On the T: racket up, decide early which ball to intercept.','The others: play tight and with pressure to make the interception hard.'],
+  ze:'3 minutes on the T, then rotate. Count the balls intercepted.',
+  va:['As a game: a point for every clean intercepting volley.'],
+  safe:'The player on the T is in the middle of the action. Wear eye protection and only hit when the way is clear.'},
+ stages:[
+  stg('base',['Gerade Drives abfangen','Intercept straight drives'],['Die beiden hinten spielen nur gerade Drives. Der Spieler am T fängt ab und spielt den Volley gerade oder Cross nach hinten.','The two at the back only hit straight drives. The player on the T intercepts and volleys straight or cross-court to the back.'],
+   seq([['A','drive','BR','BR'],['C','drive','BR','MR'],['B','vdrive','MR','BR',{l:['fängt ab: Volley gerade oder Cross','intercepts: straight or cross-court volley'],or:['vcross','BL']}]],{home:{A:[4.2,7.7],B:[3.5,5.5],C:[4.7,7.0]}})),
+  stg('var',['Cross vorne, gerade hinten','Cross at the front, straight at the back'],['A spielt vorne nur Cross, C hinten nur gerade. B am T fängt beides ab: den Drive mit einem Volley-Boast, den Cross mit einem Volley gerade.','A only hits cross-court at the front, C only straight at the back. B on the T intercepts both: the drive with a volley boast, the cross with a straight volley.'],
+   seq([['A','cross','FL','MR',{w:'F'}],['B','vdrive','MR','BR',{l:['fängt den Cross ab: Volley gerade','intercepts the cross: straight volley']}],['C','drive','BR','MR'],['B','vboast','MR','FL',{l:['fängt den Drive ab: Volley-Boast','intercepts the drive: volley boast']}]],{home:{A:[1.7,2.7],B:[3.7,5.5],C:[4.9,7.9]}})),
+  stg('var',['Boast hinten, frei vorne','Boast at the back, free at the front'],['C spielt hinten nur Boasts. A spielt vorne Cross oder Drive nach hinten. B am T fängt ab und spielt den Volley gerade nach hinten.','C only boasts at the back. A hits cross-court or drive to the back from the front. B on the T intercepts and volleys straight to the back.'],
+   seq([['C','boast','BR','FL'],['A','drive','FL','ML',{or:['cross','BR']}],['B','vdrive','ML','BL',{l:['fängt ab: Volley gerade nach hinten','intercepts: straight volley to the back']}],['C','boast','BL','FR'],['A','drive','FR','MR',{or:['cross','BL']}],['B','vdrive','MR','BR',{l:['fängt ab: Volley gerade nach hinten','intercepts: straight volley to the back']}]],{home:{A:[3.2,2.6],B:'T',C:'Tb'}})),
+  stg('var',['Lob vorne, Drive hinten','Lob at the front, drive at the back'],['A spielt vorne Cross-Lobs, C hinten nur Drives. B am T: Volley-Drop gerade auf den Drive von C, Volley-Drive auf den Lob von A.','A plays cross-court lobs at the front, C only drives at the back. B on the T: straight volley drop off C’s drive, volley drive off A’s lob.'],
+   seq([['A','lob','fl',[5.0,6.6],{w:'F'}],['B','vdrive',[5.0,6.6],'BR',{l:['auf den Lob: Volley-Drive','off the lob: volley drive']}],['C','drive','BR','MR'],['B','vdrop','MR','fr',{l:['auf den Drive: Volley-Drop','off the drive: volley drop']}],['A','lob','fr',[1.4,6.6],{w:'F'}],['B','vdrive',[1.4,6.6],'BL',{l:['auf den Lob: Volley-Drive','off the lob: volley drive']}],['C','drive','BL','ML'],['B','vdrop','ML','fl',{l:['auf den Drive: Volley-Drop','off the drive: volley drop']}]],{home:{A:[3.2,2.4],B:'T',C:'Tb'}})),
+  stg('var',['Kurz, lang oder Boast','Short, long or boast'],['A spielt von hinten immer gerade Drives, B fängt mit dem Volley ab. Volley kurz: C spielt ihn vorne gerade zurück. Volley lang: A spielt wieder gerade. Volley-Boast: Alle wechseln die Seite.','A always hits straight drives from the back, B intercepts on the volley. Short volley: C plays it straight back from the front. Long volley: A hits straight again. Volley boast: everyone switches sides.'],
+   seq([['A','drive','BR','MR'],['B','vdrop','MR','fr',{l:['Volley kurz','short volley']}],['C','drive','fr','BR',{l:['gerade zurück','straight back']}],['A','drive','BR','MR'],['B','vdrive','MR','BR',{l:['Volley lang','long volley']}],['A','drive','BR','MR'],['B','vboast','MR','FL',{l:['Volley-Boast: Seitenwechsel','volley boast: switch sides']}],['C','drive','FL','BL'],['A','drive','BL','ML'],['B','vboast','ML','FR',{l:['Volley-Boast: Seitenwechsel','volley boast: switch sides']}],['C','drive','FR','BR']],{home:{A:'Tb',B:'T',C:[3.2,2.6]}})),
+  stg('opt','+ Counter Drop',['Wie davor. Nach einem kurzen Volley darf C zusätzlich einen Counter-Drop spielen.','As before. After a short volley C may also play a counter drop.'],
+   seq([['A','drive','BR','MR'],['B','vdrop','MR','fr',{l:['Volley kurz','short volley']}],['C','drive','fr','BR',{or:['cdrop','fr']}],['A','drive','BR','MR'],['B','vdrive','MR','BR',{l:['Volley lang','long volley']}],['A','drive','BR','MR'],['B','vboast','MR','FL',{l:['Volley-Boast: Seitenwechsel','volley boast: switch sides']}],['C','drive','FL','BL'],['A','drive','BL','ML'],['B','vboast','ML','FR',{l:['Volley-Boast: Seitenwechsel','volley boast: switch sides']}],['C','drive','FR','BR']],{home:{A:'Tb',B:'T',C:[3.2,2.6]}}))
+ ]});
+
+nd({id:'three-way-length',n:'Length Game',np:3,c:['spiele','laenge'],p:[3],t:'10 min',lv:1,
+ so:['Längenspiel zu dritt: alle Bälle hinter die Kurzlinie, gerade oder Cross.','Geschlagen wird immer abwechselnd in fester Reihenfolge: A, B, C.','Wer geschlagen hat, macht Platz und wartet in der Mitte auf seinen nächsten Ball.'],
+ fo:['Reihenfolge laut mitzählen, bis sie sitzt.','Nach dem Schlag sofort aus dem Weg.'],
+ ze:'Wer einen Fehler macht, bekommt einen Minuspunkt. Bei 5 Minuspunkten ist die Runde vorbei.',
+ va:['Nur gerade.','Volleys erlaubt.'],
+ en:{so:['A length game for three: every ball behind the short line, straight or cross-court.','Players hit in a fixed order: A, B, C.','Whoever has hit clears and waits in the middle for their next ball.'],
+  fo:['Count the order out loud until it sticks.','Get out of the way immediately after your shot.'],
+  ze:'Whoever makes a mistake gets a penalty point. The round ends at 5 penalty points.',
+  va:['Straight only.','Volleys allowed.']},
+ stages:(()=>{
+  const H={home:{A:[2.7,5.4],B:[3.2,6.1],C:[3.7,5.4]}};
+  const hs=['A','B','C'],pat=[['drive','BR','BR'],['cross','BR','BL'],['drive','BL','BL'],['cross','BL','BR']],s=[];
+  for(let i=0;i<12;i++)s.push([hs[i%3],...pat[i%4]]);
+  return [
+   stg('base',['Reihum, gerade oder Cross','In turn, straight or cross-court'],['Alle Bälle in die Länge, gerade oder Cross. Die Reihenfolge A, B, C bleibt fest.','Every ball to length, straight or cross-court. The order A, B, C stays fixed.'],seq(s,H),{z:[{r:[0,SL,W,LEN-SL],l:['Zielzone','Target zone']}]}),
+   stg('opt',['Einmal kurz pro Rally','One short shot per rally'],['Jeder darf pro Ballwechsel genau einmal kurz spielen. Der Nächste in der Reihe muss den Ball holen.','Each player may play short exactly once per rally. The next in line has to retrieve it.'],
+    seq([['A','drive','BR','BR'],['B','cross','BR','BL'],['C','drop','BL','fl',{k:'opt',note:['1× pro Rally erlaubt','allowed once per rally']}],['A','drive','fl','BL'],['B','cross','BL','BR'],['C','drive','BR','BR']],H)),
+   stg('step',['Alles erlaubt','Anything goes'],['Weiter in fester Reihenfolge, aber jetzt ist jeder Schlag erlaubt.','Still in a fixed order, but now any shot is allowed.'],
+    seq([['A','drive','BR','BR'],['B','boast','BR','FL'],['C','drop','FL','fl'],['A','cross','fl','BR'],['B','drive','BR','BR'],['C','drive','BR','BR']],H))
+  ];})()});
+
+/* ===== Neue Solo-Übungen ===== */
+nd({id:'khan-volleys',n:'Khan Volleys',c:['volley'],p:[1],t:'3–5 min',lv:3,
+ so:['Stell dich etwa 3 Meter vor eine vordere Ecke, im 45-Grad-Winkel zur Ecke.','Spiel den Volley so in die Ecke, dass der Ball über Stirnwand und Seitenwand zu dir zurückkommt.','Vorhand und Rückhand wechseln sich schnell ab.'],
+ fo:['Kurzer Schwung, festes Handgelenk.','Schläger zwischen den Schlägen oben lassen.','Erst Kontrolle, dann Tempo.'],
+ ze:'Höchste Serie ohne Fehler zählen. Ziel: 20 in Folge.',
+ va:['Andere Ecke.','Einen Schritt näher an die Ecke für mehr Tempo.'],
+ en:{so:['Stand about 3 metres from a front corner, at a 45-degree angle to the corner.','Volley into the corner so the ball comes back to you off the front wall and the side wall.','Forehand and backhand alternate quickly.'],
+  fo:['Short swing, firm wrist.','Keep the racket up between shots.','Control first, then pace.'],
+  ze:'Count your longest run without a mistake. Goal: 20 in a row.',
+  va:['The other corner.','One step closer to the corner for more pace.']},
+ a:seq([['A','kv1',[4.3,2.1],[4.45,2.3]],['A','kv2',[4.45,2.3],[4.3,2.1]]],{home:{A:[4.3,2.1]}})});
+
+nd({id:'door-hits',n:'Door Hits',c:['laenge'],p:[1],t:'5 min',lv:1,
+ so:['Stell dich hinten in die Mitte.','Spiel gerade Drives so, dass der Ball nach der Stirnwand die Tür in der Rückwand trifft.','Jeden Treffer zählen.'],
+ fo:['Die Höhe an der Stirnwand bestimmt die Länge.','Gleichmäßiger Schwung, sauberer Treffpunkt.'],
+ ze:'Wie viele Treffer in 20 Versuchen? Bestwert notieren.',
+ va:['Zu zweit als The Door Game (eigene Übung).'],
+ en:{so:['Stand in the middle at the back.','Hit straight drives so that the ball hits the door in the back wall after the front wall.','Count every hit.'],
+  fo:['The height on the front wall decides the length.','Even swing, clean contact.'],
+  ze:'How many hits in 20 attempts? Note your best.',
+  va:['With a partner as The Door Game (separate drill).']},
+ m:[{t:'door'}],
+ a:seq([['A','door',[3.7,7.4],[3.0,7.9]],['A','door',[3.0,7.9],[3.7,7.4]]],{home:{A:[3.7,7.4]}})});
+
+/* Aufwärmen am Court (Bereich „Für den Körper“) */
+nd({id:'sidewall-warmup',n:'Side Wall to Side Wall',c:['aufwaermen'],p:[1,2,3],t:'2 min',lv:1,body:true,dose:'1–2 Minuten',
+ so:['Stell dich in die Mitte des Courts.','Schlag den Ball hart gegen eine Seitenwand, sodass er zur anderen Seitenwand und zurück zu dir springt.','Vorhand und Rückhand im Wechsel, mit lockerem, peitschendem Schwung.'],
+ fo:['Locker aus dem Handgelenk, das wärmt Ball und Arm.','Schnelle Schlägervorbereitung.'],
+ ze:'1–2 Minuten, bis der Ball richtig warm ist.',
+ va:['Als Volley, ohne Aufsprung.'],
+ en:{dose:'1–2 minutes',so:['Stand in the middle of the court.','Hit the ball hard against one side wall so that it rebounds to the other side wall and back to you.','Alternate forehand and backhand with a loose, whippy swing.'],
+  fo:['Loose from the wrist, this warms up ball and arm.','Quick racket preparation.'],
+  ze:'1–2 minutes, until the ball is properly warm.',
+  va:['On the volley, without a bounce.']},
+ a:seq([['A','side',[3.35,5.0],[3.05,5.5]],['A','side',[3.05,5.5],[3.35,5.0]]],{home:{A:[3.35,5.0]}})});
+
+/* Colombian: durchgehende Schleife, der Spieler läuft seinem Drive direkt hinterher */
+(()=>{const d=D.find(x=>x.id==='kolumbianer-drive');
+ d.a=seq([['A','boast','BR','FL',{l:['Vorhand · Boast','Forehand · boast']}],['A','drive','FL','BL',{l:['Rückhand · gerader Drive, dann hinterherlaufen','Backhand · straight drive, then chase it']}],
+          ['A','boast','BL','FR',{l:['Rückhand · Boast','Backhand · boast']}],['A','drive','FR','BR',{l:['Vorhand · gerader Drive, dann hinterherlaufen','Forehand · straight drive, then chase it']}]]);})();
+
+D.find(x=>x.id==='rails').n='Rails (Longline Rallies)';
+
+/* Zu dritt als eigene Übungen statt Umschalter: Name bekommt „(3 Spieler)“ */
+function split(id,n,extra){
+  const o=D.find(x=>x.id===id), e=EN.d[id]||{};
+  const keep=(a,t)=>a&&a.filter(x=>t?!/^Zu dritt|^With three/.test(x):true);
+  const c={...o,id:id+'-'+n+'p',np:n,p:[n],a:o.alt[n],alt:null,stages:null,z:o.z,
+    en:{...e,so:e.so},...(extra||{})};
+  NEWD.push(c);
+  return c;
+}
+const RAILS3=(()=>{
+  const r=D.find(x=>x.id==='rails');
+  const H={home:{A:[2.8,5.6],B:[3.6,5.6],C:[3.2,6.4]}};
+  const rot=sh=>seq(sh.map((x,i)=>[['A','B','C'][i%3],...x]),H);
+  return split('rails',3,{stages:[
+    stg('base',['Gerade Drives, reihum','Straight drives in turn'],['Alle spielen auf einer Seite nur gerade Drives. Nach dem Schlag hinten anstellen, so entsteht eine Rotation.','Everyone plays only straight drives on one side. After your shot join the back of the queue, creating a rotation.'],r.alt[3]),
+    stg('var','Straight, Straight, Cross',['Zwei gerade Drives, dann ein Cross auf die andere Seite. Geschlagen wird reihum: A, B, C.','Two straight drives, then a cross-court to the other side. Players hit in turn: A, B, C.'],
+      rot([['drive','BR','BR'],['drive','BR','BR'],['cross','BR','BL'],['drive','BL','BL'],['drive','BL','BL'],['cross','BL','BR']])),
+    stg('var','Drive, Drive, Drop',['Zwei gerade Drives, dann ein gerader Drop von hinten. Der nächste in der Reihe holt den Drop.','Two straight drives, then a straight drop from the back. The next in line retrieves the drop.'],
+      rot([['drive','fr','BR'],['drive','BR','BR'],['drop','BR','fr']])),
+    stg('var','Straight, Straight Drop, Cross',['Gerader Drive, gerader Drop von hinten, dann aus dem Vorderfeld ein Cross auf die andere Seite. Reihum geschlagen.','Straight drive, straight drop from the back, then a cross-court from the front to the other side. Played in turn.'],
+      rot([['drive','BR','BR'],['drop','BR','fr'],['cross','fr','BL'],['drive','BL','BL'],['drop','BL','fl'],['cross','fl','BR']]))]});
+})();
+(()=>{const r=D.find(x=>x.id==='rails');
+  r.so=r.so.filter(x=>!/^Zu dritt/.test(x)); if(EN.d.rails) EN.d.rails={...EN.d.rails,so:EN.d.rails.so.filter(x=>!/^With three/.test(x))};
+  RAILS3.n='Rails (Longline Rallies)';})();
+split('zuruf-ghosting',3); split('court-sprints',2); split('court-sprints',3);
+
+/* Zusammengeführte Übungen entfernen, neue einsortieren */
+['drive-drive-boast','boast-freie-antwort','cross-spiel','ausgleichs-spiele','gerade-spiel'].forEach(id=>{const i=D.findIndex(x=>x.id===id);if(i>=0)D.splice(i,1)});
+D.push(...NEWD);
+D.forEach(d=>{d.alt=null;if(d.id==='court-sprints'||d.id==='zuruf-ghosting'||d.id==='rails'||d.id==='boast-drive'||d.id==='laengen-spiel')d.p=[d.p[0]];
+  (d.stages||[]).forEach(x=>{if(x.k==='step')x.k='var'})});
+
+/* Name mit Spielerzahl, wenn es die Übung auch in anderer Besetzung gibt */
+const nameOf=d=>{if(!d.np)return d.n;const x=d.np+' '+tr('Spieler','players');return d.n.endsWith(')')?d.n.slice(0,-1)+', '+x+')':d.n+' ('+x+')'};
+/* Welche Stufe zeigt die Animation? */
+function plFor(d){return d.p[0];}
+function stageIdx(d){return d.stages&&curId===d.id?Math.min(state.detStage||0,d.stages.length-1):0;}
+function vv(d,si){
+  if(!d.a) return d;
+  if(si===undefined) si=stageIdx(d);
+  const s=d.stages&&d.stages[si];
+  if(!s) return d;
+  d._v=d._v||{};
+  if(d._v[si]) return d._v[si];
+  let a=d.a,z=d.z,m=d.m;
+  if(s.a){a=s.a;z=s.z||[];m=s.m||[];}
+  else { if(s.z!==undefined)z=[...(d.z||[]),...s.z]; if(s.m)m=s.m; }
+  return d._v[si]={...d,a,z,m,_m:null,_v:null};
+}
+
+/* Bezeichnungen der Stufen-Arten */
+const KIND={base:['Grundform','Base drill'],step:['Variante','Variation'],opt:['Option','Option'],cond:['Condition','Condition'],var:['Variante','Variation']};
+const L2=x=>Array.isArray(x)?x[en()?1:0]:x;
+const kname=k=>L2(KIND[k]);
+/* Aufwärmen an der Seitenwand gehört zu den anderen Aufwärm-Übungen auf dem Court */
+(()=>{const i=D.findIndex(x=>x.id==='sidewall-warmup'),j=D.findIndex(x=>x.id==='pre-match-hit');if(i>=0&&j>=0){const [x]=D.splice(i,1);D.splice(D.findIndex(y=>y.id==='pre-match-hit')+1,0,x);}})();
 
 /* ---------- Strichmännchen ---------- */
 const mid2=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
@@ -1342,17 +2004,20 @@ function mir(d){
   if(!state.lefty||!d.a) return d;
   if(d._m) return d._m;
   const mo=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,mx(v)]));
-  const a={start:mo(d.a.start),steps:d.a.steps.map(x=>({...x,b:x.b&&x.b.map(mx),h:x.h&&mx(x.h),to:mo(x.to||{})}))};
+  const a={start:mo(d.a.start),steps:d.a.steps.map(x=>({...x,b:x.b&&x.b.map(mx),o:x.o&&x.o.map(q=>q.map(mx)),h:x.h&&mx(x.h),to:mo(x.to||{})}))};
   const z=(d.z||[]).map(q=>q.r?{...q,r:[+(W-q.r[0]-q.r[2]).toFixed(3),q.r[1],q.r[2],q.r[3]]}:q.line?{...q,line:q.line.map(mx)}:q);
-  return d._m={...d,a,z};
+  const m=(d.m||[]).map(q=>q.p?{...q,p:mx(q.p)}:q);
+  return d._m={...d,a,z,m};
 }
 function courtSVG(d0,big){
   const d=mir(d0);
   const a=d.a;
-  let s=`<svg viewBox="-0.4 ${big?-0.62:-0.25} 7.2 ${big?11.45:10.75}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Draufsicht Court: ${d.n}">`;
+  let s=`<svg viewBox="-0.4 ${big?-0.62:-0.25} 7.2 ${big?11.45:10.75}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${tr('Draufsicht Court','Court top view')}: ${nameOf(d)}">`;
   s+=`<rect x="0" y="0" width="${W}" height="${LEN}" style="fill:var(--floor)"/>`;
+  if((d.z||[]).some(z=>z.t==='tabu')) s+=`<defs><pattern id="tabuP" width=".28" height=".28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2=".28" style="stroke:var(--tabu);stroke-width:${big?.1:.16};stroke-opacity:.6"/></pattern></defs>`;
   (d.z||[]).forEach(z=>{
-    if(z.r) s+=`<rect x="${z.r[0]}" y="${z.r[1]}" width="${z.r[2]}" height="${z.r[3]}" style="fill:var(--zone)"/>`+(big&&z.l?`<text x="${z.r[0]+z.r[2]/2}" y="${z.r[1]+z.r[3]/2}" text-anchor="middle" dominant-baseline="central" style="fill:var(--accent);font:600 .3px var(--display);letter-spacing:.02px;text-transform:uppercase">${zlab(z.l).toUpperCase()}</text>`:'');
+    const tb=z.t==='tabu';
+    if(z.r) s+=`<rect x="${z.r[0]}" y="${z.r[1]}" width="${z.r[2]}" height="${z.r[3]}" style="fill:${tb?'url(#tabuP)':'var(--zone)'}"/>`+(big&&z.l?`<text x="${z.r[0]+z.r[2]/2}" y="${z.r[1]+z.r[3]/2}" text-anchor="middle" dominant-baseline="central" style="fill:var(--${tb?'tabu':'accent'});font:${tb?700:600} ${z.r[3]<.6||z.r[2]<2?.24:.3}px var(--display);letter-spacing:.02px;text-transform:uppercase${tb?';paint-order:stroke;stroke:var(--floor);stroke-width:.14px;stroke-linejoin:round':''}">${zlab(z.l).toUpperCase()}</text>`:'');
     if(z.line) s+=`<line x1="${z.line[0][0]}" y1="${z.line[0][1]}" x2="${z.line[1][0]}" y2="${z.line[1][1]}" style="stroke:var(--accent);stroke-width:.05;stroke-dasharray:.22 .16"/>`;
   });
   const ln='style="stroke:var(--floor-line);stroke-width:.05;fill:none"';
@@ -1371,6 +2036,11 @@ function courtSVG(d0,big){
     const r=playerRoutes(a);
     Object.keys(r).forEach(k=>{ if(r[k].length>1) s+=`<polyline points="${pts(r[k])}" style="fill:none;stroke:${PC[k]};stroke-opacity:${hasBall?.22:.55};stroke-width:${big?.04:.09};stroke-dasharray:${big?'.12 .1':'.2 .15'};stroke-linejoin:round"/>`; });
   }
+  (d.m||[]).forEach(m=>{
+    if(m.t==='door') s+=`<line x1="2.72" y1="${LEN}" x2="3.68" y2="${LEN}" style="stroke:var(--gold);stroke-width:${big?.2:.34}"/>`+(big?`<text x="3.2" y="10.2" text-anchor="middle" style="fill:var(--cond);font:700 .27px var(--display);letter-spacing:.06px">${tr('TÜR','DOOR')}</text>`:'');
+    if(m.t==='racket') s+=`<g transform="translate(${m.p[0]} ${m.p[1]})"><ellipse cx="0" cy="-.2" rx=".17" ry=".23" style="fill:var(--cond-soft);stroke:var(--cond);stroke-width:.06"/><line x1="0" y1=".03" x2="0" y2=".4" style="stroke:var(--cond);stroke-width:.08;stroke-linecap:round"/>${big?`<text x="${m.p[0]>3.2?-.3:.3}" y="0" text-anchor="${m.p[0]>3.2?'end':'start'}" dominant-baseline="central" style="fill:var(--cond);font:700 .3px var(--display)">+3</text>`:''}</g>`;
+    if(m.t==='wall') s+=`<line x1=".1" y1=".14" x2="${W-.1}" y2=".14" style="stroke:var(--gold);stroke-width:.14"/>`+(big?`<text x="3.2" y=".62" text-anchor="middle" style="fill:var(--cond);font:700 .27px var(--display);letter-spacing:.03px">${zlab(m.l).toUpperCase()}</text>`:'');
+  });
   if(big) s+=`<g id="hl"></g>`;
   Object.keys(a.start).forEach(k=>{
     const p=a.start[k];
@@ -1405,12 +2075,14 @@ function startAnim(svg,d,cap){
   keys.forEach(k=>{st.pos[k]=[...a.start[k]];st.from[k]=[...a.start[k]];});
   function setStep(i){
     const s=steps[i];
-    cap.textContent=sw(lab(s.l));
+    cap.innerHTML=(s.k?`<span class="kb k-${s.k}">${kname(s.k)}</span>`:'')+sw(lab(s.l)).replace(/&/g,'&amp;').replace(/</g,'&lt;');
     // Ball startet dort, wo er zuletzt war: keine Sprünge zwischen den Schlägen
     st.path=s.b?(st.ball&&dist(st.ball,s.b[0])<.6?[st.ball,...s.b.slice(1)]:s.b):null;
     st.hold=s.h?(st.ball&&dist(st.ball,s.h)<.6?st.ball:s.h):null;
     if(st.path){
-      hl.innerHTML=`<polyline points="${pts(st.path)}" style="fill:none;stroke:var(--accent);stroke-opacity:.75;stroke-width:.05;stroke-linejoin:round;stroke-linecap:round"/>`+st.path.slice(1,-1).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r=".1" style="fill:var(--accent)"/>`).join('');
+      const col=s.k==='cond'?'var(--cond)':'var(--accent)';
+      hl.innerHTML=(s.o||[]).map(q=>{const e=q[q.length-1],p0=[st.path[0],...q.slice(1)];return `<polyline points="${pts(p0)}" style="fill:none;stroke:var(--opt);stroke-opacity:.8;stroke-width:.05;stroke-dasharray:.17 .13;stroke-linejoin:round"/><circle cx="${e[0]}" cy="${e[1]}" r=".17" style="fill:none;stroke:var(--opt);stroke-width:.05;stroke-dasharray:.1 .07"/><text x="${e[0]}" y="${e[1]-.32}" text-anchor="middle" style="fill:var(--opt);font:700 .27px var(--display);letter-spacing:.03px;paint-order:stroke;stroke:var(--floor);stroke-width:.13px;stroke-linejoin:round">${tr('ODER','OR')}</text>`}).join('')
+        +`<polyline points="${pts(st.path)}" style="fill:none;stroke:${col};stroke-opacity:.8;stroke-width:.055;stroke-linejoin:round;stroke-linecap:round"/>`+st.path.slice(1,-1).map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r=".1" style="fill:${col}"/>`).join('');
     } else hl.innerHTML='';
   }
   function draw(){
@@ -1475,19 +2147,22 @@ const plLabel=p=>p.length===1&&p[0]===1?'Solo':p.length===1?p[0]+SP():p[0]===1?'
 const lvl=n=>`<span class="lvl" title="${tr('Niveau','Level')} ${n} ${tr('von','of')} 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;
 const starSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
 
+const grpOf=d=>{const cs=d.body?BCATS:CATS;const i=cs.findIndex(c=>c.id===d.c[0]);return i<0?99:i};
 function filtered(){
-  return D.filter(d=>(state.mode==='body')===!!d.body&&(state.mode==='body'||!state.pl||d.p.includes(state.pl))&&(state.cat==='all'||d.c.includes(state.cat))&&(!state.fav||favs.has(d.id)));
+  const ord=new Map(D.map((d,i)=>[d,i]));
+  return D.filter(d=>(state.mode==='body')===!!d.body&&(state.mode==='body'||!state.pl||d.p.includes(state.pl))&&(state.cat==='all'||d.c.includes(state.cat))&&(!state.fav||favs.has(d.id))).sort((a,b)=>grpOf(a)-grpOf(b)||(a.body?0:a.p[0]-b.p[0])||ord.get(a)-ord.get(b));
 }
 function renderList(){
   const f=filtered();
   $('#count').textContent=f.length+(f.length===1?tr(' Übung',' drill'):tr(' Übungen',' drills'));
   if(!f.length){list.innerHTML=`<div class="empty">${state.fav?tr('Noch keine Favoriten in dieser Auswahl. Tippe auf den Stern bei einer Übung, um sie zu merken.','No favourites in this selection yet. Tap the star on a drill to save it.'):tr('Keine Übung passt zu diesem Filter. Wähle einen anderen Bereich oder eine andere Spielerzahl.','No drill matches this filter. Choose another area or number of players.')}</div>`;return}
-  list.innerHTML=f.map(d=>`<div class="card" role="button" tabindex="0" data-id="${d.id}">
-    <span class="thumb${d.f?' fig':''}">${d.f?figThumb(d):courtSVG(vv(d),false)}</span>
-    <span class="body"><span class="tag">${d.c.map(catName).join(' · ')}</span><h3>${d.n}</h3>
-      <span class="meta">${plOf(d)?`<span>${plOf(d)}</span>`:''}<span>${d.t}</span>${lvl(d.lv)}${d.mat?`<span>+ ${d.mat}</span>`:''}</span></span>
+  let lastG=null;
+  list.innerHTML=f.map(d=>{const g=state.cat==='all'?grpOf(d):null, hd=g!==null&&g!==lastG?`<h2 class="grp">${catName(d.c[0])}</h2>`:'';lastG=g;return hd+`<div class="card" role="button" tabindex="0" data-id="${d.id}">
+    <span class="thumb${d.f?' fig':''}">${d.f?figThumb(d):courtSVG(vv(d,0),false)}</span>
+    <span class="body"><span class="tag">${d.c.map(catName).join(' · ')}</span><h3>${nameOf(d)}</h3>
+      <span class="meta">${plOf(d)?`<span>${plOf(d)}</span>`:''}<span>${d.t}</span>${lvl(d.lv)}${d.mat?`<span>+ ${d.mat}</span>`:''}</span>${d.stages?`<span class="kinds"><span class="nst">${d.stages.length} ${tr('Stufen','steps')}</span>${['var','opt','cond'].filter(k=>d.stages.some(x=>x.k===k)).map(k=>`<span class="kb k-${k}">${kname(k)}</span>`).join('')}</span>`:''}</span>
     <button type="button" class="star" data-fav="${d.id}" aria-pressed="${favs.has(d.id)}" aria-label="${tr('Als Favorit merken','Save as favourite')}">${starSVG}</button>
-  </div>`).join('');
+  </div>`}).join('');
 }
 seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.pl=+b.dataset.v;seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderList()});
 chips.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.cat=b.dataset.c;chips.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderList()});
@@ -1513,21 +2188,25 @@ function openDetail(id){
   curId=id;
   if(anim) anim.alive=false;
   const srcs=d.s.map(k=>{const s=SRC[k],n=srcName(k);return s.u?`<li><a href="${s.u}" target="_blank" rel="noopener">${n}</a></li>`:`<li>${n}</li>`}).join('');
-  const players=d.a?Object.keys(vv(d).a.start):[];
+  const si=stageIdx(d), S=d.stages, cs=S&&S[si], view=d.a?vv(d):d;
+  const players=d.a?Object.keys(view.a.start):[];
+  const stageUI=S?`<div class="lv-row" role="group" aria-label="${tr('Stufen der Übung','Steps of the drill')}">${S.map((x,i)=>`<button type="button" class="lvchip k-${x.k}" data-st="${i}" aria-pressed="${i===si}"><b>${i+1}</b>${kname(x.k)}</button>`).join('')}</div>
+   <div class="rulecard k-${cs.k}"><div class="rk"><span class="kb">${kname(cs.k)}</span><span>${tr('Stufe','Step')} ${si+1} ${tr('von','of')} ${S.length}</span></div><h3>${L2(cs.n)}</h3><p>${T(L2(cs.r))}</p></div>`:'';
   det.innerHTML=`
-   <div class="d-title"><span class="tag">${d.c.map(catName).join(' · ')}</span><h2>${d.n}</h2>
+   <div class="d-title"><span class="tag">${d.c.map(catName).join(' · ')}</span><h2>${nameOf(d)}</h2>
      <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>${tr('Dauer','Time')} <b>${d.t}</b></span><span>${tr('Niveau','Level')} ${lvl(d.lv)}</span>${d.dose?`<span>${tr('Dosis','Dose')} <b>${dx(d,'dose')}</b></span>`:''}<span>${tr('Material','Equipment')} <b>${d.body&&d.f?tr('keins','none'):tr('Schläger & Ball','racket & ball')}</b></span></div></div>
+   ${stageUI}
    <div class="stage">
      ${d.f?'<div class="figbox"><svg id="figsvg" viewBox="0 0 300 200" role="img" aria-label="'+tr('Animierte Übung','Animated drill')+': '+d.n+'"></svg></div>':'<div class="courtbox">'+courtSVG(vv(d),true)+'</div>'}
-     <div class="caption" id="cap" aria-live="polite"></div>
-     ${d.alt&&d.p.length>1?`<div class="speed plsel" role="group" aria-label="${tr('Spielerzahl in der Animation','Players in the animation')}">${d.p.map(n=>`<button type="button" id="dp-${n}" data-n="${n}" aria-pressed="${n===plFor(d)}">${n===1?'Solo':n+SP()}</button>`).join('')}</div>`:''}
+     <div class="caption${S?' tall':''}" id="cap" aria-live="polite"></div>
      <div class="ctrls">
        <button class="btn ghost" id="pp" type="button"></button>
        <div class="speed" role="group" aria-label="Tempo">${[['0.5',tr('0,5×','0.5×')],['1','1×'],['1.5',tr('1,5×','1.5×')]].map(([v,l])=>`<button type="button" id="sp-${v.replace('.','')}" data-s="${v}" aria-pressed="${v==='1'}">${l}</button>`).join('')}</div>
        <button class="star" id="dstar" type="button" aria-pressed="${favs.has(d.id)}" aria-label="${tr('Als Favorit merken','Save as favourite')}">${starSVG}</button>
      </div>
-     <div class="legend"${d.f?' hidden':''}>${players.map(k=>`<span><i style="background:${PC[k]}"></i>${tr('Spieler','Player')} ${k}</span>`).join('')}${d.a&&d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>'+tr('Ball &amp; Wandkontakt','Ball &amp; wall contact')+'</span>':''}${(d.z||[]).some(z=>z.r)?'<span><i class="zone"></i>'+tr('Zielzone','Target zone')+'</span>':''}</div>
+     <div class="legend"${d.f?' hidden':''}>${players.map(k=>`<span><i style="background:${PC[k]}"></i>${tr('Spieler','Player')} ${k}</span>`).join('')}${d.a&&d.a.steps.some(s=>s.b)?'<span><i class="ball"></i>'+tr('Ball &amp; Wandkontakt','Ball &amp; wall contact')+'</span>':''}${(view.z||[]).some(z=>z.r&&z.t!=='tabu')?'<span><i class="zone"></i>'+tr('Zielzone','Target zone')+'</span>':''}${d.a&&view.a.steps.some(x=>x.o)?'<span><i class="alt"></i>'+tr('Alternative (Option)','Alternative (option)')+'</span>':''}${(view.z||[]).some(z=>z.t==='tabu')?'<span><i class="tabu"></i>'+tr('Tabu-Zone','No-go zone')+'</span>':''}</div>
    </div>
+   ${S?`<div class="sec"><h4>${tr('Aufbau der Übung','How the drill builds up')}</h4><ol class="lvlist">${S.map((x,i)=>`<li><button type="button" class="k-${x.k}" data-st="${i}" data-up="1" aria-current="${i===si}"><b>${i+1}</b><span><span class="kb">${kname(x.k)}</span><strong>${L2(x.n)}</strong></span></button></li>`).join('')}</ol></div>`:''}
    <div class="sec"><h4>${tr('So geht\'s','How it works')}</h4><ol>${dx(d,'so').map(x=>`<li>${T(x)}</li>`).join('')}</ol></div>
    <div class="sec"><h4>${tr('Darauf achten','Focus on')}</h4><ul>${dx(d,'fo').map(x=>`<li>${T(x)}</li>`).join('')}</ul></div>
    <div class="sec"><h4>${d.body?tr('Dosierung','Dosage'):tr('Zählen & steigern','Count & progress')}</h4><p>${T(dx(d,'ze'))}</p></div>
@@ -1545,17 +2224,18 @@ function openDetail(id){
   const setPP=()=>{pp.innerHTML=anim.playing?'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'+tr('Pause','Pause'):'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>'+tr('Abspielen','Play')};
   setPP();
   pp.addEventListener('click',()=>{anim.playing=!anim.playing;setPP()});
-  det.querySelector('.speed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;anim.speed=+b.dataset.s;det.querySelectorAll('.speed button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  det.querySelector('.ctrls .speed').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;anim.speed=+b.dataset.s;det.querySelectorAll('.ctrls .speed button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
   det.querySelector('#dstar').addEventListener('click',e=>toggleFav(d.id,e.currentTarget));
-  const ps=det.querySelector('.plsel');
-  if(ps) ps.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.detPl=+b.dataset.n;const y=sheet.scrollTop;openDetail(d.id);sheet.scrollTop=y;});
+  det.querySelectorAll('[data-st]').forEach(b=>b.addEventListener('click',()=>{state.detStage=+b.dataset.st;const y=b.dataset.up?0:sheet.scrollTop;openDetail(d.id);sheet.scrollTop=y;}));
+  const row=det.querySelector('.lv-row'), on=row&&row.querySelector('[aria-pressed="true"]');
+  if(on) row.scrollLeft=on.offsetLeft-row.offsetLeft-row.clientWidth/2+on.clientWidth/2;
 }
 function closeDetail(){
   curId=null; if(anim) anim.alive=false; anim=null;
   sheet.hidden=true; document.body.style.overflow=''; renderList();
 }
 function route(){
-  const h0=location.hash.slice(3); if(h0!==curId) state.detPl=0;
+  const h0=location.hash.slice(3); if(h0!==curId){state.detPl=0;state.detStage=0}
   const h=location.hash.slice(1);
   if(h.startsWith('d-')) openDetail(h.slice(2)); else if(!sheet.hidden) closeDetail();
 }
@@ -1612,7 +2292,7 @@ function applyLang(){
   $('#favlbl').textContent=tr('Favoriten','Favourites');
   $('#srch').textContent=tr('Quellen','Sources');
   $('#dblnote').textContent=tr('Übungen, die ursprünglich fürs Doppel gedacht sind, habe ich fürs Einzelcourt angepasst.','Drills originally designed for doubles have been adapted for singles courts.');
-  $('#upd').innerHTML=tr('Zuletzt aktualisiert am <time datetime="2026-11-09">9. November 2026</time>.','Last updated on <time datetime="2026-11-09">9 November 2026</time>.');
+  $('#upd').innerHTML=tr('Zuletzt aktualisiert am <time datetime="2026-11-11">11. November 2026</time>.','Last updated on <time datetime="2026-11-11">11 November 2026</time>.');
   $('#wish').textContent=tr('Wünsche, Änderungen oder neue Übungen? Schreib an','Requests, changes or new drills? Write to');
   $('#copymail').textContent=tr('Kopieren','Copy');
   $('#backlbl').textContent=tr('Übersicht','Overview');
