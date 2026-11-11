@@ -2194,7 +2194,7 @@ function openDetail(id){
    <div class="rulecard k-${cs.k}"><div class="rk"><span class="kb">${kname(cs.k)}</span><span>${tr('Stufe','Step')} ${si+1} ${tr('von','of')} ${S.length}</span></div><h3>${L2(cs.n)}</h3><p>${T(L2(cs.r))}</p></div>`:'';
   det.innerHTML=`
    <div class="d-title"><span class="tag">${d.c.map(catName).join(' · ')}</span><h2>${nameOf(d)}</h2>
-     <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>${tr('Dauer','Time')} <b>${d.t}</b></span><span>${tr('Niveau','Level')} ${lvl(d.lv)}</span>${d.dose?`<span>${tr('Dosis','Dose')} <b>${dx(d,'dose')}</b></span>`:''}<span>${tr('Material','Equipment')} <b>${d.body&&d.f?tr('keins','none'):tr('Schläger & Ball','racket & ball')}</b></span></div></div>
+     <div class="factrow">${plOf(d)?`<span><b>${plOf(d)}</b></span>`:''}<span>${tr('Dauer','Time')} <b>${d.t}</b></span><span>${tr('Niveau','Level')} ${lvl(d.lv)}</span>${d.dose?`<span>${tr('Dosis','Dose')} <b>${dx(d,'dose')}</b></span>`:''}</div></div>
    ${stageUI}
    <div class="stage">
      ${d.f?'<div class="figbox"><svg id="figsvg" viewBox="0 0 300 200" role="img" aria-label="'+tr('Animierte Übung','Animated drill')+': '+d.n+'"></svg></div>':'<div class="courtbox">'+courtSVG(vv(d),true)+'</div>'}
