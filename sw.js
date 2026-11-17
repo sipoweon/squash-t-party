@@ -1,6 +1,6 @@
 /* Squash T-Party – Service Worker
    Immer zuerst das Netz fragen (neueste Version), bei fehlender Verbindung die gespeicherte Kopie zeigen. */
-const CACHE = 't-party-v1';
+const CACHE = 't-party-v2';
 const CORE = ['/', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

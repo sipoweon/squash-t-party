@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><title>Squash T-Party</title><g transform="translate(188,352) rotate(42) scale(.84)">
+  <defs><clipPath id="cone#1E3D8F"><path d="M-15,175 L15,175 L22,-18 L-22,-18 Z"/></clipPath><clipPath id="in#1E3D8F"><path d="M0,-201 C47,-201 60,-147 53,-108 C46,-72 20,-48 0,-36 C-20,-48 -46,-72 -53,-108 C-60,-147 -47,-201 0,-201 Z"/></clipPath></defs>
+  <path d="M-15,175 L15,175 L22,-18 L-22,-18 Z" fill="#E4C846"/>
+  <g clip-path="url(#cone#1E3D8F)"><path d="M-30,170 L30,144 L30,158 L-30,184 Z" fill="#FF6B5A"/><path d="M-30,130 L30,104 L30,118 L-30,144 Z" fill="#FF6B5A"/><path d="M-30,90 L30,64 L30,78 L-30,104 Z" fill="#FF6B5A"/><path d="M-30,50 L30,24 L30,38 L-30,64 Z" fill="#FF6B5A"/><path d="M-30,10 L30,-16 L30,-2 L-30,24 Z" fill="#FF6B5A"/></g>
+  <rect x="-17" y="166" width="34" height="14" rx="5" fill="#1E3D8F"/>
+  <g clip-path="url(#in#1E3D8F)" stroke="#1E3D8F" stroke-opacity=".55" stroke-width="2.6"><line x1="-48" y1="-215" x2="-48" y2="-20"/><line x1="-36" y1="-215" x2="-36" y2="-20"/><line x1="-24" y1="-215" x2="-24" y2="-20"/><line x1="-12" y1="-215" x2="-12" y2="-20"/><line x1="0" y1="-215" x2="0" y2="-20"/><line x1="12" y1="-215" x2="12" y2="-20"/><line x1="24" y1="-215" x2="24" y2="-20"/><line x1="36" y1="-215" x2="36" y2="-20"/><line x1="48" y1="-215" x2="48" y2="-20"/><line x1="-70" y1="-195" x2="70" y2="-195"/><line x1="-70" y1="-182" x2="70" y2="-182"/><line x1="-70" y1="-169" x2="70" y2="-169"/><line x1="-70" y1="-156" x2="70" y2="-156"/><line x1="-70" y1="-143" x2="70" y2="-143"/><line x1="-70" y1="-130" x2="70" y2="-130"/><line x1="-70" y1="-117" x2="70" y2="-117"/><line x1="-70" y1="-104" x2="70" y2="-104"/><line x1="-70" y1="-91" x2="70" y2="-91"/><line x1="-70" y1="-78" x2="70" y2="-78"/><line x1="-70" y1="-65" x2="70" y2="-65"/><line x1="-70" y1="-52" x2="70" y2="-52"/><line x1="-70" y1="-39" x2="70" y2="-39"/></g>
+  <path d="M0,-215 C58,-215 74,-150 66,-104 C58,-62 26,-34 9,-20 L-9,-20 C-26,-34 -58,-62 -66,-104 C-74,-150 -58,-215 0,-215 Z" fill="none" stroke="#E4C846" stroke-width="15" stroke-linejoin="round"/>
+</g>
+<g stroke-linecap="round" fill="none" stroke-width="11">
+  <path d="M318,172 C342,140 318,118 344,90 S372,60 362,36" stroke="#FF6B5A"/>
+  <path d="M346,206 C378,196 388,168 418,170 S452,150 470,128" stroke="#8FACF5"/>
+  <path d="M300,146 C292,112 318,96 304,62" stroke="#E4C846"/>
+</g>
+<g>
+  <rect x="384" y="86" width="22" height="13" rx="3" fill="#E4C846" transform="rotate(-28 395 92)"/>
+  <rect x="430" y="214" width="20" height="12" rx="3" fill="#FF6B5A" transform="rotate(35 440 220)"/>
+  <rect x="250" y="64" width="18" height="11" rx="3" fill="#8FACF5" transform="rotate(20 259 70)"/>
+  <rect x="452" y="64" width="18" height="11" rx="3" fill="#8FACF5" transform="rotate(-40 461 70)"/>
+  <circle cx="420" cy="122" r="8" fill="#8FACF5"/>
+  <circle cx="338" cy="58" r="7" fill="#E4C846"/>
+  <circle cx="470" cy="176" r="7" fill="#FF6B5A"/>
+  <circle cx="392" cy="262" r="6" fill="#E4C846"/>
+  <path d="M284,34 l6,13 14,2 -10,10 3,14 -13,-7 -13,7 3,-14 -10,-10 14,-2z" fill="#E4C846"/>
+</g>
+<g transform="translate(400,170)">
+  <circle r="25" fill="#111827" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="-8" cy="-7" r="5" fill="#E4C846"/><circle cx="7" cy="-9" r="5" fill="#E4C846"/>
+</g></svg>
